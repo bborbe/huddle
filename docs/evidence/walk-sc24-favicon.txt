@@ -1,0 +1,11 @@
+PASS  favicon.svg is served  — status=200
+PASS  favicon.svg is an SVG  — 489 bytes
+PASS  apple-touch-icon.png is served  — status=200
+PASS  apple-touch-icon.png is a PNG  — content-type=image/png
+PASS  index.html carries the icon link  — href="/favicon.svg"
+PASS  index.html carries the apple-touch-icon link  — href="/apple-touch-icon.png"
+PASS  theme-color is the app background token  — content="#0A0A0B"
+PASS  the mark fills the 16px tile  — opaque=256/256
+PASS  the letter is still legible at 16px — present, but not a solid block  — letter pixels=20 of 256
+
+9/9 PASS, 0 FAIL
