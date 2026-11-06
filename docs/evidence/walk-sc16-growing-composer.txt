@@ -1,0 +1,16 @@
+PASS  channel composer is present  — fields=1
+PASS  channel: one line at rest  — height=32px oneLine=32px (line 19.6px + padding 12px)
+PASS  channel: five lines grow the field  — rest=32px five=110px lineHeight=19.6px
+PASS  channel: deleting returns it to one line  — rest=32px back=32px
+PASS  channel: height stops at about a third of the viewport  — height=300px cap=300px
+PASS  channel: content past the cap is scrollable, not clipped  — scrollHeight=1580 clientHeight=300 overflowY=auto
+PASS  channel: more content does not grow it further  — capped=300px taller=300px
+PASS  thread composer is present  — fields=1
+PASS  thread: one line at rest  — height=32px oneLine=32px (line 19.6px + padding 12px)
+PASS  thread: five lines grow the field  — rest=32px five=110px lineHeight=19.6px
+PASS  thread: deleting returns it to one line  — rest=32px back=32px
+PASS  thread: height stops at about a third of the viewport  — height=300px cap=300px
+PASS  thread: content past the cap is scrollable, not clipped  — scrollHeight=1580 clientHeight=300 overflowY=auto
+PASS  thread: more content does not grow it further  — capped=300px taller=300px
+
+14/14 PASS, 0 FAIL

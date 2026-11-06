@@ -741,7 +741,9 @@ button {
   font-size: var(--fs-body);
   line-height: 1.4;
   padding: 6px 0;
-  max-height: 120px;
+  /* Height and overflow are set by useAutoGrow: it grows to the content, caps at a
+     third of the viewport, then scrolls internally. */
+  overflow-y: hidden;
 }
 .composer-field::placeholder {
   color: var(--text-muted);

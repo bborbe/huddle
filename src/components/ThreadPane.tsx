@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { Channel, Member, Thread, ThreadView } from '../platform'
 import MessageRow from './MessageRow'
 import VoiceBar from './VoiceBar'
+import { useAutoGrow } from './useAutoGrow'
 
 interface ThreadPaneProps {
   channel: Channel
@@ -31,6 +32,8 @@ export default function ThreadPane({
   onAskAgentVoice,
 }: ThreadPaneProps) {
   const [draft, setDraft] = useState('')
+  const draftRef = useRef<HTMLTextAreaElement>(null)
+  useAutoGrow(draftRef, draft)
 
   const parent = channel.messages.find((m) => m.id === thread.parentMessageId)
   const parentAuthor = parent ? members.find((m) => m.id === parent.authorId) : undefined
@@ -96,6 +99,7 @@ export default function ThreadPane({
 
       <footer className="composer">
         <textarea
+          ref={draftRef}
           className="composer-field"
           placeholder="Reply in thread"
           rows={1}

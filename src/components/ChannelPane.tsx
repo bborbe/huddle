@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { Channel, Member, Message } from '../platform'
 import { channelInitials, channelToken } from '../lib/channel-identity'
 import MessageRow from './MessageRow'
 import SimulatedReply from './SimulatedReply'
+import { useAutoGrow } from './useAutoGrow'
 
 interface ChannelPaneProps {
   channel: Channel
@@ -39,6 +40,8 @@ export default function ChannelPane({
 }: ChannelPaneProps) {
   const [draft, setDraft] = useState('')
   const [runId, setRunId] = useState(0)
+  const draftRef = useRef<HTMLTextAreaElement>(null)
+  useAutoGrow(draftRef, draft)
 
   const voiceMembers = channel.voiceMemberIds
     .map((id) => members.find((m) => m.id === id))
@@ -124,6 +127,7 @@ export default function ChannelPane({
 
       <footer className="composer">
         <textarea
+          ref={draftRef}
           className="composer-field"
           placeholder={`Message ${channel.name}`}
           rows={1}
