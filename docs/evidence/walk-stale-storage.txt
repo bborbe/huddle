@@ -1,0 +1,6 @@
+PASS  a v2 blob under the old key does not blank the page  — categories="Product,General" rows=4 errors=0
+PASS  a blob missing `workspace.spaces` reseeds instead of throwing  — categories="Product,General" rows=4 errors=0
+PASS  unparseable storage reseeds instead of throwing  — categories="Product,General" rows=4 errors=0
+PASS  a well-formed blob is still loaded, not discarded  — headerHasMarker=true
+
+4/4 PASS, 0 FAIL
