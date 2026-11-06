@@ -56,7 +56,10 @@ Be clear about this — nothing here is connected to anything.
 - **No multiplayer.** Two browser profiles are two independent worlds. Nothing is shared between them, and this prototype proves nothing about live viewing by a second person.
 - **No audio.** "In voice" is a list of names. There is no microphone, no media connection, no call.
 - **No server-side persistence.** Browser storage only, and only on this machine.
+- **No auth.** There is no login, no session and no permission model — anyone who opens the page is the local user.
 - **No mobile app.** The layout is desktop-only.
+
+Everything else works: **every control in the page acts on the mocked data described above** — no button is decorative, and the walk suite proves it control by control.
 
 ## Layout
 
@@ -69,6 +72,34 @@ src/
 ```
 
 `src/lib` never imports from `src/components` or touches the DOM, so a native shell could reuse the domain model and reducer unchanged.
+
+## The model
+
+One `useReducer` store holds everything the page renders. `AppState` is:
+
+| Field | Holds |
+| --- | --- |
+| `workspace.spaces` | the two spaces on the rail — Huddle, Decision App |
+| `workspace.members` | people and agents, each with a name, initials and colour token |
+| `workspace.categories` | a space's sidebar groups, each with an ordered `channelIds` |
+| `workspace.channels` | name, topic, `starred`, `voiceMemberIds`, `messages`, `threads` |
+| `workspace.identity` | the name and avatar colour chosen on first open, or nothing |
+| `activeSpaceId`, `activeChannelId`, `activeThreadId`, `threadView` | what is selected and how the thread is laid out (`split` / `full` / `closed`) |
+
+Seventeen actions reach the reducer. Four only move view state — `selectSpace`,
+`selectChannel`, `selectThread`, `setThreadView`. The other twelve mutate the
+workspace and therefore persist: `createChannel`, `sendMessage`,
+`sendThreadReply`, `toggleVoice`, `askAgentVoice`, `appendMessage`,
+`toggleReaction`, `openThreadForMessage`, `toggleStar`, `setIdentity`,
+`renameChannel`, `deleteChannel`, plus `reset`, which restores the seed.
+
+Two invariants the reducer enforces rather than the components:
+
+- **One voice room per person.** `toggleVoice` removes the member from every
+  other channel room and thread room before adding them to the target, and
+  `normaliseVoice` repairs a stored blob that already broke the rule.
+- **A thread is a voice room too.** A thread carries its own `voiceMemberIds`,
+  so joining one leaves whatever channel room the member was in.
 
 ## The transport seam
 
