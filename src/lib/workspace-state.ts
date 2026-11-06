@@ -42,6 +42,8 @@ export type Action =
   | { type: 'toggleReaction'; channelId: string; messageId: string; emoji: string; memberId: string }
   | { type: 'openThreadForMessage'; channelId: string; messageId: string; threadId: string }
   | { type: 'toggleStar'; channelId: string }
+  | { type: 'renameChannel'; channelId: string; name: string }
+  | { type: 'deleteChannel'; channelId: string }
   | { type: 'setIdentity'; name: string; avatarToken: 1 | 2 | 3 | 4 }
   | { type: 'reset' }
 
@@ -346,6 +348,47 @@ export function makeReducer(seed: Workspace) {
                 : member,
             ),
           },
+        }
+      }
+
+      case 'renameChannel':
+        return {
+          ...state,
+          workspace: updateChannel(state.workspace, action.channelId, (channel) => ({
+            ...channel,
+            name: action.name,
+          })),
+        }
+
+      case 'deleteChannel': {
+        const channels = state.workspace.channels.filter((c) => c.id !== action.channelId)
+        if (channels.length === state.workspace.channels.length) return state
+
+        const categories = state.workspace.categories.map((cat) => ({
+          ...cat,
+          channelIds: cat.channelIds.filter((id) => id !== action.channelId),
+        }))
+
+        // Deleting the active channel must leave a valid selection, never an empty
+        // shell: take a neighbour from the same category, else the first channel.
+        if (state.activeChannelId !== action.channelId) {
+          return { ...state, workspace: { ...state.workspace, channels, categories } }
+        }
+
+        const home = state.workspace.categories.find((cat) => cat.channelIds.includes(action.channelId))
+        const neighbourId = home?.channelIds.find(
+          (id) => id !== action.channelId && channels.some((c) => c.id === id),
+        )
+        const neighbour = neighbourId
+          ? channels.find((c) => c.id === neighbourId)
+          : channels[0]
+
+        return {
+          ...state,
+          workspace: { ...state.workspace, channels, categories },
+          activeChannelId: neighbour ? neighbour.id : '',
+          activeThreadId: null,
+          threadView: 'closed',
         }
       }
 

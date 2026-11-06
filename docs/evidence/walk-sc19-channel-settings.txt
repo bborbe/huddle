@@ -1,0 +1,11 @@
+PASS  the gear is absent from the rendered tree at rest  — gears=0
+PASS  hovering a channel row reveals its gear  — gears=1
+PASS  the gear opens channel settings, pre-filled with the name  — dialog=1 value="agent-platform"
+PASS  rename changes the sidebar name in place  — ["agent-hub","decision-app"]
+PASS  the renamed channel keeps its star  — ["decision-app"]
+PASS  the rename survives a reload  — ["agent-hub","decision-app"]
+PASS  delete asks first, naming the channel and what goes with it  — ["Channel settings","","Delete #agent-hub? Its 4 messages and 0 threads go with it. This cannot be undone."]
+PASS  confirming removes the channel  — ["decision-app"]
+PASS  deleting the active channel selects a neighbour and closes the thread pane  — header="general" threadPanes=0
+
+9/9 PASS, 0 FAIL

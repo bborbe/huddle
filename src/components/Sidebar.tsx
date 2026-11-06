@@ -12,6 +12,8 @@ interface SidebarProps {
   onSelectChannel: (channelId: string) => void
   onSelectThread: (channelId: string, threadId: string) => void
   onCreateChannel: (categoryId: string, name: string) => void
+  onRenameChannel: (channelId: string, name: string) => void
+  onDeleteChannel: (channelId: string) => void
   onReset: () => void
 }
 
@@ -24,6 +26,8 @@ export default function Sidebar({
   onSelectChannel,
   onSelectThread,
   onCreateChannel,
+  onRenameChannel,
+  onDeleteChannel,
   onReset,
 }: SidebarProps) {
   // Hover is view state, not model state: the create affordance exists only while
@@ -32,7 +36,15 @@ export default function Sidebar({
   const [creatingIn, setCreatingIn] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
 
+  // Channel-row affordances: a gear revealed on hover opens the channel settings
+  // dialog, where rename and delete live (Discord's shape, not a dropdown menu).
+  const [hoveredChannelId, setHoveredChannelId] = useState<string | null>(null)
+  const [settingsChannelId, setSettingsChannelId] = useState<string | null>(null)
+  const [settingsName, setSettingsName] = useState('')
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
+
   const starred = starredChannels(channels)
+  const settingsChannel = channels.find((channel) => channel.id === settingsChannelId)
 
   function closePopup() {
     setCreatingIn(null)
@@ -48,47 +60,53 @@ export default function Sidebar({
     closePopup()
   }
 
-  function channelRow(channel: Channel, suffix = '') {
+  function openSettings(channel: Channel) {
+    setSettingsChannelId(channel.id)
+    setSettingsName(channel.name)
+    setConfirmingDelete(false)
+  }
+
+  function closeSettings() {
+    setSettingsChannelId(null)
+    setConfirmingDelete(false)
+  }
+
+  function saveSettings(channelId: string) {
+    const name = settingsName.trim().replace(/^#/, '')
+    if (name.length === 0) return
+    if (name !== channels.find((c) => c.id === channelId)?.name) {
+      onRenameChannel(channelId, name)
+    }
+    closeSettings()
+  }
+
+  function channelButton(channel: Channel) {
+    return (
+      <button
+        type="button"
+        className={`chan-row${channel.id === activeChannelId ? ' chan-row--active' : ''}`}
+        onClick={() => onSelectChannel(channel.id)}
+        aria-current={channel.id === activeChannelId ? 'true' : undefined}
+      >
+        <span className="chan-tile" data-token={channelToken(channel.id)} aria-hidden="true">
+          {channelInitials(channel.name)}
+        </span>
+        {channel.name}
+      </button>
+    )
+  }
+
+  function voiceLine(channel: Channel) {
     const voiceMembers = channel.voiceMemberIds
       .map((id) => members.find((m) => m.id === id))
       .filter((m): m is Member => Boolean(m))
 
+    if (voiceMembers.length === 0) return null
     return (
-      <>
-        <button
-          type="button"
-          className={`chan-row${channel.id === activeChannelId ? ' chan-row--active' : ''}`}
-          onClick={() => onSelectChannel(channel.id)}
-          aria-current={channel.id === activeChannelId ? 'true' : undefined}
-        >
-          <span className="chan-tile" data-token={channelToken(channel.id)} aria-hidden="true">
-            {channelInitials(channel.name)}
-          </span>
-          {channel.name}
-        </button>
-
-        {voiceMembers.length > 0 ? (
-          <div className="voice-line">
-            <span className="live-dot" aria-hidden="true" />
-            {voiceMembers.map((m) => m.name).join(', ')} in voice
-          </div>
-        ) : null}
-
-        {suffix === 'threads'
-          ? channel.threads.map((thread) => (
-              <button
-                key={thread.id}
-                type="button"
-                className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
-                title={thread.name}
-                onClick={() => onSelectThread(channel.id, thread.id)}
-              >
-                <span className="thread-connector" aria-hidden="true" />
-                <span className="thread-row-name">{thread.name}</span>
-              </button>
-            ))
-          : null}
-      </>
+      <div className="voice-line">
+        <span className="live-dot" aria-hidden="true" />
+        {voiceMembers.map((m) => m.name).join(', ')} in voice
+      </div>
     )
   }
 
@@ -114,7 +132,7 @@ export default function Sidebar({
             </div>
             <ul className="cat-channels">
               {starred.map((channel) => (
-                <li key={`starred-${channel.id}`}>{channelRow(channel)}</li>
+                <li key={`starred-${channel.id}`}>{channelButton(channel)}</li>
               ))}
             </ul>
           </section>
@@ -191,14 +209,129 @@ export default function Sidebar({
               </div>
 
               <ul className="cat-channels">
-                {channelsInCategory(category, channels).map((channel) => (
-                  <li key={channel.id}>{channelRow(channel, 'threads')}</li>
-                ))}
+                {channelsInCategory(category, channels).map((channel) => {
+                  const revealingRow = hoveredChannelId === channel.id
+
+                  return (
+                    <li key={channel.id}>
+                      <div
+                        className="chan-wrap"
+                        onMouseEnter={() => setHoveredChannelId(channel.id)}
+                        onMouseLeave={() =>
+                          setHoveredChannelId((id) => (id === channel.id ? null : id))
+                        }
+                      >
+                        {channelButton(channel)}
+
+                        {revealingRow ? (
+                          <button
+                            type="button"
+                            className="icon-btn chan-gear"
+                            aria-label="Channel settings"
+                            title="Channel settings"
+                            onClick={() => openSettings(channel)}
+                          >
+                            ⚙
+                          </button>
+                        ) : null}
+                      </div>
+
+                      {voiceLine(channel)}
+
+                      {channel.threads.map((thread) => (
+                        <button
+                          key={thread.id}
+                          type="button"
+                          className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
+                          title={thread.name}
+                          onClick={() => onSelectThread(channel.id, thread.id)}
+                        >
+                          <span className="thread-connector" aria-hidden="true" />
+                          <span className="thread-row-name">{thread.name}</span>
+                        </button>
+                      ))}
+                    </li>
+                  )
+                })}
               </ul>
             </section>
           )
         })}
       </div>
+
+      {settingsChannel ? (
+        <div className="dialog-backdrop">
+          <div
+            className="dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Channel settings for ${settingsChannel.name}`}
+          >
+            <h2 className="dialog-title">Channel settings</h2>
+
+            {confirmingDelete ? (
+              <>
+                <p className="dialog-sub">
+                  Delete #{settingsChannel.name}? Its {settingsChannel.messages.length}{' '}
+                  {settingsChannel.messages.length === 1 ? 'message' : 'messages'} and{' '}
+                  {settingsChannel.threads.length}{' '}
+                  {settingsChannel.threads.length === 1 ? 'thread' : 'threads'} go with it. This
+                  cannot be undone.
+                </p>
+                <div className="dialog-actions">
+                  <button type="button" className="btn-outline" onClick={() => setConfirmingDelete(false)}>
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-danger"
+                    onClick={() => {
+                      onDeleteChannel(settingsChannel.id)
+                      closeSettings()
+                    }}
+                  >
+                    Delete channel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <form
+                className="dialog-form"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  saveSettings(settingsChannel.id)
+                }}
+              >
+                <label className="cat-popup-label" htmlFor="channel-settings-name">
+                  Name
+                </label>
+                <input
+                  id="channel-settings-name"
+                  className="dialog-input"
+                  autoFocus
+                  value={settingsName}
+                  onChange={(e) => setSettingsName(e.target.value)}
+                />
+
+                <div className="dialog-actions">
+                  <button type="button" className="btn-outline" onClick={closeSettings}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn-solid" disabled={settingsName.trim().length === 0}>
+                    Save
+                  </button>
+                </div>
+
+                <div className="dialog-danger">
+                  <button type="button" className="btn-danger" onClick={() => setConfirmingDelete(true)}>
+                    Delete channel
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      ) : null}
     </aside>
   )
 }

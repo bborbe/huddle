@@ -73,6 +73,8 @@ export default function App() {
         onCreateChannel={(categoryId, name) =>
           dispatch({ type: 'createChannel', categoryId, channelId: newId(), name })
         }
+        onRenameChannel={(channelId, name) => dispatch({ type: 'renameChannel', channelId, name })}
+        onDeleteChannel={(channelId) => dispatch({ type: 'deleteChannel', channelId })}
         onReset={() => dispatch({ type: 'reset' })}
       />
 

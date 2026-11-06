@@ -1054,3 +1054,49 @@ button {
   color: var(--text-body);
   white-space: pre;
 }
+
+/* ---- channel row: hover gear + settings dialog (SC19) ------------------ */
+
+.chan-wrap {
+  position: relative;
+}
+
+.chan-gear {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dialog-danger {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-danger {
+  height: 26px;
+  padding: 0 12px;
+  border-radius: var(--radius-item);
+  border: 1px solid var(--danger);
+  background: transparent;
+  color: var(--danger);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-danger:hover {
+  background: var(--danger);
+  color: var(--bg-app);
+}
