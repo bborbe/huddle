@@ -77,8 +77,8 @@ await page.locator('.dialog button', { hasText: 'Skip' }).click()
 await page.waitForTimeout(250)
 
 const skippedDialogs = await page.locator(DIALOG).count()
-const categories = await page.locator('.cat-label').allTextContents()
-const channels = await page.locator('.cat-channels .chan-row').count()
+const categories = await page.locator('[data-category] .cat-label').allTextContents()
+const channels = await page.locator('[data-category] .cat-channels .chan-row').count()
 check(
   'Skip dismisses and the app renders exactly as today',
   skippedDialogs === 0 && categories.join(',') === 'Product,General' && channels === 4,

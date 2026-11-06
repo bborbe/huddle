@@ -93,6 +93,8 @@ export const channels: Channel[] = [
     name: 'decision-app',
     topic: 'Rules engine and the review surface',
     voiceMemberIds: ['tobias'],
+    // Seed coverage (SC18): the Starred section renders on a fresh browser.
+    starred: true,
     threads: [
       {
         id: 'thr-thresholds',
@@ -131,6 +133,9 @@ export const channels: Channel[] = [
         body: 'Morning. The Decision App review page is still showing the old rule set after a deploy — anyone else seeing that?',
         sentAt: minutesAgo(184),
         toolCalls: [],
+        // Seed coverage (SC18): every quick reaction is present on one message, so
+        // a fresh browser sees the chips without acting.
+        reactions: { '👍': ['tobias', 'lena'], '😊': ['bob'], '🚀': ['forge'] },
       },
       {
         id: 'm-da-2',
@@ -224,6 +229,15 @@ export const channels: Channel[] = [
         authorId: 'forge',
         body: 'Session store is the piece that matters. If transcripts land somewhere readable, the UI becomes a viewer and we stop arguing about protocols.',
         sentAt: minutesAgo(150),
+        toolCalls: [],
+      },
+      {
+        // Seed coverage (SC18): one message carrying both inline code and a fenced
+        // block, so a fresh browser shows the two supported constructs.
+        id: 'm-ap-4',
+        authorId: 'forge',
+        body: 'Sketch of the seam. Inline `connect(url)` stays a one-liner; the adapter itself is:\n\n```\nexport function connect(url: string) {\n  return new WebSocket(url)\n}\n```\n\nEverything else in the body stays literal.',
+        sentAt: minutesAgo(140),
         toolCalls: [],
       },
     ],

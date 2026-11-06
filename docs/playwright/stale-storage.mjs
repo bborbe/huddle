@@ -8,8 +8,8 @@
 import { chromium } from '/Users/bborbe/.npm/_npx/13ab0715f9f30c2e/node_modules/playwright/index.mjs'
 
 const BASE = process.env.HUDDLE_URL ?? 'http://localhost:5173/'
-const KEY = 'huddle:v3'
-const LEGACY_KEY = 'huddle:v2'
+const KEY = 'huddle:v4'
+const LEGACY_KEY = 'huddle:v3'
 
 const results = []
 function check(name, pass, delta) {
@@ -35,12 +35,12 @@ async function loadWith(storage) {
 }
 
 async function sidebarLooksSeeded() {
-  const cats = await page.locator('.cat-label').allTextContents()
-  const rows = await page.locator('.cat-channels .chan-row').count()
+  const cats = await page.locator('[data-category] .cat-label').allTextContents()
+  const rows = await page.locator('[data-category] .cat-channels .chan-row').count()
   return { ok: cats.join(',') === 'Product,General' && rows === 4, cats: cats.join(','), rows }
 }
 
-// --- 1. a v2 blob left behind by the previous build --------------------------
+// --- 1. a stale blob left behind by the previous build --------------------------
 await loadWith({
   [LEGACY_KEY]: JSON.stringify({
     workspace: { members: [], categories: [], channels: [] },
@@ -51,7 +51,7 @@ await loadWith({
 })
 const legacy = await sidebarLooksSeeded()
 check(
-  'a v2 blob under the old key does not blank the page',
+  'a stale blob under the previous key does not blank the page',
   legacy.ok && pageErrors.length === 0,
   `categories=${JSON.stringify(legacy.cats)} rows=${legacy.rows} errors=${pageErrors.length}`,
 )

@@ -2,7 +2,7 @@ PASS  toolbar hidden at rest  — count=0
 PASS  toolbar appears on hover, on the hovered message only  — total=1 inside chosen=1
 PASS  toolbar carries three reactions and a reply  — ["React with 👍","React with 😊","React with 🚀","Reply in thread"]
 PASS  toolbar disappears when the pointer leaves  — count=0
-PASS  the reaction lands on that message and no other  — chips on chosen=1 chips in channel=1
+PASS  the reaction lands on that message and no other  — chips on chosen=1 seeded message still has=3
 PASS  the chip shows the emoji and a count of 1  — "👍\n1"
 PASS  the reaction survives a reload  — chips on chosen=1
 PASS  clicking the same reaction again removes it  — chips=0

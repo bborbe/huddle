@@ -7,7 +7,9 @@
 //   v1 → v2  seed identities changed
 //   v2 → v3  Workspace gained `spaces` and Category gained `spaceId`; a v2 blob
 //            has no `spaces`, so the space filter crashed on `.map` of undefined
-const KEY = 'huddle:v3'
+//   v3 → v4  seed gained a starred channel, seeded reactions and a formatted
+//            message — a v3 blob would keep the old seed and never show them
+const KEY = 'huddle:v4'
 
 /**
  * A persisted blob is only usable if it still has the shape the current build

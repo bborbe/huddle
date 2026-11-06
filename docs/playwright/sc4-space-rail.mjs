@@ -27,7 +27,7 @@ check('every rail item is a button', count === 2, `buttons=${count}`)
 const labels = await railItems.evaluateAll((els) => els.map((e) => e.textContent?.trim()))
 check('rail shows both spaces', labels.join(',') === 'H,DA', `labels=${JSON.stringify(labels)}`)
 
-const beforeCats = await page.locator('.cat-label').allTextContents()
+const beforeCats = await page.locator('[data-category] .cat-label').allTextContents()
 check(
   'Huddle space shows its own categories',
   beforeCats.join(',') === 'Product,General',
@@ -38,7 +38,7 @@ check(
 await page.locator('nav.rail button[aria-label="Switch to Decision App"]').click()
 await page.waitForTimeout(200)
 
-const afterCats = await page.locator('.cat-label').allTextContents()
+const afterCats = await page.locator('[data-category] .cat-label').allTextContents()
 check(
   'switching swaps the sidebar to the other space',
   afterCats.join(',') === 'Reviews',
@@ -48,7 +48,7 @@ check(
 const afterHeader = await page.locator('.channel .panel-header').innerText()
 check('switch lands on that space’s first channel', afterHeader.includes('rule-reviews'), JSON.stringify(afterHeader))
 
-const afterRows = await page.locator('.cat-channels .chan-row').allTextContents()
+const afterRows = await page.locator('[data-category] .cat-channels .chan-row').allTextContents()
 check(
   'the other space has its own channels',
   afterRows.length === 2 && afterRows.some((r) => r.includes('tenant-migration')),
@@ -64,7 +64,7 @@ await page.screenshot({ path: 'docs/evidence/walk-sc4-space-switched.png' })
 await page.locator('nav.rail button[aria-label="Switch to Huddle"]').click()
 await page.waitForTimeout(200)
 
-const backCats = await page.locator('.cat-label').allTextContents()
+const backCats = await page.locator('[data-category] .cat-label').allTextContents()
 const backHeader = await page.locator('.channel .panel-header').innerText()
 check(
   'switching back restores the Huddle space',

@@ -15,6 +15,8 @@ const TOOLBAR = '[role="toolbar"][aria-label="Message actions"]'
 // decision-app is the seeded channel with both a plain message and a threaded one.
 const PLAIN = 'Morning. The Decision App review page'
 const THREADED = 'That is the sparse checkout'
+// Carries no seeded reactions, so the reaction assertions start from empty.
+const REACT_TARGET = 'Separate PRs, yes.'
 
 const results = []
 function check(name, pass, delta) {
@@ -60,20 +62,20 @@ await page.waitForTimeout(150)
 check('toolbar disappears when the pointer leaves', (await page.locator(TOOLBAR).count()) === 0, 'count=0')
 
 // --- 3. an emoji lands on that message and no other --------------------------
-await msgRow(PLAIN).hover()
+await msgRow(REACT_TARGET).hover()
 await page.waitForTimeout(150)
-await msgRow(PLAIN).locator('button[aria-label="React with 👍"]').click()
+await msgRow(REACT_TARGET).locator('button[aria-label="React with 👍"]').click()
 await page.waitForTimeout(200)
 
-const onChosen = await msgRow(PLAIN).locator('.reaction').count()
-const thumbsAnywhere = await page.locator('.reaction').count()
+const onChosen = await msgRow(REACT_TARGET).locator('.reaction').count()
+const seededChips = await msgRow(PLAIN).locator('.reaction').count()
 check(
   'the reaction lands on that message and no other',
-  onChosen === 1 && thumbsAnywhere === 1,
-  `chips on chosen=${onChosen} chips in channel=${thumbsAnywhere}`,
+  onChosen === 1 && seededChips === 3,
+  `chips on chosen=${onChosen} seeded message still has=${seededChips}`,
 )
 
-const chipText = await msgRow(PLAIN).locator('.reaction').innerText()
+const chipText = await msgRow(REACT_TARGET).locator('.reaction').innerText()
 check('the chip shows the emoji and a count of 1', chipText.replace(/\s+/g, '') === '👍1', JSON.stringify(chipText))
 
 await page.screenshot({ path: 'docs/evidence/walk-sc9-toolbar.png' })
@@ -81,15 +83,16 @@ await page.screenshot({ path: 'docs/evidence/walk-sc9-toolbar.png' })
 // --- survives a reload -------------------------------------------------------
 await page.reload({ waitUntil: 'networkidle' })
 await dismissIdentity(page)
-const afterReload = await msgRow(PLAIN).locator('.reaction').count()
+const afterReload = await msgRow(REACT_TARGET).locator('.reaction').count()
 check('the reaction survives a reload', afterReload === 1, `chips on chosen=${afterReload}`)
 
 // clicking it again removes it
-await msgRow(PLAIN).hover()
+await msgRow(REACT_TARGET).hover()
 await page.waitForTimeout(150)
-await msgRow(PLAIN).locator('button[aria-label="React with 👍"]').click()
+await msgRow(REACT_TARGET).locator('button[aria-label="React with 👍"]').click()
 await page.waitForTimeout(200)
-check('clicking the same reaction again removes it', (await msgRow(PLAIN).locator('.reaction').count()) === 0, 'chips=0')
+const afterToggle = await msgRow(REACT_TARGET).locator('.reaction').count()
+check('clicking the same reaction again removes it', afterToggle === 0, `chips=${afterToggle}`)
 
 // --- 4. the reply-count line reads that message's own count ------------------
 const repliesLine = msgRow(THREADED).locator('.thread-replies')

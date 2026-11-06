@@ -36,6 +36,15 @@ async function openChannel(category, channel) {
   await page.waitForTimeout(150)
 }
 
+// The seed stars decision-app (SC18), so clear that first — this walk needs to
+// start from nothing starred.
+if ((await page.locator(STARRED).count()) > 0) {
+  await page.locator(`${STARRED} .chan-row`).first().click()
+  await page.waitForTimeout(150)
+  await page.locator('.channel .panel-header .star-btn').click()
+  await page.waitForTimeout(200)
+}
+
 // --- 1. nothing starred ------------------------------------------------------
 check('no Starred section while nothing is starred', (await page.locator(STARRED).count()) === 0, 'sections=0')
 
