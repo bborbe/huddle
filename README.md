@@ -19,7 +19,7 @@ That is the whole setup. No backend, no database, no environment variables, no a
 make precommit
 ```
 
-Runs, in order and failing fast: `install` (`npm ci`) → `lint` (oxlint over `src`, warnings are errors) → `typecheck` (`tsc --noEmit`) → `build` (`vite build`) → `test`.
+Runs, in order and failing fast: `install` (`npm ci`) → `lint` (type-aware oxlint over `src`, warnings are errors) → `typecheck` (`tsc --noEmit`) → `build` (`vite build`) → `test`.
 
 `make test` boots `vite preview` on the built output and runs every walk in [`docs/playwright/`](docs/playwright/), each against the real page, then shuts the server down. It exits non-zero if any walk fails, so it needs `make build` first when run on its own.
 
