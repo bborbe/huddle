@@ -49,6 +49,8 @@ export type Action =
       memberId: string
     }
   | { type: 'openThreadForMessage'; channelId: string; messageId: string; threadId: string }
+  | { type: 'toggleMute' }
+  | { type: 'toggleDeafen' }
   | { type: 'toggleStar'; channelId: string }
   | { type: 'renameChannel'; channelId: string; name: string }
   | { type: 'deleteChannel'; channelId: string }
@@ -403,6 +405,32 @@ export function makeReducer(seed: Workspace) {
           threadView: 'split',
         }
       }
+
+      // Mock voice preferences (SC27). No microphone, no media stream: these flip
+      // a flag and nothing else — the criterion states that plainly.
+      case 'toggleMute':
+        return {
+          ...state,
+          workspace: {
+            ...state.workspace,
+            voice: {
+              muted: !(state.workspace.voice?.muted ?? false),
+              deafened: state.workspace.voice?.deafened ?? false,
+            },
+          },
+        }
+
+      case 'toggleDeafen':
+        return {
+          ...state,
+          workspace: {
+            ...state.workspace,
+            voice: {
+              muted: state.workspace.voice?.muted ?? false,
+              deafened: !(state.workspace.voice?.deafened ?? false),
+            },
+          },
+        }
 
       case 'toggleStar':
         return {

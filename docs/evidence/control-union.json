@@ -73,12 +73,6 @@
       "state": "at-rest"
     },
     {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "at-rest"
-    },
-    {
       "selector": ".channel [aria-label=\"👍 2\"]",
       "name": "👍 2",
       "tag": "button",
@@ -133,12 +127,6 @@
       "state": "at-rest"
     },
     {
-      "selector": ".thread button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "at-rest"
-    },
-    {
       "selector": ".thread button:has-text(\"Ask agent\")",
       "name": "Ask agent",
       "tag": "button",
@@ -153,12 +141,6 @@
     {
       "selector": ".thread [aria-label=\"Close thread\"]",
       "name": "Close thread",
-      "tag": "button",
-      "state": "at-rest"
-    },
-    {
-      "selector": ".thread button:has-text(\"Leave\")",
-      "name": "Leave",
       "tag": "button",
       "state": "at-rest"
     },
@@ -255,12 +237,6 @@
       "state": "category-hovered"
     },
     {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "category-hovered"
-    },
-    {
       "selector": ".channel [aria-label=\"👍 2\"]",
       "name": "👍 2",
       "tag": "button",
@@ -315,12 +291,6 @@
       "state": "category-hovered"
     },
     {
-      "selector": ".thread button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "category-hovered"
-    },
-    {
       "selector": ".thread button:has-text(\"Ask agent\")",
       "name": "Ask agent",
       "tag": "button",
@@ -335,12 +305,6 @@
     {
       "selector": ".thread [aria-label=\"Close thread\"]",
       "name": "Close thread",
-      "tag": "button",
-      "state": "category-hovered"
-    },
-    {
-      "selector": ".thread button:has-text(\"Leave\")",
-      "name": "Leave",
       "tag": "button",
       "state": "category-hovered"
     },
@@ -409,12 +373,6 @@
     {
       "selector": ".channel button:has-text(\"Ask agent to join\")",
       "name": "Ask agent to join",
-      "tag": "button",
-      "state": "at-rest-decision-app"
-    },
-    {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
       "tag": "button",
       "state": "at-rest-decision-app"
     },
@@ -489,12 +447,6 @@
     {
       "selector": ".channel button:has-text(\"Ask agent to join\")",
       "name": "Ask agent to join",
-      "tag": "button",
-      "state": "category-hovered-decision-app"
-    },
-    {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
       "tag": "button",
       "state": "category-hovered-decision-app"
     },
@@ -615,12 +567,6 @@
       "state": "create-popup-open"
     },
     {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "create-popup-open"
-    },
-    {
       "selector": ".channel [aria-label=\"👍 2\"]",
       "name": "👍 2",
       "tag": "button",
@@ -675,12 +621,6 @@
       "state": "create-popup-open"
     },
     {
-      "selector": ".thread button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "create-popup-open"
-    },
-    {
       "selector": ".thread button:has-text(\"Ask agent\")",
       "name": "Ask agent",
       "tag": "button",
@@ -695,12 +635,6 @@
     {
       "selector": ".thread [aria-label=\"Close thread\"]",
       "name": "Close thread",
-      "tag": "button",
-      "state": "create-popup-open"
-    },
-    {
-      "selector": ".thread button:has-text(\"Leave\")",
-      "name": "Leave",
       "tag": "button",
       "state": "create-popup-open"
     },
@@ -803,12 +737,6 @@
       "state": "channel-gear-hovered"
     },
     {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "channel-gear-hovered"
-    },
-    {
       "selector": ".channel [aria-label=\"👍 2\"]",
       "name": "👍 2",
       "tag": "button",
@@ -863,12 +791,6 @@
       "state": "channel-gear-hovered"
     },
     {
-      "selector": ".thread button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "channel-gear-hovered"
-    },
-    {
       "selector": ".thread button:has-text(\"Ask agent\")",
       "name": "Ask agent",
       "tag": "button",
@@ -883,12 +805,6 @@
     {
       "selector": ".thread [aria-label=\"Close thread\"]",
       "name": "Close thread",
-      "tag": "button",
-      "state": "channel-gear-hovered"
-    },
-    {
-      "selector": ".thread button:has-text(\"Leave\")",
-      "name": "Leave",
       "tag": "button",
       "state": "channel-gear-hovered"
     },
@@ -1009,12 +925,6 @@
       "state": "settings-dialog-open"
     },
     {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "settings-dialog-open"
-    },
-    {
       "selector": ".channel [aria-label=\"👍 2\"]",
       "name": "👍 2",
       "tag": "button",
@@ -1069,12 +979,6 @@
       "state": "settings-dialog-open"
     },
     {
-      "selector": ".thread button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "settings-dialog-open"
-    },
-    {
       "selector": ".thread button:has-text(\"Ask agent\")",
       "name": "Ask agent",
       "tag": "button",
@@ -1089,12 +993,6 @@
     {
       "selector": ".thread [aria-label=\"Close thread\"]",
       "name": "Close thread",
-      "tag": "button",
-      "state": "settings-dialog-open"
-    },
-    {
-      "selector": ".thread button:has-text(\"Leave\")",
-      "name": "Leave",
       "tag": "button",
       "state": "settings-dialog-open"
     },
@@ -1185,12 +1083,6 @@
       "state": "message-hovered"
     },
     {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "message-hovered"
-    },
-    {
       "selector": ".channel [aria-label=\"React with 👍\"]",
       "name": "React with 👍",
       "tag": "button",
@@ -1269,12 +1161,6 @@
       "state": "message-hovered"
     },
     {
-      "selector": ".thread button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "message-hovered"
-    },
-    {
       "selector": ".thread button:has-text(\"Ask agent\")",
       "name": "Ask agent",
       "tag": "button",
@@ -1289,12 +1175,6 @@
     {
       "selector": ".thread [aria-label=\"Close thread\"]",
       "name": "Close thread",
-      "tag": "button",
-      "state": "message-hovered"
-    },
-    {
-      "selector": ".thread button:has-text(\"Leave\")",
-      "name": "Leave",
       "tag": "button",
       "state": "message-hovered"
     },
@@ -1373,12 +1253,6 @@
       "state": "thread-full"
     },
     {
-      "selector": ".thread button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "thread-full"
-    },
-    {
       "selector": ".thread button:has-text(\"Ask agent\")",
       "name": "Ask agent",
       "tag": "button",
@@ -1393,12 +1267,6 @@
     {
       "selector": ".thread [aria-label=\"Close thread\"]",
       "name": "Close thread",
-      "tag": "button",
-      "state": "thread-full"
-    },
-    {
-      "selector": ".thread button:has-text(\"Leave\")",
-      "name": "Leave",
       "tag": "button",
       "state": "thread-full"
     },
@@ -1489,12 +1357,6 @@
       "state": "thread-closed"
     },
     {
-      "selector": ".channel button:has-text(\"Join voice\")",
-      "name": "Join voice",
-      "tag": "button",
-      "state": "thread-closed"
-    },
-    {
       "selector": ".channel [aria-label=\"👍 2\"]",
       "name": "👍 2",
       "tag": "button",
@@ -1547,6 +1409,122 @@
       "name": "Send",
       "tag": "button",
       "state": "thread-closed"
+    }
+  ],
+  "voice-panel": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-category=\"Product\"] [aria-label=\"Create a channel\"]",
+      "name": "Create a channel",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-category=\"Product\"] [aria-label=\"Channel settings\"]",
+      "name": "Channel settings",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-section=\"voice-panel\"] [aria-label=\"Disconnect from voice\"]",
+      "name": "Disconnect from voice",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-section=\"voice-panel\"] [aria-label=\"Mute myself\"]",
+      "name": "Mute myself",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": "[data-section=\"voice-panel\"] [aria-label=\"Deafen\"]",
+      "name": "Deafen",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": ".channel [aria-label=\"Star\"]",
+      "name": "Star",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "voice-panel"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "voice-panel"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "voice-panel"
     }
   ]
 }

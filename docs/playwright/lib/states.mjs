@@ -57,6 +57,13 @@ export const STATES = {
     await page.locator('.thread button[aria-label="Close thread"]').click()
     await page.waitForTimeout(200)
   },
+
+  // The voice panel only exists while a room is joined, so its controls are
+  // outside every other state's population.
+  'voice-panel': async (page) => {
+    await page.locator('[data-category] .chan-row').first().dblclick()
+    await page.waitForTimeout(300)
+  },
 }
 
 export const STATE_NAMES = Object.keys(STATES)

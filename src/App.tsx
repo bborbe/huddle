@@ -4,6 +4,7 @@ import { initialState, LOCAL_USER_ID, makeReducer, normaliseVoice } from './lib/
 import type { Action, AppState } from './lib/workspace-state'
 import { loadState, saveState } from './platform/storage'
 import { createMockTransport } from './platform/transport'
+import { activeVoiceRoom } from './lib/selectors'
 import SpaceRail from './components/SpaceRail'
 import Sidebar from './components/Sidebar'
 import ChannelPane from './components/ChannelPane'
@@ -58,6 +59,14 @@ export default function App() {
 
   const { spaces, members, categories, channels } = state.workspace
 
+  // The panel is the only voice surface left: joining and leaving are the
+  // sidebar row's double click, and the panel appears while a room is joined.
+  const voiceRoom = useMemo(
+    () => activeVoiceRoom(state.workspace, LOCAL_USER_ID),
+    [state.workspace],
+  )
+  const localUser = members.find((member) => member.id === LOCAL_USER_ID)
+
   // A space owns its own categories, so a switch swaps the whole sidebar set.
   const spaceCategories = useMemo(
     () => categories.filter((category) => category.spaceId === state.activeSpaceId),
@@ -80,8 +89,6 @@ export default function App() {
 
   const showThread = Boolean(thread) && state.threadView !== 'closed'
 
-  const channelVoice = channel.voiceMemberIds.includes(LOCAL_USER_ID)
-  const threadVoice = thread ? thread.voiceMemberIds.includes(LOCAL_USER_ID) : false
 
   return (
     <div className={`shell${state.threadView === 'full' ? ' shell--thread-full' : ''}`}>
@@ -113,6 +120,21 @@ export default function App() {
         onToggleThreadVoice={(channelId, threadId) =>
           dispatch({ type: 'toggleVoice', channelId, threadId, memberId: LOCAL_USER_ID })
         }
+        voiceRoomName={voiceRoom?.name ?? null}
+        localUser={localUser}
+        muted={state.workspace.voice?.muted ?? false}
+        deafened={state.workspace.voice?.deafened ?? false}
+        onHangUp={() => {
+          if (!voiceRoom) return
+          dispatch({
+            type: 'toggleVoice',
+            channelId: voiceRoom.channelId,
+            threadId: voiceRoom.threadId,
+            memberId: LOCAL_USER_ID,
+          })
+        }}
+        onToggleMute={() => dispatch({ type: 'toggleMute' })}
+        onToggleDeafen={() => dispatch({ type: 'toggleDeafen' })}
         onReset={() => dispatch({ type: 'reset' })}
       />
 
@@ -121,7 +143,6 @@ export default function App() {
           channel={channel}
           members={members}
           agent={members.find((m) => m.id === AGENT_ID)}
-          inVoice={channelVoice}
           localUserId={LOCAL_USER_ID}
           starred={Boolean(channel.starred)}
           onToggleStar={() => dispatch({ type: 'toggleStar', channelId: channel.id })}
@@ -157,14 +178,6 @@ export default function App() {
               sentAt: transport.now(),
             })
           }
-          onToggleVoice={() =>
-            dispatch({
-              type: 'toggleVoice',
-              channelId: channel.id,
-              threadId: null,
-              memberId: LOCAL_USER_ID,
-            })
-          }
           onAskAgentVoice={() =>
             dispatch({
               type: 'askAgentVoice',
@@ -185,7 +198,6 @@ export default function App() {
           thread={thread}
           members={members}
           view={state.threadView}
-          inVoice={threadVoice}
           onExpand={() => dispatch({ type: 'setThreadView', view: 'full' })}
           onRestore={() => dispatch({ type: 'setThreadView', view: 'split' })}
           localUserId={LOCAL_USER_ID}
@@ -211,14 +223,6 @@ export default function App() {
               id: transport.newId(),
               body,
               sentAt: transport.now(),
-            })
-          }
-          onToggleVoice={() =>
-            dispatch({
-              type: 'toggleVoice',
-              channelId: channel.id,
-              threadId: thread.id,
-              memberId: LOCAL_USER_ID,
             })
           }
           onAskAgentVoice={() =>

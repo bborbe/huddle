@@ -98,17 +98,48 @@ check(
   `decision-app=${JSON.stringify(await channelVoice('decision-app'))}`,
 )
 
-// --- 5. the thread header button toggles the same room ---------------------
-const leaveButton = page.locator('.thread button', { hasText: 'Leave voice' })
+// --- 5. the headers carry no voice buttons; the panel does the leaving ------
+// The Join/Leave buttons were removed from both headers and the strip's Leave
+// button with them. Leaving is the voice panel's hang-up, and this is where it
+// is proven — including the negative control: with the hang-up handler removed,
+// the "leaves that room" check fails.
+const headerVoiceButtons = await page
+  .locator('.thread header button, .channel header button')
+  .evaluateAll((els) =>
+    els
+      .map((el) => (el.textContent ?? '').trim())
+      .filter((text) => text === 'Join voice' || text === 'Leave voice'),
+  )
 check(
-  'the thread header shows Leave voice while the member is in it',
-  (await leaveButton.count()) === 1,
-  `buttons=${await leaveButton.count()}`,
+  'neither header carries a Join/Leave voice button',
+  headerVoiceButtons.length === 0,
+  JSON.stringify(headerVoiceButtons),
 )
-await leaveButton.first().click()
-await page.waitForTimeout(250)
+
+const panel = page.locator('.sidebar [data-section="voice-panel"]')
+const panelRoom = (await panel.count()) === 1 ? await page.locator('.vp-room-name').innerText() : ''
+check(
+  'the voice panel appears while in a room and names it',
+  (await panel.count()) === 1 && panelRoom.trim() === 'team-scoped decisions',
+  `panels=${await panel.count()} room=${JSON.stringify(panelRoom.trim())}`,
+)
+
+// Non-vacuous: the room must be occupied first, or "left it" would pass on a
+// join that never happened — the failure mode this check exists to catch.
+const beforeLeave = await roomsWithLocal()
+await page.locator('.voice-panel [aria-label="Disconnect from voice"]').click()
+await page.waitForTimeout(300)
 const afterLeave = await roomsWithLocal()
-check('the thread header button leaves that room', afterLeave.length === 0, `rooms=${JSON.stringify(afterLeave)}`)
+check(
+  'the panel’s hang-up leaves that room',
+  beforeLeave.length === 1 && afterLeave.length === 0,
+  `${JSON.stringify(beforeLeave)} → ${JSON.stringify(afterLeave)}`,
+)
+check(
+  'the panel disappears once the room is left',
+  (await panel.count()) === 0,
+  `panels=${await panel.count()}`,
+)
 
 // --- 6. a channel join clears a thread room ---------------------------------
 await channelRow('decision-app').dblclick()

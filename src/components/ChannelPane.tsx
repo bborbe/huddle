@@ -9,7 +9,6 @@ interface ChannelPaneProps {
   channel: Channel
   members: Member[]
   agent: Member | undefined
-  inVoice: boolean
   localUserId: string
   starred: boolean
   onToggleStar: () => void
@@ -17,7 +16,6 @@ interface ChannelPaneProps {
   onReplyToMessage: (messageId: string) => void
   onReact: (messageId: string, emoji: string) => void
   onSendMessage: (body: string) => void
-  onToggleVoice: () => void
   onAskAgentVoice: () => void
   onAppendMessage: (message: Message) => void
 }
@@ -26,7 +24,6 @@ export default function ChannelPane({
   channel,
   members,
   agent,
-  inVoice,
   localUserId,
   starred,
   onToggleStar,
@@ -34,7 +31,6 @@ export default function ChannelPane({
   onReplyToMessage,
   onReact,
   onSendMessage,
-  onToggleVoice,
   onAskAgentVoice,
   onAppendMessage,
 }: ChannelPaneProps) {
@@ -83,13 +79,6 @@ export default function ChannelPane({
         </button>
         <button type="button" className="btn-outline" onClick={onAskAgentVoice}>
           Ask agent to join
-        </button>
-        <button
-          type="button"
-          className={`btn-outline${inVoice ? ' btn-outline--danger' : ''}`}
-          onClick={onToggleVoice}
-        >
-          {inVoice ? 'Leave voice' : 'Join voice'}
         </button>
       </header>
 

@@ -27,6 +27,8 @@ const MUTATIONS = [
   'openThreadForMessage',
   'toggleStar',
   'setIdentity',
+  'toggleMute',
+  'toggleDeafen',
   'renameChannel',
   'deleteChannel',
 ]
@@ -122,6 +124,8 @@ function apply(kind) {
       }),
       toggleStar: () => ({ type: 'toggleStar', channelId: channel.id }),
       setIdentity: () => ({ type: 'setIdentity', name: 'Probe', avatarToken: 2 }),
+      toggleMute: () => ({ type: 'toggleMute' }),
+      toggleDeafen: () => ({ type: 'toggleDeafen' }),
       renameChannel: () => ({
         type: 'renameChannel',
         channelId: channel.id,
@@ -191,8 +195,8 @@ check(
 const viewOnly = ['selectSpace', 'selectChannel', 'selectThread', 'setThreadView']
 check(
   'the mutation list is the reducer’s workspace-mutating set',
-  MUTATIONS.length === 12 && viewOnly.every((action) => !MUTATIONS.includes(action)),
-  `${MUTATIONS.length} mutations + reset = 13 of 17 actions; view-only excluded: ${viewOnly.join(', ')}`,
+  MUTATIONS.length === 14 && viewOnly.every((action) => !MUTATIONS.includes(action)),
+  `${MUTATIONS.length} mutations + reset = 15 of 19 actions; view-only excluded: ${viewOnly.join(', ')}`,
 )
 
 await page.screenshot({ path: 'docs/evidence/walk-sc5-persistence.png' })

@@ -29,9 +29,21 @@ async function activeHeader() {
   return (await page.locator('.channel .panel-header').innerText()).split('\n')[1]?.trim() ?? ''
 }
 
+// Read the model, not a button label: the header's Join/Leave buttons were
+// removed, and a label could only ever describe the active channel anyway.
+// This asks the question the criterion asks — is the local member in voice,
+// and in which room — for the whole workspace.
 async function voiceState() {
-  const button = await page.locator('.channel .panel-header button', { hasText: /voice/ }).innerText()
-  return { label: button.trim(), inVoice: button.trim() === 'Leave voice' }
+  return page.evaluate(() => {
+    const rooms = []
+    for (const channel of window.__huddle.state.workspace.channels) {
+      if (channel.voiceMemberIds.includes('you')) rooms.push(channel.id)
+      for (const thread of channel.threads) {
+        if (thread.voiceMemberIds.includes('you')) rooms.push(`${channel.id}/${thread.id}`)
+      }
+    }
+    return { rooms, inVoice: rooms.length > 0 }
+  })
 }
 
 // --- 1. a single click opens the channel and does not touch voice -----------
@@ -49,7 +61,7 @@ check(
 check(
   'a single click leaves voice unchanged',
   afterSingleVoice.inVoice === before.inVoice,
-  `${before.label} → ${afterSingleVoice.label}`,
+  `${JSON.stringify(before.rooms)} → ${JSON.stringify(afterSingleVoice.rooms)}`,
 )
 
 // --- 2. a double click joins that channel's voice ---------------------------
@@ -67,7 +79,7 @@ check(
 check(
   'a double click joins that channel’s voice',
   afterDoubleVoice.inVoice && strip === 1,
-  `button=${JSON.stringify(afterDoubleVoice.label)} voiceStrip=${strip}`,
+  `rooms=${JSON.stringify(afterDoubleVoice.rooms)} voiceStrip=${strip}`,
 )
 
 const stripText = strip === 1 ? await page.locator('.channel .voice-strip').innerText() : ''
@@ -84,7 +96,7 @@ const stripAfter = await page.locator('.channel .voice-strip').count()
 check(
   'a second double click leaves voice',
   !afterSecond.inVoice && stripAfter === 0,
-  `button=${JSON.stringify(afterSecond.label)} voiceStrip=${stripAfter}`,
+  `rooms=${JSON.stringify(afterSecond.rooms)} voiceStrip=${stripAfter}`,
 )
 
 await page.evaluate(() => window.localStorage.clear())

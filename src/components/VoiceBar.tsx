@@ -6,16 +6,18 @@ interface VoiceBarProps {
   label?: string
   speakingName?: string
   elapsed?: string
-  /** leaves this voice channel — the bar's Leave button had no handler */
-  onLeave?: () => void
 }
 
+/**
+ * The in-room strip: who is here and what they are saying. It carries no
+ * controls — joining and leaving are the sidebar row's double click, and the
+ * hang-up / mute / deafen controls live in the voice panel (SC27).
+ */
 export default function VoiceBar({
   participants,
   label = 'In voice',
   speakingName,
   elapsed,
-  onLeave,
 }: VoiceBarProps) {
   if (participants.length === 0) return null
 
@@ -30,9 +32,6 @@ export default function VoiceBar({
       </span>
       {speakingName ? <span className="voice-speaking">{speakingName} speaking</span> : null}
       {elapsed ? <span className="voice-timer">{elapsed}</span> : null}
-      <button type="button" className="voice-leave" onClick={onLeave}>
-        Leave
-      </button>
     </div>
   )
 }

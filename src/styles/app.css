@@ -1107,3 +1107,100 @@ button {
   background: var(--danger);
   color: var(--bg-app);
 }
+
+/* ---- voice panel (SC27) ---------------------------------------------- */
+
+/* Pinned to the bottom of the sidebar, rendered only while the local member is
+   in a voice room. Discord-classic: room + hang-up, then the local row. */
+.voice-panel {
+  flex: none;
+  margin: 0 8px 8px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-app);
+  border-radius: 8px;
+}
+
+.vp-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 11px;
+  border-bottom: 1px solid var(--line);
+}
+
+.vp-room {
+  flex: 1;
+  min-width: 0;
+}
+
+.vp-state {
+  display: block;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 12.5px;
+}
+
+.vp-room-name {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vp-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+}
+
+.vp-who {
+  flex: 1;
+  min-width: 0;
+}
+
+.vp-who b {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.vp-who span {
+  font-size: 11px;
+  color: var(--accent);
+}
+
+.vp-ic {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.vp-ic:hover {
+  background: var(--bg-panel);
+  color: var(--text);
+}
+
+.vp-ic--mute {
+  background: var(--danger);
+  color: var(--bg-app);
+}
+
+.vp-ic--deaf {
+  color: var(--danger);
+}
+
+.vp-ic--hang {
+  color: var(--danger);
+}

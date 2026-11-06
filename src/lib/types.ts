@@ -81,6 +81,18 @@ export interface Identity {
   avatarToken: 1 | 2 | 3 | 4
 }
 
+/**
+ * The local user's voice preferences. **Mock state only** — there is no
+ * microphone, no media stream and no audio in this prototype, so muting and
+ * deafening change a flag and nothing else. SC27's criterion says so.
+ */
+export interface VoiceSettings {
+  /** mute myself */
+  muted: boolean
+  /** deafen — mute all incoming */
+  deafened: boolean
+}
+
 export interface Workspace {
   spaces: Space[]
   members: Member[]
@@ -88,4 +100,6 @@ export interface Workspace {
   channels: Channel[]
   /** absent until the operator names themselves; a first-run dialog collects it */
   identity?: Identity
+  /** absent until the local user first toggles one — both default to off */
+  voice?: VoiceSettings
 }

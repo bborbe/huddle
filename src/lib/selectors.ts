@@ -1,7 +1,7 @@
 // Model selectors. Pure and platform-neutral: no DOM, no browser APIs.
 // A native shell reuses these unchanged.
 
-import type { Category, Channel } from './types'
+import type { Category, Channel, Workspace } from './types'
 
 /**
  * A category's channels in **case-insensitive alphabetical order**.
@@ -30,4 +30,25 @@ export function starredChannels(channels: Channel[]): Channel[] {
   return channels
     .filter((channel) => channel.starred)
     .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
+}
+
+/** The room the given member is in, channel or thread — at most one, by SC25. */
+export interface VoiceRoom {
+  channelId: string
+  threadId: string | null
+  name: string
+}
+
+export function activeVoiceRoom(workspace: Workspace, memberId: string): VoiceRoom | null {
+  for (const channel of workspace.channels) {
+    if (channel.voiceMemberIds.includes(memberId)) {
+      return { channelId: channel.id, threadId: null, name: channel.name }
+    }
+    for (const thread of channel.threads) {
+      if (thread.voiceMemberIds.includes(memberId)) {
+        return { channelId: channel.id, threadId: thread.id, name: thread.name }
+      }
+    }
+  }
+  return null
 }

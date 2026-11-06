@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Category, Channel, Member } from '../platform'
 import { channelInitials, channelToken } from '../lib/channel-identity'
 import { channelsInCategory, starredChannels } from '../lib/selectors'
+import VoicePanel from './VoicePanel'
 
 interface SidebarProps {
   spaceName: string
@@ -17,6 +18,14 @@ interface SidebarProps {
   onDeleteChannel: (channelId: string) => void
   onToggleChannelVoice: (channelId: string) => void
   onToggleThreadVoice: (channelId: string, threadId: string) => void
+  /** null when the local member is not in a voice room — the panel is hidden */
+  voiceRoomName: string | null
+  localUser: Member | undefined
+  muted: boolean
+  deafened: boolean
+  onHangUp: () => void
+  onToggleMute: () => void
+  onToggleDeafen: () => void
   onReset: () => void
 }
 
@@ -34,6 +43,13 @@ export default function Sidebar({
   onDeleteChannel,
   onToggleChannelVoice,
   onToggleThreadVoice,
+  voiceRoomName,
+  localUser,
+  muted,
+  deafened,
+  onHangUp,
+  onToggleMute,
+  onToggleDeafen,
   onReset,
 }: SidebarProps) {
   // Hover is view state, not model state: the create affordance exists only while
@@ -273,6 +289,18 @@ export default function Sidebar({
           )
         })}
       </div>
+
+      {voiceRoomName && localUser ? (
+        <VoicePanel
+          roomName={voiceRoomName}
+          member={localUser}
+          muted={muted}
+          deafened={deafened}
+          onHangUp={onHangUp}
+          onToggleMute={onToggleMute}
+          onToggleDeafen={onToggleDeafen}
+        />
+      ) : null}
 
       {settingsChannel ? (
         <div className="dialog-backdrop">

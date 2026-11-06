@@ -9,12 +9,10 @@ interface ThreadPaneProps {
   thread: Thread
   members: Member[]
   view: ThreadView
-  inVoice: boolean
   onExpand: () => void
   onRestore: () => void
   onClose: () => void
   onSendReply: (body: string) => void
-  onToggleVoice: () => void
   onAskAgentVoice: () => void
   /** reactions on the parent message and on every reply (SC26) */
   onReact: (messageId: string, emoji: string) => void
@@ -26,12 +24,10 @@ export default function ThreadPane({
   thread,
   members,
   view,
-  inVoice,
   onExpand,
   onRestore,
   onClose,
   onSendReply,
-  onToggleVoice,
   onAskAgentVoice,
   onReact,
   localUserId,
@@ -63,13 +59,6 @@ export default function ThreadPane({
         ) : null}
         <span>{thread.name}</span>
         <span className="panel-header-spacer" />
-        <button
-          type="button"
-          className={`btn-outline${inVoice ? ' btn-outline--danger' : ''}`}
-          onClick={onToggleVoice}
-        >
-          {inVoice ? 'Leave voice' : 'Join voice'}
-        </button>
         <button type="button" className="btn-outline" onClick={onAskAgentVoice}>
           Ask agent
         </button>
@@ -86,7 +75,7 @@ export default function ThreadPane({
         </button>
       </header>
 
-      <VoiceBar participants={voiceMembers} label="Voice" onLeave={onToggleVoice} />
+      <VoiceBar participants={voiceMembers} label="Voice" />
 
       <div className="panel-body">
         {parent ? (
