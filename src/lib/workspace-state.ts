@@ -39,6 +39,8 @@ export type Action =
       sentAt: string
     }
   | { type: 'appendMessage'; channelId: string; message: Message }
+  | { type: 'toggleReaction'; channelId: string; messageId: string; emoji: string; memberId: string }
+  | { type: 'openThreadForMessage'; channelId: string; messageId: string; threadId: string }
   | { type: 'reset' }
 
 export function initialState(seed: Workspace): AppState {
@@ -254,6 +256,63 @@ export function makeReducer(seed: Workspace) {
             messages: [...channel.messages, action.message],
           })),
         }
+
+      case 'toggleReaction': {
+        return {
+          ...state,
+          workspace: updateChannel(state.workspace, action.channelId, (channel) => ({
+            ...channel,
+            messages: channel.messages.map((message) => {
+              if (message.id !== action.messageId) return message
+              const current = message.reactions?.[action.emoji] ?? []
+              const next = toggle(current, action.memberId)
+              const reactions = { ...message.reactions }
+              // Drop the emoji entirely once nobody is left on it, so an empty
+              // chip never renders and the persisted shape stays clean.
+              if (next.length === 0) delete reactions[action.emoji]
+              else reactions[action.emoji] = next
+              return { ...message, reactions }
+            }),
+          })),
+        }
+      }
+
+      case 'openThreadForMessage': {
+        const channel = state.workspace.channels.find((c) => c.id === action.channelId)
+        if (!channel) return state
+
+        // Replying to a message with no thread starts one, the way Slack and
+        // Google Chat do — the panel is bound to the message, not to a pre-existing
+        // thread.
+        const existing = channel.threads.find((t) => t.parentMessageId === action.messageId)
+        if (existing) {
+          return {
+            ...state,
+            activeChannelId: action.channelId,
+            activeThreadId: existing.id,
+            threadView: 'split',
+          }
+        }
+
+        const parent = channel.messages.find((m) => m.id === action.messageId)
+        const thread: Thread = {
+          id: action.threadId,
+          parentMessageId: action.messageId,
+          name: parent ? parent.body.slice(0, 40) : 'thread',
+          replies: [],
+          voiceMemberIds: [],
+        }
+        return {
+          ...state,
+          workspace: updateChannel(state.workspace, action.channelId, (c) => ({
+            ...c,
+            threads: [...c.threads, thread],
+          })),
+          activeChannelId: action.channelId,
+          activeThreadId: thread.id,
+          threadView: 'split',
+        }
+      }
 
       case 'reset':
         return initialState(seed)

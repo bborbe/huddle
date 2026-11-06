@@ -77,6 +77,24 @@ export default function App() {
           members={members}
           agent={members.find((m) => m.id === AGENT_ID)}
           inVoice={channelVoice}
+          localUserId={LOCAL_USER_ID}
+          onReplyToMessage={(messageId) =>
+            dispatch({
+              type: 'openThreadForMessage',
+              channelId: channel.id,
+              messageId,
+              threadId: newId(),
+            })
+          }
+          onReact={(messageId, emoji) =>
+            dispatch({
+              type: 'toggleReaction',
+              channelId: channel.id,
+              messageId,
+              emoji,
+              memberId: LOCAL_USER_ID,
+            })
+          }
           onAppendMessage={(message) =>
             dispatch({ type: 'appendMessage', channelId: channel.id, message })
           }

@@ -9,7 +9,10 @@ interface ChannelPaneProps {
   members: Member[]
   agent: Member | undefined
   inVoice: boolean
+  localUserId: string
   onOpenThread: (threadId: string) => void
+  onReplyToMessage: (messageId: string) => void
+  onReact: (messageId: string, emoji: string) => void
   onSendMessage: (body: string) => void
   onToggleVoice: () => void
   onAskAgentVoice: () => void
@@ -21,7 +24,10 @@ export default function ChannelPane({
   members,
   agent,
   inVoice,
+  localUserId,
   onOpenThread,
+  onReplyToMessage,
+  onReact,
   onSendMessage,
   onToggleVoice,
   onAskAgentVoice,
@@ -88,8 +94,11 @@ export default function ChannelPane({
               key={message.id}
               message={message}
               author={author}
+              localUserId={localUserId}
               threadReplies={thread ? thread.replies.length : undefined}
               onOpenThread={thread ? () => onOpenThread(thread.id) : undefined}
+              onReact={(emoji) => onReact(message.id, emoji)}
+              onReply={() => onReplyToMessage(message.id)}
             />
           )
         })}

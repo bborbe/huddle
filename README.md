@@ -20,6 +20,7 @@ Everything you do in the page:
 - Switch channels and send a message
 - **Create a channel the way Slack does it** — hover a category row (`Product`, `General`) and a `+` appears on it with a "Create a channel" tooltip; click it, type a name, press Enter, and the channel is created inside that category. The button is not in the page at rest — it only exists while its category row is hovered.
 - Open a thread, reply in it, expand it to full width, close it
+- **React and reply from a message** — hovering a channel message reveals a small toolbar on it: three quick reactions (`👍` `😊` `🚀`) and a reply action that opens that message's thread. Clicking a reaction adds it, clicking it again removes it, and both survive a reload. A message that has replies shows an `N replies` line beneath it that opens the same thread.
 - Join and leave voice in a channel or a thread
 - Ask an agent into voice and watch its reply appear
 - Replay a simulated agent turn — typing indicator, token-by-token stream, tool call moving from running to completed

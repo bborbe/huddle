@@ -35,6 +35,8 @@ export interface Message {
   body: string
   sentAt: string
   toolCalls: ToolCall[]
+  /** emoji → the member ids who reacted with it. Absent means no reactions. */
+  reactions?: Record<string, string[]>
 }
 
 export interface Thread {
