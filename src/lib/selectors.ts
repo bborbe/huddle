@@ -1,0 +1,21 @@
+// Model selectors. Pure and platform-neutral: no DOM, no browser APIs.
+// A native shell reuses these unchanged.
+
+import type { Category, Channel } from './types'
+
+/**
+ * A category's channels in **case-insensitive alphabetical order**.
+ *
+ * Creation order is arbitrary and gets distracting past a handful of channels, so
+ * the order is derived here rather than stored — a channel created later lands in
+ * its alphabetical place instead of at the end. If custom ordering is ever wanted
+ * it becomes an `order` field on the channel and this comparator is replaced, not
+ * extended.
+ */
+export function channelsInCategory(category: Category, channels: Channel[]): Channel[] {
+  const byId = new Map(channels.map((channel) => [channel.id, channel]))
+  return category.channelIds
+    .map((id) => byId.get(id))
+    .filter((channel): channel is Channel => Boolean(channel))
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Category, Channel, Member } from '../platform'
 import { channelInitials, channelToken } from '../lib/channel-identity'
+import { channelsInCategory } from '../lib/selectors'
 
 interface SidebarProps {
   categories: Category[]
@@ -30,8 +31,6 @@ export default function Sidebar({
   const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(null)
   const [creatingIn, setCreatingIn] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
-
-  const channelById = new Map(channels.map((c) => [c.id, c]))
 
   function closePopup() {
     setCreatingIn(null)
@@ -128,10 +127,7 @@ export default function Sidebar({
               </div>
 
               <ul className="cat-channels">
-                {category.channelIds.map((channelId) => {
-                  const channel = channelById.get(channelId)
-                  if (!channel) return null
-
+                {channelsInCategory(category, channels).map((channel) => {
                   const voiceMembers = channel.voiceMemberIds
                     .map((id) => members.find((m) => m.id === id))
                     .filter((m): m is Member => Boolean(m))

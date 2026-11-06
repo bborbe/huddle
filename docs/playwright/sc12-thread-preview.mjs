@@ -83,24 +83,18 @@ check(
 
 await page.screenshot({ path: 'docs/evidence/walk-sc12-thread-preview.png' })
 
-// The row below must not be pushed down by a wrapped line: the next sidebar row
-// starts right at the long preview's bottom edge, not a line further down.
-const gapBelowLong = await page.evaluate((needle) => {
-  const rows = [...document.querySelectorAll('.thread-row')]
-  const target = rows.find((r) => (r.textContent ?? '').includes(needle))
-  if (!target) return null
-  const rect = target.getBoundingClientRect()
-  const next = [...document.querySelectorAll('.chan-row, .thread-row')].find(
-    (r) => r.getBoundingClientRect().top > rect.top + 1,
-  )
-  if (!next) return null
-  return Math.round(next.getBoundingClientRect().top - rect.bottom)
-}, LONG_MESSAGE)
+// The row below must not be pushed down by a wrapped line. Measure against a
+// plain channel row rather than "the next element", since a category boundary can
+// legitimately sit between two rows.
+const rowHeights = await page.evaluate(() => {
+  const channel = document.querySelector('.chan-row')
+  return { channel: channel ? Math.round(channel.getBoundingClientRect().height) : 0 }
+})
 
 check(
-  'the next sidebar row starts at the long preview’s bottom edge (no wrapped line)',
-  gapBelowLong !== null && gapBelowLong <= 2,
-  `gap=${gapBelowLong}px`,
+  'the long preview is one standard row tall, so nothing below it is pushed down',
+  longMetrics.height === rowHeights.channel && shortMetrics.height === rowHeights.channel,
+  `long=${longMetrics.height}px short=${shortMetrics.height}px channelRow=${rowHeights.channel}px`,
 )
 
 await browser.close()
