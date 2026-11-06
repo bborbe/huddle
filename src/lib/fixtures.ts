@@ -29,11 +29,11 @@ export const members: Member[] = [
     presence: 'online',
   },
   {
-    id: 'joe',
-    name: 'Joe',
+    id: 'tobias',
+    name: 'Tobias',
     kind: 'human',
     role: 'Frontend',
-    initials: 'JO',
+    initials: 'TO',
     avatarToken: 2,
     presence: 'online',
   },
@@ -76,7 +76,7 @@ export const channels: Channel[] = [
     id: 'decision-app',
     name: 'decision-app',
     topic: 'Rules engine and the review surface',
-    voiceMemberIds: ['joe'],
+    voiceMemberIds: ['tobias'],
     threads: [
       {
         id: 'thr-thresholds',
@@ -144,7 +144,7 @@ export const channels: Channel[] = [
       },
       {
         id: 'm-da-3',
-        authorId: 'joe',
+        authorId: 'tobias',
         body: 'That is the sparse checkout. I can fix the CI filter today — but the team-scoped decisions question is separate and I would rather not mix the two in one PR.',
         sentAt: minutesAgo(102),
         toolCalls: [],
@@ -176,7 +176,7 @@ export const channels: Channel[] = [
       {
         id: 'm-da-6',
         authorId: 'bob',
-        body: 'Nice. @joe can you take the review on that one? I am on the tenant migration until Thursday.',
+        body: 'Nice. @tobias can you take the review on that one? I am on the tenant migration until Thursday.',
         sentAt: minutesAgo(41),
         toolCalls: [],
       },
@@ -221,7 +221,7 @@ export const channels: Channel[] = [
     messages: [
       {
         id: 'm-ge-1',
-        authorId: 'joe',
+        authorId: 'tobias',
         body: 'Standup notes are in the wiki. Nothing blocked.',
         sentAt: minutesAgo(400),
         toolCalls: [],

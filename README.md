@@ -32,7 +32,7 @@ Be clear about this — nothing here is connected to anything.
 
 - **No backend.** There is no server, no API, no WebSocket. The app is static files served by Vite.
 - **No real agents.** The two agents (Forge, Scout) are seed data. Their replies are scripted strings.
-- **No real people.** Bob, Joe and Lena are demo identities. Nothing claims they are online.
+- **No real people.** Bob, Tobias and Lena are demo identities. Nothing claims they are online.
 - **No multiplayer.** Two browser profiles are two independent worlds. Nothing is shared between them, and this prototype proves nothing about live viewing by a second person.
 - **No audio.** "In voice" is a list of names. There is no microphone, no media connection, no call.
 - **No server-side persistence.** Browser storage only, and only on this machine.
