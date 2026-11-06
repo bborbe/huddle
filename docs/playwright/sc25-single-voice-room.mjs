@@ -98,6 +98,25 @@ check(
   `decision-app=${JSON.stringify(await channelVoice('decision-app'))}`,
 )
 
+// --- 4b. the thread row shows it, exactly like a channel row ----------------
+// Joining from the row and seeing nothing was the bug: the double click worked
+// and the nav gave no sign of it. Same affordance, not a new one.
+const threadAvatars = page.locator('[data-voice-thread="thr-thresholds"]')
+check(
+  'the thread row shows the local member in voice',
+  (await threadAvatars.locator('[data-member="you"]').count()) === 1,
+  `yourAvatar=${await threadAvatars.locator('[data-member="you"]').count()}`,
+)
+check(
+  'the parent channel row does not claim the member is in the channel',
+  (await page
+    .locator('[data-category="Product"] .voice-avatars:not([data-voice-thread]) [data-member="you"]')
+    .count()) === 0,
+  `channelAvatarsClaimingYou=${await page
+    .locator('[data-category="Product"] .voice-avatars:not([data-voice-thread]) [data-member="you"]')
+    .count()}`,
+)
+
 // --- 5. the headers carry no voice buttons; the panel does the leaving ------
 // The Join/Leave buttons were removed from both headers and the strip's Leave
 // button with them. Leaving is the voice panel's hang-up, and this is where it
@@ -140,6 +159,13 @@ check(
   (await panel.count()) === 0,
   `panels=${await panel.count()}`,
 )
+// The thread seeds Lena in voice, so the avatar row stays — what must clear is
+// the local member, not the row itself.
+check(
+  'the thread voice indicator stops naming the local member when the room is left',
+  (await threadAvatars.locator('[data-member="you"]').count()) === 0,
+  `yourAvatar=${await threadAvatars.locator('[data-member="you"]').count()}`,
+)
 
 // --- 6. a channel join clears a thread room ---------------------------------
 await channelRow('decision-app').dblclick()
@@ -149,6 +175,39 @@ check(
   'joining the channel leaves every thread room',
   afterChannelAgain.length === 1 && afterChannelAgain[0] === 'decision-app',
   `rooms=${JSON.stringify(afterChannelAgain)}`,
+)
+
+// --- 6b. the count and the avatars both read the model ---------------------
+// `general` seeds two members in voice, so the panel of numbers can be checked
+// against a known start: 2, then 3 when the local member joins, back to 2.
+// The avatar row is a sibling of the row's wrapper, so scope to the list item.
+const generalWrap = page.locator('[data-category="General"] li').filter({ hasText: 'general' })
+
+const countText = async () =>
+  (await generalWrap.locator('.voice-count').count()) === 1
+    ? (await generalWrap.locator('.voice-count').innerText()).trim()
+    : ''
+const avatarCount = async () => generalWrap.locator('.voice-avatar').count()
+
+check('two members in voice read as a count of 2', (await countText()) === '2', `count=${await countText()}`)
+check('two members in voice render two avatars', (await avatarCount()) === 2, `avatars=${await avatarCount()}`)
+
+await page.locator('[data-category="General"] .chan-row').filter({ hasText: 'general' }).dblclick()
+await page.waitForTimeout(300)
+check('joining raises the count to 3', (await countText()) === '3', `count=${await countText()}`)
+check(
+  'joining adds the local avatar among three',
+  (await avatarCount()) === 3 && (await generalWrap.locator('[data-member="you"]').count()) === 1,
+  `avatars=${await avatarCount()} you=${await generalWrap.locator('[data-member="you"]').count()}`,
+)
+
+await page.locator('[data-category="General"] .chan-row').filter({ hasText: 'general' }).dblclick()
+await page.waitForTimeout(300)
+check('leaving drops the count back to 2', (await countText()) === '2', `count=${await countText()}`)
+check(
+  'leaving removes the local avatar',
+  (await avatarCount()) === 2 && (await generalWrap.locator('[data-member="you"]').count()) === 0,
+  `avatars=${await avatarCount()} you=${await generalWrap.locator('[data-member="you"]').count()}`,
 )
 
 // --- 7. the UI agrees: a left channel shows no voice strip -----------------

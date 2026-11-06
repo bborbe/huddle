@@ -31,7 +31,7 @@ function productRows() {
 
 async function productOrder() {
   return productRows().evaluateAll((els) =>
-    els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()),
+    els.map((el) => (el.querySelector('.chan-name')?.textContent ?? '').trim()),
   )
 }
 
@@ -65,7 +65,7 @@ check(
 )
 
 const starredAfterRename = await page.locator('[data-section="starred"] .chan-row').evaluateAll((els) =>
-  els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()),
+  els.map((el) => (el.querySelector('.chan-name')?.textContent ?? '').trim()),
 )
 check('the renamed channel keeps its star', starredAfterRename.includes('decision-app'), JSON.stringify(starredAfterRename))
 

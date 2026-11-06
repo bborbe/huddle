@@ -22,7 +22,7 @@ await freshLoad(page, BASE)
 
 // --- starred section --------------------------------------------------------
 const starredRows = await page.locator('[data-section="starred"] .chan-row').evaluateAll((els) =>
-  els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()),
+  els.map((el) => (el.querySelector('.chan-name')?.textContent ?? '').trim()),
 )
 check('a channel is starred, so the Starred section renders', starredRows.length >= 1, JSON.stringify(starredRows))
 

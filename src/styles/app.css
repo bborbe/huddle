@@ -350,13 +350,72 @@ button {
   font-weight: 500;
 }
 
-.voice-line {
+/* Option B: a speaker glyph and a count on the name line, the participants'
+   avatars beneath the row. The names text is gone — the avatars carry it. */
+.voice-speaker {
+  flex: none;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.voice-count {
+  flex: none;
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: 9px;
+  background: var(--bg-raised);
+  color: var(--text-muted);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+.chan-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.voice-avatars {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 2px 8px 4px 22px;
-  font-size: var(--fs-meta);
-  color: var(--text-muted);
+  padding: 2px 8px 6px 36px;
+}
+
+.voice-avatars--thread {
+  padding-left: 48px;
+}
+
+.voice-avatar {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  margin-left: -6px;
+  border: 1.5px solid var(--bg-panel);
+  border-radius: 50%;
+  background: var(--avatar-1);
+  color: #fff;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.voice-avatar:first-child {
+  margin-left: 0;
+}
+
+.voice-avatar[data-token='2'] {
+  background: var(--avatar-2);
+}
+.voice-avatar[data-token='3'] {
+  background: var(--avatar-3);
+}
+.voice-avatar[data-token='4'] {
+  background: var(--avatar-4);
 }
 
 .thread-row {

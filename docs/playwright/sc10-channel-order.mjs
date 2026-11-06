@@ -30,7 +30,7 @@ function productRow() {
 
 async function productOrder() {
   return productRow().locator('.chan-row').evaluateAll((els) =>
-    els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()),
+    els.map((el) => (el.querySelector('.chan-name')?.textContent ?? '').trim()),
   )
 }
 

@@ -87,7 +87,7 @@ await openChannel('Product', 'agent-platform')
 await page.locator('.channel .panel-header .star-btn').click()
 await page.waitForTimeout(200)
 
-const order = await starredRows().evaluateAll((els) => els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()))
+const order = await starredRows().evaluateAll((els) => els.map((el) => (el.querySelector('.chan-name')?.textContent ?? '').trim()))
 check(
   'starred channels render alphabetically, not in starring or array order',
   JSON.stringify(order) === JSON.stringify(['agent-platform', 'decision-app', 'general']),
@@ -100,7 +100,7 @@ await page.screenshot({ path: 'docs/evidence/walk-sc11-starred.png' })
 await page.reload({ waitUntil: 'networkidle' })
 await dismissIdentity(page)
 await page.waitForTimeout(200)
-const afterReload = await starredRows().evaluateAll((els) => els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()))
+const afterReload = await starredRows().evaluateAll((els) => els.map((el) => (el.querySelector('.chan-name')?.textContent ?? '').trim()))
 check('the starred set survives a reload', JSON.stringify(afterReload) === JSON.stringify(['agent-platform', 'decision-app', 'general']), JSON.stringify(afterReload))
 
 // --- 5. unstarring ----------------------------------------------------------
@@ -108,7 +108,7 @@ await openChannel('General', 'general')
 await page.locator('.channel .panel-header .star-btn').click()
 await page.waitForTimeout(200)
 
-const afterUnstar = await starredRows().evaluateAll((els) => els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()))
+const afterUnstar = await starredRows().evaluateAll((els) => els.map((el) => (el.querySelector('.chan-name')?.textContent ?? '').trim()))
 const iconAfter = await page.locator('.channel .panel-header .star-btn').innerText()
 check(
   'unstarring removes it from the section and empties the icon',

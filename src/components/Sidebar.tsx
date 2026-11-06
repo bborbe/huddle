@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { Fragment, memo, useState } from 'react'
 import type { Category, Channel, Member } from '../platform'
 import { channelInitials, channelToken } from '../lib/channel-identity'
 import { channelsInCategory, starredChannels } from '../lib/selectors'
@@ -112,24 +112,66 @@ function Sidebar({
         title={`${channel.name} — double-click to join voice`}
         aria-current={channel.id === activeChannelId ? 'true' : undefined}
       >
+        {voiceSpeaker(membersInVoice(channel.voiceMemberIds).length)}
         <span className="chan-tile" data-token={channelToken(channel.id)} aria-hidden="true">
           {channelInitials(channel.name)}
         </span>
-        {channel.name}
+        <span className="chan-name">{channel.name}</span>
+        {voiceCount(membersInVoice(channel.voiceMemberIds).length)}
       </button>
     )
   }
 
-  function voiceLine(channel: Channel) {
-    const voiceMembers = channel.voiceMemberIds
+  /** The members currently in a room, resolved from the ids the model holds. */
+  function membersInVoice(voiceMemberIds: string[]) {
+    return voiceMemberIds
       .map((id) => members.find((m) => m.id === id))
       .filter((m): m is Member => Boolean(m))
+  }
 
-    if (voiceMembers.length === 0) return null
+  /**
+   * One voice affordance for both row kinds — a channel and a thread are the
+   * same thing here (SC25), so a thread must not be the only room you can join
+   * without seeing that you did. The speaker glyph and the count ride the name
+   * line; the avatars sit beneath the row.
+   */
+  function voiceSpeaker(count: number) {
+    if (count === 0) return null
     return (
-      <div className="voice-line">
-        <span className="live-dot" aria-hidden="true" />
-        {voiceMembers.map((m) => m.name).join(', ')} in voice
+      <span className="voice-speaker" aria-hidden="true">
+        🔊
+      </span>
+    )
+  }
+
+  function voiceCount(count: number) {
+    if (count === 0) return null
+    return (
+      <span className="voice-count" aria-label={`${count} in voice`}>
+        {count}
+      </span>
+    )
+  }
+
+  function voiceAvatars(list: Member[], threadId?: string) {
+    if (list.length === 0) return null
+    return (
+      <div
+        className={`voice-avatars${threadId ? ' voice-avatars--thread' : ''}`}
+        data-voice-thread={threadId}
+        aria-label={`In voice: ${list.map((m) => m.name).join(', ')}`}
+      >
+        {list.map((m) => (
+          <span
+            key={m.id}
+            className="voice-avatar"
+            data-token={m.avatarToken ?? 1}
+            data-member={m.id}
+            title={m.name}
+          >
+            {m.initials}
+          </span>
+        ))}
       </div>
     )
   }
@@ -266,20 +308,24 @@ function Sidebar({
                         ) : null}
                       </div>
 
-                      {voiceLine(channel)}
+                      {voiceAvatars(membersInVoice(channel.voiceMemberIds))}
 
                       {channel.threads.map((thread) => (
-                        <button
-                          key={thread.id}
-                          type="button"
-                          className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
-                          title={thread.name}
-                          onClick={() => onSelectThread(channel.id, thread.id)}
-                          onDoubleClick={() => onToggleThreadVoice(channel.id, thread.id)}
-                        >
-                          <span className="thread-connector" aria-hidden="true" />
-                          <span className="thread-row-name">{thread.name}</span>
-                        </button>
+                        <Fragment key={thread.id}>
+                          <button
+                            type="button"
+                            className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
+                            title={thread.name}
+                            onClick={() => onSelectThread(channel.id, thread.id)}
+                            onDoubleClick={() => onToggleThreadVoice(channel.id, thread.id)}
+                          >
+                            <span className="thread-connector" aria-hidden="true" />
+                            {voiceSpeaker(membersInVoice(thread.voiceMemberIds).length)}
+                            <span className="thread-row-name">{thread.name}</span>
+                            {voiceCount(membersInVoice(thread.voiceMemberIds).length)}
+                          </button>
+                          {voiceAvatars(membersInVoice(thread.voiceMemberIds), thread.id)}
+                        </Fragment>
                       ))}
                     </li>
                   )
