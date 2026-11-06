@@ -16,7 +16,6 @@ interface SidebarProps {
   onRenameChannel: (channelId: string, name: string) => void
   onDeleteChannel: (channelId: string) => void
   onToggleChannelVoice: (channelId: string) => void
-  onMoveChannel: (categoryId: string, channelId: string, toIndex: number) => void
   onReset: () => void
 }
 
@@ -33,7 +32,6 @@ export default function Sidebar({
   onRenameChannel,
   onDeleteChannel,
   onToggleChannelVoice,
-  onMoveChannel,
   onReset,
 }: SidebarProps) {
   // Hover is view state, not model state: the create affordance exists only while
@@ -48,7 +46,6 @@ export default function Sidebar({
   const [settingsChannelId, setSettingsChannelId] = useState<string | null>(null)
   const [settingsName, setSettingsName] = useState('')
   const [confirmingDelete, setConfirmingDelete] = useState(false)
-  const [draggingChannelId, setDraggingChannelId] = useState<string | null>(null)
 
   const starred = starredChannels(channels)
   const settingsChannel = channels.find((channel) => channel.id === settingsChannelId)
@@ -218,35 +215,17 @@ export default function Sidebar({
               </div>
 
               <ul className="cat-channels">
-                {channelsInCategory(category, channels).map((channel, index) => {
+                {channelsInCategory(category, channels).map((channel) => {
                   const revealingRow = hoveredChannelId === channel.id
 
                   return (
                     <li key={channel.id}>
                       <div
-                        className={`chan-wrap${draggingChannelId === channel.id ? ' chan-wrap--dragging' : ''}`}
-                        draggable
+                        className="chan-wrap"
                         onMouseEnter={() => setHoveredChannelId(channel.id)}
                         onMouseLeave={() =>
                           setHoveredChannelId((id) => (id === channel.id ? null : id))
                         }
-                        onDragStart={(event) => {
-                          setDraggingChannelId(channel.id)
-                          event.dataTransfer?.setData('text/plain', channel.id)
-                        }}
-                        onDragEnd={() => setDraggingChannelId(null)}
-                        onDragOver={(event) => {
-                          if (draggingChannelId && draggingChannelId !== channel.id) {
-                            event.preventDefault()
-                          }
-                        }}
-                        onDrop={(event) => {
-                          event.preventDefault()
-                          if (draggingChannelId && draggingChannelId !== channel.id) {
-                            onMoveChannel(category.id, draggingChannelId, index)
-                          }
-                          setDraggingChannelId(null)
-                        }}
                       >
                         {channelButton(channel)}
 

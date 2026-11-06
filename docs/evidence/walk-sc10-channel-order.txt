@@ -1,0 +1,5 @@
+PASS  seeded channels are already alphabetical  — ["agent-platform","decision-app"]
+PASS  a later-created channel lands in its alphabetical position  — ["aaa","agent-platform","decision-app","Zzz"]
+PASS  the order survives a reload  — ["aaa","agent-platform","decision-app","Zzz"]
+
+3/3 PASS, 0 FAIL

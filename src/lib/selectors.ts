@@ -4,18 +4,20 @@
 import type { Category, Channel } from './types'
 
 /**
- * A category's channels **in the order the operator arranged them**.
+ * A category's channels in **case-insensitive alphabetical order**.
  *
- * `Category.channelIds` is the source of truth: a channel created later is appended
- * to the end of its category, and dragging a row rewrites the order. This replaced
- * an alphabetical comparator — a stored order and a sort cannot both own the list,
- * and the operator asked for drag-and-drop.
+ * Creation order is arbitrary and gets distracting past a handful of channels, so
+ * the order is derived here rather than stored — a channel created later lands in
+ * its alphabetical place instead of at the end. If custom ordering is ever wanted
+ * it becomes an `order` field on the channel and this comparator is replaced, not
+ * extended.
  */
 export function channelsInCategory(category: Category, channels: Channel[]): Channel[] {
   const byId = new Map(channels.map((channel) => [channel.id, channel]))
   return category.channelIds
     .map((id) => byId.get(id))
     .filter((channel): channel is Channel => Boolean(channel))
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
 }
 
 /**

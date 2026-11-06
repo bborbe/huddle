@@ -59,8 +59,8 @@ await page.waitForTimeout(250)
 
 const afterRename = await productOrder()
 check(
-  'rename changes the sidebar name without moving the row',
-  JSON.stringify(afterRename) === JSON.stringify(['decision-app', 'agent-hub']),
+  'rename changes the sidebar name in place',
+  JSON.stringify(afterRename) === JSON.stringify(['agent-hub', 'decision-app']),
   JSON.stringify(afterRename),
 )
 
@@ -72,7 +72,7 @@ check('the renamed channel keeps its star', starredAfterRename.includes('decisio
 await page.reload({ waitUntil: 'networkidle' })
 await dismissIdentity(page)
 const afterReload = await productOrder()
-check('the rename survives a reload in its stored position', JSON.stringify(afterReload) === JSON.stringify(['decision-app', 'agent-hub']), JSON.stringify(afterReload))
+check('the rename survives a reload', JSON.stringify(afterReload) === JSON.stringify(['agent-hub', 'decision-app']), JSON.stringify(afterReload))
 
 // --- 4. delete confirms, naming the channel ----------------------------------
 const hubRow = page.locator('[data-category="Product"] .chan-wrap').filter({ hasText: 'agent-hub' })

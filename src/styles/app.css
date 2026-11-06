@@ -1107,13 +1107,3 @@ button {
   background: var(--danger);
   color: var(--bg-app);
 }
-
-/* ---- dragging a channel row (SC22) ------------------------------------ */
-
-.chan-wrap--dragging {
-  opacity: 0.45;
-}
-
-.chan-wrap[draggable='true'] {
-  cursor: grab;
-}
