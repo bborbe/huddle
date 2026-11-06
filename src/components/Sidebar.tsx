@@ -14,6 +14,7 @@ interface SidebarProps {
   onCreateChannel: (categoryId: string, name: string) => void
   onRenameChannel: (channelId: string, name: string) => void
   onDeleteChannel: (channelId: string) => void
+  onToggleChannelVoice: (channelId: string) => void
   onReset: () => void
 }
 
@@ -28,6 +29,7 @@ export default function Sidebar({
   onCreateChannel,
   onRenameChannel,
   onDeleteChannel,
+  onToggleChannelVoice,
   onReset,
 }: SidebarProps) {
   // Hover is view state, not model state: the create affordance exists only while
@@ -86,6 +88,8 @@ export default function Sidebar({
         type="button"
         className={`chan-row${channel.id === activeChannelId ? ' chan-row--active' : ''}`}
         onClick={() => onSelectChannel(channel.id)}
+        onDoubleClick={() => onToggleChannelVoice(channel.id)}
+        title={`${channel.name} — double-click to join voice`}
         aria-current={channel.id === activeChannelId ? 'true' : undefined}
       >
         <span className="chan-tile" data-token={channelToken(channel.id)} aria-hidden="true">
@@ -229,7 +233,13 @@ export default function Sidebar({
                             className="icon-btn chan-gear"
                             aria-label="Channel settings"
                             title="Channel settings"
-                            onClick={() => openSettings(channel)}
+                            onClick={(event) => {
+                              // Only the button stops propagation — the row keeps
+                              // its own click and double click.
+                              event.stopPropagation()
+                              openSettings(channel)
+                            }}
+                            onDoubleClick={(event) => event.stopPropagation()}
                           >
                             ⚙
                           </button>

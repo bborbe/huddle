@@ -75,6 +75,9 @@ export default function App() {
         }
         onRenameChannel={(channelId, name) => dispatch({ type: 'renameChannel', channelId, name })}
         onDeleteChannel={(channelId) => dispatch({ type: 'deleteChannel', channelId })}
+        onToggleChannelVoice={(channelId) =>
+          dispatch({ type: 'toggleVoice', channelId, threadId: null, memberId: LOCAL_USER_ID })
+        }
         onReset={() => dispatch({ type: 'reset' })}
       />
 

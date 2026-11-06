@@ -1,0 +1,8 @@
+PASS  a single click changes the active channel  — header="general"
+PASS  a single click leaves voice unchanged  — Join voice → Join voice
+PASS  a double click opens the channel too (the first click is a click)  — header="random"
+PASS  a double click joins that channel’s voice  — button="Leave voice" voiceStrip=1
+PASS  the voice bar names the local user  — "In voice You"
+PASS  a second double click leaves voice  — button="Join voice" voiceStrip=0
+
+6/6 PASS, 0 FAIL
