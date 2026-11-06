@@ -17,7 +17,8 @@ That is the whole setup. No backend, no database, no environment variables, no a
 
 Everything you do in the page:
 
-- Switch channels, create a channel, send a message
+- Switch channels and send a message
+- **Create a channel the way Slack does it** — hover a category row (`Product`, `General`) and a `+` appears on it with a "Create a channel" tooltip; click it, type a name, press Enter, and the channel is created inside that category. The button is not in the page at rest — it only exists while its category row is hovered.
 - Open a thread, reply in it, expand it to full width, close it
 - Join and leave voice in a channel or a thread
 - Ask an agent into voice and watch its reply appear

@@ -58,7 +58,9 @@ export default function App() {
         onSelectThread={(channelId, threadId) =>
           dispatch({ type: 'selectThread', channelId, threadId })
         }
-        onCreateChannel={(name) => dispatch({ type: 'createChannel', channelId: newId(), name })}
+        onCreateChannel={(categoryId, name) =>
+          dispatch({ type: 'createChannel', categoryId, channelId: newId(), name })
+        }
         onReset={() => dispatch({ type: 'reset' })}
       />
 

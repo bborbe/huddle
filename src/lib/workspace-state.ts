@@ -16,7 +16,7 @@ export type Action =
   | { type: 'selectChannel'; channelId: string }
   | { type: 'selectThread'; channelId: string; threadId: string }
   | { type: 'setThreadView'; view: ThreadView }
-  | { type: 'createChannel'; channelId: string; name: string }
+  | { type: 'createChannel'; categoryId: string; channelId: string; name: string }
   | { type: 'sendMessage'; channelId: string; id: string; body: string; sentAt: string }
   | {
       type: 'sendThreadReply'
@@ -109,15 +109,19 @@ export function makeReducer(seed: Workspace) {
           voiceMemberIds: [],
         }
         const categories = state.workspace.categories
-        const firstCategory = categories[0]
+        // The category row that opened the popup owns the channel; fall back to the
+        // first category if that id is gone (a stale popup over a reset workspace).
+        const targetId = categories.some((cat) => cat.id === action.categoryId)
+          ? action.categoryId
+          : categories[0]?.id
         return {
           ...state,
           workspace: {
             ...state.workspace,
             channels: [...state.workspace.channels, channel],
-            categories: firstCategory
+            categories: targetId
               ? categories.map((cat) =>
-                  cat.id === firstCategory.id
+                  cat.id === targetId
                     ? { ...cat, channelIds: [...cat.channelIds, channel.id] }
                     : cat,
                 )

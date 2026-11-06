@@ -1,0 +1,13 @@
+PASS  create button absent from the rendered tree at rest  — count=0
+PASS  create button present while its category row is hovered  — count=1
+PASS  tooltip reads "Create a channel"  — title="Create a channel"
+PASS  click opens the create-channel popup  — form.cat-popup visible
+PASS  popup input takes focus  — activeElement.class=cat-popup-input
+PASS  popup closes after submit  — count=0
+PASS  new channel appears in the sidebar  — rows matching launch-plan=1
+PASS  new channel becomes the active channel  — "LP\nlaunch-plan\nNew channel\nReplay reply\nAsk agent to join\nJoin voice"
+PASS  created inside the hovered category  — category="Product"
+PASS  new channel survives a reload  — rows matching launch-plan=1
+PASS  Reset demo restores the seed  — rows matching launch-plan=0
+
+11/11 PASS, 0 FAIL

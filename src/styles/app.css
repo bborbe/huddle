@@ -260,13 +260,34 @@ button {
   margin-top: 14px;
 }
 
-.cat-label {
+.cat-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 0 8px 4px;
+}
+
+.cat-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--fs-label);
   font-weight: 500;
   color: var(--text-muted);
   cursor: default;
   user-select: none;
+}
+
+/* Revealed only while its category row is hovered — absent from the DOM at rest. */
+.cat-add {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .cat-channels {
@@ -626,15 +647,35 @@ button {
   color: var(--text-secondary);
 }
 
-.new-channel {
-  padding: 0 8px 8px;
+/* ---- create-channel popup (Slack-style, revealed on category-row hover) ---- */
+
+.cat-popup {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 8px;
+  right: 8px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-card);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
 }
 
-.new-channel-input {
+.cat-popup-label {
+  font-size: var(--fs-label);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.cat-popup-input {
   width: 100%;
   height: var(--row-h);
   padding: 0 8px;
-  background: var(--bg-raised);
+  background: var(--bg-panel);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-item);
   color: var(--text);
@@ -642,8 +683,30 @@ button {
   font-size: var(--fs-sidebar);
   outline: none;
 }
-.new-channel-input::placeholder {
+.cat-popup-input:focus {
+  border-color: var(--accent);
+}
+.cat-popup-input::placeholder {
   color: var(--text-muted);
+}
+
+.cat-popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.btn-solid {
+  height: 26px;
+  padding: 0 12px;
+  border-radius: var(--radius-item);
+  background: var(--text);
+  color: var(--bg-app);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+}
+.btn-solid:hover {
+  background: #ffffff;
 }
 
 /* ---- simulated streaming --------------------------------------------- */
