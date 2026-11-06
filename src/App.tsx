@@ -78,6 +78,8 @@ export default function App() {
           agent={members.find((m) => m.id === AGENT_ID)}
           inVoice={channelVoice}
           localUserId={LOCAL_USER_ID}
+          starred={Boolean(channel.starred)}
+          onToggleStar={() => dispatch({ type: 'toggleStar', channelId: channel.id })}
           onReplyToMessage={(messageId) =>
             dispatch({
               type: 'openThreadForMessage',

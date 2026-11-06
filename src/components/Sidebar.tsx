@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Category, Channel, Member } from '../platform'
 import { channelInitials, channelToken } from '../lib/channel-identity'
-import { channelsInCategory } from '../lib/selectors'
+import { channelsInCategory, starredChannels } from '../lib/selectors'
 
 interface SidebarProps {
   categories: Category[]
@@ -32,6 +32,8 @@ export default function Sidebar({
   const [creatingIn, setCreatingIn] = useState<string | null>(null)
   const [draft, setDraft] = useState('')
 
+  const starred = starredChannels(channels)
+
   function closePopup() {
     setCreatingIn(null)
     setDraft('')
@@ -46,6 +48,50 @@ export default function Sidebar({
     closePopup()
   }
 
+  function channelRow(channel: Channel, suffix = '') {
+    const voiceMembers = channel.voiceMemberIds
+      .map((id) => members.find((m) => m.id === id))
+      .filter((m): m is Member => Boolean(m))
+
+    return (
+      <>
+        <button
+          type="button"
+          className={`chan-row${channel.id === activeChannelId ? ' chan-row--active' : ''}`}
+          onClick={() => onSelectChannel(channel.id)}
+          aria-current={channel.id === activeChannelId ? 'true' : undefined}
+        >
+          <span className="chan-tile" data-token={channelToken(channel.id)} aria-hidden="true">
+            {channelInitials(channel.name)}
+          </span>
+          {channel.name}
+        </button>
+
+        {voiceMembers.length > 0 ? (
+          <div className="voice-line">
+            <span className="live-dot" aria-hidden="true" />
+            {voiceMembers.map((m) => m.name).join(', ')} in voice
+          </div>
+        ) : null}
+
+        {suffix === 'threads'
+          ? channel.threads.map((thread) => (
+              <button
+                key={thread.id}
+                type="button"
+                className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
+                title={thread.name}
+                onClick={() => onSelectThread(channel.id, thread.id)}
+              >
+                <span className="thread-connector" aria-hidden="true" />
+                <span className="thread-row-name">{thread.name}</span>
+              </button>
+            ))
+          : null}
+      </>
+    )
+  }
+
   return (
     <aside className="panel sidebar">
       <header className="panel-header">
@@ -57,6 +103,23 @@ export default function Sidebar({
       </header>
 
       <div className="panel-body sidebar-body">
+        {/* Starred sits above the categories and holds the same channels again —
+            a second view, not a move. Absent entirely while nothing is starred. */}
+        {starred.length > 0 ? (
+          <section className="cat" data-section="starred">
+            <div className="cat-row">
+              <div className="cat-label" aria-label="Starred">
+                Starred
+              </div>
+            </div>
+            <ul className="cat-channels">
+              {starred.map((channel) => (
+                <li key={`starred-${channel.id}`}>{channelRow(channel)}</li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
         {categories.map((category) => {
           // Revealed on hover, and held open while its popup is open so the popup
           // keeps its anchor when the pointer moves into it.
@@ -66,6 +129,7 @@ export default function Sidebar({
             <section
               key={category.id}
               className="cat"
+              data-category={category.name}
               onMouseEnter={() => setHoveredCategoryId(category.id)}
               onMouseLeave={() =>
                 setHoveredCategoryId((id) => (id === category.id ? null : id))
@@ -127,51 +191,9 @@ export default function Sidebar({
               </div>
 
               <ul className="cat-channels">
-                {channelsInCategory(category, channels).map((channel) => {
-                  const voiceMembers = channel.voiceMemberIds
-                    .map((id) => members.find((m) => m.id === id))
-                    .filter((m): m is Member => Boolean(m))
-
-                  return (
-                    <li key={channel.id}>
-                      <button
-                        type="button"
-                        className={`chan-row${channel.id === activeChannelId ? ' chan-row--active' : ''}`}
-                        onClick={() => onSelectChannel(channel.id)}
-                        aria-current={channel.id === activeChannelId ? 'true' : undefined}
-                      >
-                        <span
-                          className="chan-tile"
-                          data-token={channelToken(channel.id)}
-                          aria-hidden="true"
-                        >
-                          {channelInitials(channel.name)}
-                        </span>
-                        {channel.name}
-                      </button>
-
-                      {voiceMembers.length > 0 ? (
-                        <div className="voice-line">
-                          <span className="live-dot" aria-hidden="true" />
-                          {voiceMembers.map((m) => m.name).join(', ')} in voice
-                        </div>
-                      ) : null}
-
-                      {channel.threads.map((thread) => (
-                        <button
-                          key={thread.id}
-                          type="button"
-                          className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
-                          title={thread.name}
-                          onClick={() => onSelectThread(channel.id, thread.id)}
-                        >
-                          <span className="thread-connector" aria-hidden="true" />
-                          <span className="thread-row-name">{thread.name}</span>
-                        </button>
-                      ))}
-                    </li>
-                  )
-                })}
+                {channelsInCategory(category, channels).map((channel) => (
+                  <li key={channel.id}>{channelRow(channel, 'threads')}</li>
+                ))}
               </ul>
             </section>
           )

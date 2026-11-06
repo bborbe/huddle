@@ -204,6 +204,18 @@ button {
   color: var(--text);
 }
 
+/* Star toggle in the channel header — outline when unstarred, filled when on. */
+.star-btn {
+  font-size: 15px;
+  line-height: 1;
+}
+.star-btn--on {
+  color: var(--accent);
+}
+.star-btn--on:hover {
+  color: var(--accent);
+}
+
 .btn-outline {
   height: 26px;
   padding: 0 10px;

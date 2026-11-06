@@ -30,6 +30,7 @@ Each target is also runnable alone: `make lint`, `make typecheck`, `make build`,
 Everything you do in the page:
 
 - Switch channels and send a message
+- **Star a channel** — the star in the channel header pins it to a `Starred` section above the categories, alphabetically. It stays in its own category too: the section is a second view, not a move. The star is outline when off, filled when on, and the state survives a reload.
 - **Create a channel the way Slack does it** — hover a category row (`Product`, `General`) and a `+` appears on it with a "Create a channel" tooltip; click it, type a name, press Enter, and the channel is created inside that category. The button is not in the page at rest — it only exists while its category row is hovered.
 - Open a thread, reply in it, expand it to full width, close it
 - **React and reply from a message** — hovering a channel message reveals a small toolbar on it: three quick reactions (`👍` `😊` `🚀`) and a reply action that opens that message's thread. Clicking a reaction adds it, clicking it again removes it, and both survive a reload. A message that has replies shows an `N replies` line beneath it that opens the same thread.

@@ -1,0 +1,12 @@
+PASS  no Starred section while nothing is starred  — sections=0
+PASS  the header star reads "Star" when unstarred  — title="Star"
+PASS  starring creates the Starred section  — sections=1
+PASS  the starred channel appears in the Starred section  — rows=1
+PASS  the header icon fills and the tooltip flips  — icon="★" title="Unstar channel"
+PASS  the channel stays in its own category  — rows=1
+PASS  the Starred section renders above the categories  — above=true
+PASS  starred channels render alphabetically, not in starring or array order  — ["agent-platform","decision-app","general"]
+PASS  the starred set survives a reload  — ["agent-platform","decision-app","general"]
+PASS  unstarring removes it from the section and empties the icon  — section=["agent-platform","decision-app"] icon="☆"
+
+10/10 PASS, 0 FAIL

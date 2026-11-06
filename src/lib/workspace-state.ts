@@ -41,6 +41,7 @@ export type Action =
   | { type: 'appendMessage'; channelId: string; message: Message }
   | { type: 'toggleReaction'; channelId: string; messageId: string; emoji: string; memberId: string }
   | { type: 'openThreadForMessage'; channelId: string; messageId: string; threadId: string }
+  | { type: 'toggleStar'; channelId: string }
   | { type: 'reset' }
 
 export function initialState(seed: Workspace): AppState {
@@ -313,6 +314,15 @@ export function makeReducer(seed: Workspace) {
           threadView: 'split',
         }
       }
+
+      case 'toggleStar':
+        return {
+          ...state,
+          workspace: updateChannel(state.workspace, action.channelId, (channel) => ({
+            ...channel,
+            starred: !channel.starred,
+          })),
+        }
 
       case 'reset':
         return initialState(seed)

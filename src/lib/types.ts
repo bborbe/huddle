@@ -54,6 +54,8 @@ export interface Channel {
   messages: Message[]
   threads: Thread[]
   voiceMemberIds: string[]
+  /** pinned into the sidebar's Starred section; still listed in its own category. */
+  starred?: boolean
 }
 
 export interface Category {

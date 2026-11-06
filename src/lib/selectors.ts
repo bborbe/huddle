@@ -19,3 +19,15 @@ export function channelsInCategory(category: Category, channels: Channel[]): Cha
     .filter((channel): channel is Channel => Boolean(channel))
     .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
 }
+
+/**
+ * The channels pinned into the Starred section, alphabetically.
+ *
+ * A starred channel appears here **and** stays in its own category — this is a
+ * second view of the same channel, not a move.
+ */
+export function starredChannels(channels: Channel[]): Channel[] {
+  return channels
+    .filter((channel) => channel.starred)
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
+}

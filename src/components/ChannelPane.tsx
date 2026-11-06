@@ -10,6 +10,8 @@ interface ChannelPaneProps {
   agent: Member | undefined
   inVoice: boolean
   localUserId: string
+  starred: boolean
+  onToggleStar: () => void
   onOpenThread: (threadId: string) => void
   onReplyToMessage: (messageId: string) => void
   onReact: (messageId: string, emoji: string) => void
@@ -25,6 +27,8 @@ export default function ChannelPane({
   agent,
   inVoice,
   localUserId,
+  starred,
+  onToggleStar,
   onOpenThread,
   onReplyToMessage,
   onReact,
@@ -55,6 +59,16 @@ export default function ChannelPane({
         </span>
         <span>{channel.name}</span>
         <span className="muted">{channel.topic}</span>
+        <button
+          type="button"
+          className={`icon-btn star-btn${starred ? ' star-btn--on' : ''}`}
+          aria-label={starred ? 'Unstar channel' : 'Star'}
+          title={starred ? 'Unstar channel' : 'Star'}
+          aria-pressed={starred}
+          onClick={onToggleStar}
+        >
+          {starred ? '★' : '☆'}
+        </button>
         <span className="panel-header-spacer" />
         <button
           type="button"
