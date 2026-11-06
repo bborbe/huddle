@@ -1,37 +1,85 @@
-// Web view layer. Structure mirrors the handoff export (screens/desktop-thread-split.html):
-// rail | sidebar | channel | thread, as floating panels on --bg-app.
-// Seeded content arrives in a later subtask; this is the shell only.
+import { useMemo, useState } from 'react'
+import { workspace } from './lib/fixtures'
+import type { ThreadView } from './platform'
+import SpaceRail from './components/SpaceRail'
+import Sidebar from './components/Sidebar'
+import ChannelPane from './components/ChannelPane'
+import ThreadPane from './components/ThreadPane'
+
+const SPACES = [
+  { id: 'collab', initials: 'CA' },
+  { id: 'decisions', initials: 'DA' },
+]
 
 export default function App() {
+  const { members, categories, channels } = workspace
+
+  const [activeChannelId, setActiveChannelId] = useState('decision-app')
+  const [activeThreadId, setActiveThreadId] = useState<string | null>('thr-thresholds')
+  const [threadView, setThreadView] = useState<ThreadView>('split')
+
+  const channel = useMemo(
+    () => channels.find((c) => c.id === activeChannelId) ?? channels[0],
+    [channels, activeChannelId],
+  )
+
+  const thread = useMemo(() => {
+    if (!channel || !activeThreadId) return undefined
+    return channel.threads.find((t) => t.id === activeThreadId)
+  }, [channel, activeThreadId])
+
+  function selectChannel(channelId: string) {
+    setActiveChannelId(channelId)
+    setActiveThreadId(null)
+    setThreadView('closed')
+  }
+
+  function selectThread(channelId: string, threadId: string) {
+    setActiveChannelId(channelId)
+    setActiveThreadId(threadId)
+    setThreadView('split')
+  }
+
+  if (!channel) return null
+
+  const showThread = Boolean(thread) && threadView !== 'closed'
+
   return (
-    <div className="shell">
-      <nav className="rail" aria-label="Spaces">
-        <div className="rail-item rail-item--active">CA</div>
-        <div className="rail-item">DT</div>
-      </nav>
+    <div className={`shell${threadView === 'full' ? ' shell--thread-full' : ''}`}>
+      <SpaceRail spaces={SPACES} activeId="collab" />
 
-      <aside className="panel sidebar">
-        <header className="panel-header">Collaborative AI</header>
-        <div className="panel-body">
-          <p className="empty">Channels load in a later subtask.</p>
-        </div>
-      </aside>
+      <Sidebar
+        categories={categories}
+        channels={channels}
+        members={members}
+        activeChannelId={channel.id}
+        activeThreadId={showThread ? activeThreadId : null}
+        onSelectChannel={selectChannel}
+        onSelectThread={selectThread}
+      />
 
-      <main className="panel channel">
-        <header className="panel-header">
-          # channel <span className="muted">no channel selected</span>
-        </header>
-        <div className="panel-body">
-          <p className="empty">Message history loads in a later subtask.</p>
-        </div>
-      </main>
+      {threadView === 'full' ? null : (
+        <ChannelPane
+          channel={channel}
+          members={members}
+          onOpenThread={(threadId) => selectThread(channel.id, threadId)}
+        />
+      )}
 
-      <section className="panel thread">
-        <header className="panel-header">Thread</header>
-        <div className="panel-body">
-          <p className="empty">Thread replies load in a later subtask.</p>
-        </div>
-      </section>
+      {showThread && thread ? (
+        <ThreadPane
+          channel={channel}
+          thread={thread}
+          members={members}
+          view={threadView}
+          onExpand={() => setThreadView('full')}
+          onRestore={() => setThreadView('split')}
+          onClose={() => {
+            setThreadView('closed')
+            setActiveThreadId(null)
+          }}
+        />
+      ) : null}
     </div>
   )
 }
