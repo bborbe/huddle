@@ -166,10 +166,11 @@ export default function Sidebar({
                           key={thread.id}
                           type="button"
                           className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
+                          title={thread.name}
                           onClick={() => onSelectThread(channel.id, thread.id)}
                         >
                           <span className="thread-connector" aria-hidden="true" />
-                          {thread.name}
+                          <span className="thread-row-name">{thread.name}</span>
                         </button>
                       ))}
                     </li>

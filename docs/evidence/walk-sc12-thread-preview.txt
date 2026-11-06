@@ -1,0 +1,8 @@
+PASS  the long thread preview renders as a sidebar row  — rows=1
+PASS  the long preview overflows horizontally (so it is genuinely truncated)  — scrollWidth=250 clientWidth=194
+PASS  the short preview does not overflow  — scrollWidth=194 clientWidth=194
+PASS  the long preview row is exactly one line tall, like the short one  — long=30px short=30px
+PASS  the full text is reachable through the row title  — title="Checking. The deployed image is `v2.14.0"
+PASS  the next sidebar row starts at the long preview’s bottom edge (no wrapped line)  — gap=0px
+
+6/6 PASS, 0 FAIL

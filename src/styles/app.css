@@ -352,6 +352,17 @@ button {
   color: var(--text-secondary);
   font-size: var(--fs-sidebar);
   text-align: left;
+  overflow: hidden;
+}
+
+/* One line, always: a long preview truncates with an ellipsis and the full text
+   stays reachable through the row's title attribute. */
+.thread-row-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .thread-row:hover {
   background: var(--bg-raised);
