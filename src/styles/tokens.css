@@ -1,0 +1,61 @@
+/* Chat UI design tokens — values used in screens/*.html */
+:root {
+  /* surfaces */
+  --bg-app: #0A0A0B;        /* app background, space rail */
+  --bg-panel: #131315;      /* sidebar, channel, thread panels */
+  --bg-raised: #1B1B1E;     /* composer, voice bars, open thread row */
+  --bg-active: #222226;     /* selected row, reactions, open thread card */
+  --bg-space: #18181B;      /* inactive space icons */
+
+  /* lines */
+  --line: #26262A;          /* outlines, dividers */
+  --line-strong: #2E2E33;   /* tree connectors, count pills, resize grip */
+
+  /* text */
+  --text: #EDEDEF;          /* primary, unread, primary button fill */
+  --text-body: #D4D4D8;     /* message body */
+  --text-secondary: #A1A1AA;/* read channels, icon buttons */
+  --text-muted: #8A8A93;    /* timestamps, labels, placeholders */
+  --text-faint: #6B6B73;    /* # glyph on read channels (decorative only) */
+
+  /* state */
+  --accent: #B8F36B;        /* live/voice, mentions, "new" marker — options: #7DD3FC #C4B5FD #FDBA74 */
+  --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent); /* live-dot halo */
+  --accent-line: color-mix(in srgb, var(--accent) 35%, transparent); /* "new" divider */
+  --on-accent: #0A0A0B;     /* text on accent */
+  --danger: #F87171;        /* leave / disconnect */
+
+  /* avatar fills (white initials) */
+  --avatar-1: #6D4FC2;
+  --avatar-2: #0F7A5F;
+  --avatar-3: #B4461A;
+  --avatar-4: #3B5BC9;
+
+  /* radius */
+  --radius-panel: 14px;
+  --radius-composer: 14px;
+  --radius-card: 12px;
+  --radius-item-lg: 10px;   /* space icons, thread cards */
+  --radius-item: 8px;       /* rows, icon buttons */
+  --radius-pill: 6px;       /* count pills */
+
+  /* layout */
+  --shell-gap: 8px;
+  --rail-w: 56px;
+  --sidebar-w: 248px;
+  --header-h: 56px;
+  --row-h: 30px;            /* desktop sidebar rows */
+  --touch: 44px;            /* mobile minimum */
+  --avatar-msg: 30px;
+  --avatar-mini: 18px;
+
+  /* type */
+  --font-sans: Geist, Inter, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --fs-body: 14px;          /* line-height 1.55 */
+  --fs-sidebar: 13.5px;
+  --fs-name: 13.5px;        /* weight 600 */
+  --fs-title: 15px;         /* weight 600 */
+  --fs-meta: 12px;
+  --fs-label: 11.5px;       /* category labels, weight 500 */
+}
