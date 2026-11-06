@@ -1,0 +1,10 @@
+PASS  every rail item is a button  — buttons=2
+PASS  rail shows both spaces  — labels=["H","DA"]
+PASS  Huddle space shows its own categories  — categories=["Product","General"]
+PASS  switching swaps the sidebar to the other space  — categories=["Reviews"]
+PASS  switch lands on that space’s first channel  — "RR\nrule-reviews\nReview queue for rule set changes\nReplay reply\nAsk agent to join\nJoin voice"
+PASS  the other space has its own channels  — rows=["RRrule-reviews","TMtenant-migration"]
+PASS  the switched-to space is marked active  — active="DA"
+PASS  switching back restores the Huddle space  — categories=["Product","General"] header="DA\ndecision-app\nRules engine and the review surface\nReplay reply\nAsk agent to join\nJoin voice"
+
+8/8 PASS, 0 FAIL

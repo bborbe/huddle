@@ -7,12 +7,14 @@ export const LOCAL_USER_ID = 'you'
 
 export interface AppState {
   workspace: Workspace
+  activeSpaceId: string
   activeChannelId: string
   activeThreadId: string | null
   threadView: ThreadView
 }
 
 export type Action =
+  | { type: 'selectSpace'; spaceId: string }
   | { type: 'selectChannel'; channelId: string }
   | { type: 'selectThread'; channelId: string; threadId: string }
   | { type: 'setThreadView'; view: ThreadView }
@@ -41,14 +43,27 @@ export type Action =
 
 export function initialState(seed: Workspace): AppState {
   // Concept: a thread is selected by default and the view is three columns.
-  const firstChannel = seed.channels[0]
+  const firstSpace = seed.spaces[0]
+  const firstChannelId = firstSpace
+    ? seed.categories.find((cat) => cat.spaceId === firstSpace.id)?.channelIds[0]
+    : undefined
+  const firstChannel = firstChannelId
+    ? seed.channels.find((c) => c.id === firstChannelId)
+    : seed.channels[0]
   const firstThread = firstChannel?.threads[0]
   return {
     workspace: seed,
+    activeSpaceId: firstSpace ? firstSpace.id : '',
     activeChannelId: firstChannel ? firstChannel.id : '',
     activeThreadId: firstThread ? firstThread.id : null,
     threadView: firstThread ? 'split' : 'closed',
   }
+}
+
+/** The first channel of a space — what a space switch lands on. */
+function firstChannelOf(workspace: Workspace, spaceId: string): Channel | undefined {
+  const channelId = workspace.categories.find((cat) => cat.spaceId === spaceId)?.channelIds[0]
+  return channelId ? workspace.channels.find((c) => c.id === channelId) : undefined
 }
 
 function updateChannel(
@@ -80,6 +95,19 @@ function toggle(list: string[], memberId: string): string[] {
 export function makeReducer(seed: Workspace) {
   return function reducer(state: AppState, action: Action): AppState {
     switch (action.type) {
+      case 'selectSpace': {
+        if (action.spaceId === state.activeSpaceId) return state
+        const channel = firstChannelOf(state.workspace, action.spaceId)
+        const thread = channel?.threads[0]
+        return {
+          ...state,
+          activeSpaceId: action.spaceId,
+          activeChannelId: channel ? channel.id : '',
+          activeThreadId: thread ? thread.id : null,
+          threadView: thread ? 'split' : 'closed',
+        }
+      }
+
       case 'selectChannel':
         return {
           ...state,

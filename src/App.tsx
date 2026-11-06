@@ -8,11 +8,6 @@ import Sidebar from './components/Sidebar'
 import ChannelPane from './components/ChannelPane'
 import ThreadPane from './components/ThreadPane'
 
-const SPACES = [
-  { id: 'huddle', initials: 'H' },
-  { id: 'decisions', initials: 'DA' },
-]
-
 const AGENT_ID = 'forge'
 
 export default function App() {
@@ -25,12 +20,20 @@ export default function App() {
     saveState(state)
   }, [state])
 
-  const { members, categories, channels } = state.workspace
+  const { spaces, members, categories, channels } = state.workspace
 
-  const channel = useMemo(
-    () => channels.find((c) => c.id === state.activeChannelId) ?? channels[0],
-    [channels, state.activeChannelId],
+  // A space owns its own categories, so a switch swaps the whole sidebar set.
+  const spaceCategories = useMemo(
+    () => categories.filter((category) => category.spaceId === state.activeSpaceId),
+    [categories, state.activeSpaceId],
   )
+
+  const channel = useMemo(() => {
+    const active = channels.find((c) => c.id === state.activeChannelId)
+    if (active) return active
+    const firstId = spaceCategories[0]?.channelIds[0]
+    return firstId ? channels.find((c) => c.id === firstId) : channels[0]
+  }, [channels, state.activeChannelId, spaceCategories])
 
   const thread = useMemo(() => {
     if (!channel || !state.activeThreadId) return undefined
@@ -46,10 +49,14 @@ export default function App() {
 
   return (
     <div className={`shell${state.threadView === 'full' ? ' shell--thread-full' : ''}`}>
-      <SpaceRail spaces={SPACES} activeId="huddle" />
+      <SpaceRail
+        spaces={spaces}
+        activeId={state.activeSpaceId}
+        onSelectSpace={(spaceId) => dispatch({ type: 'selectSpace', spaceId })}
+      />
 
       <Sidebar
-        categories={categories}
+        categories={spaceCategories}
         channels={channels}
         members={members}
         activeChannelId={channel.id}

@@ -90,19 +90,32 @@ button {
 .rail-item {
   width: 36px;
   height: 36px;
+  padding: 0;
   border-radius: var(--radius-item-lg);
   background: var(--bg-space);
   border: 1px solid var(--line);
   display: grid;
   place-items: center;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.rail-item:hover {
+  background: var(--bg-raised);
+  color: var(--text);
 }
 
 .rail-item--active {
   background: var(--text);
   border-color: var(--text);
+  color: var(--bg-app);
+}
+
+.rail-item--active:hover {
+  background: var(--text);
   color: var(--bg-app);
 }
 

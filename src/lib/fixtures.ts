@@ -1,7 +1,7 @@
 // Seed data. Demo identities — not live accounts, not a claim that real people are online.
 // Content names a real-looking Decision App change, a PR thread and an agent tool run.
 
-import type { Category, Channel, Member, Workspace } from './types'
+import type { Category, Channel, Member, Space, Workspace } from './types'
 
 const NOW = new Date('2026-11-06T11:20:00+01:00')
 
@@ -66,9 +66,25 @@ export const members: Member[] = [
   },
 ]
 
+export const spaces: Space[] = [
+  { id: 'huddle', name: 'Huddle', initials: 'H' },
+  { id: 'decisions', name: 'Decision App', initials: 'DA' },
+]
+
 export const categories: Category[] = [
-  { id: 'cat-product', name: 'Product', channelIds: ['decision-app', 'agent-platform'] },
-  { id: 'cat-general', name: 'General', channelIds: ['general', 'random'] },
+  {
+    id: 'cat-product',
+    spaceId: 'huddle',
+    name: 'Product',
+    channelIds: ['decision-app', 'agent-platform'],
+  },
+  { id: 'cat-general', spaceId: 'huddle', name: 'General', channelIds: ['general', 'random'] },
+  {
+    id: 'cat-reviews',
+    spaceId: 'decisions',
+    name: 'Reviews',
+    channelIds: ['rule-reviews', 'tenant-migration'],
+  },
 ]
 
 export const channels: Channel[] = [
@@ -251,9 +267,48 @@ export const channels: Channel[] = [
       },
     ],
   },
+  {
+    id: 'rule-reviews',
+    name: 'rule-reviews',
+    topic: 'Review queue for rule set changes',
+    voiceMemberIds: [],
+    threads: [],
+    messages: [
+      {
+        id: 'm-rr-1',
+        authorId: 'bob',
+        body: 'Two rule set changes are waiting on a second reviewer. Both are team-scoped, neither touches the org default.',
+        sentAt: minutesAgo(240),
+        toolCalls: [],
+      },
+      {
+        id: 'm-rr-2',
+        authorId: 'tobias',
+        body: 'Taking the first one now. The second needs Lena — it changes the data rule.',
+        sentAt: minutesAgo(215),
+        toolCalls: [],
+      },
+    ],
+  },
+  {
+    id: 'tenant-migration',
+    name: 'tenant-migration',
+    topic: 'Moving tenants onto the new schema',
+    voiceMemberIds: [],
+    threads: [],
+    messages: [
+      {
+        id: 'm-tm-1',
+        authorId: 'bob',
+        body: 'Migration runs nightly. Three tenants left, all on the legacy fallback.',
+        sentAt: minutesAgo(360),
+        toolCalls: [],
+      },
+    ],
+  },
 ]
 
-export const workspace: Workspace = { members, categories, channels }
+export const workspace: Workspace = { spaces, members, categories, channels }
 
 export function memberById(id: string): Member | undefined {
   return members.find((m) => m.id === id)

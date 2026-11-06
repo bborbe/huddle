@@ -56,13 +56,22 @@ export interface Channel {
 
 export interface Category {
   id: string
+  /** the space this category belongs to — a space switch swaps the whole set */
+  spaceId: string
   name: string
   channelIds: string[]
+}
+
+export interface Space {
+  id: string
+  name: string
+  initials: string
 }
 
 export type ThreadView = 'closed' | 'split' | 'full'
 
 export interface Workspace {
+  spaces: Space[]
   members: Member[]
   categories: Category[]
   channels: Channel[]
