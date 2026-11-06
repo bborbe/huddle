@@ -9,12 +9,21 @@ PASS  Reviews: button appears on the hovered row only  — total=1 inside Review
 PASS  Reviews: tooltip reads "Create a channel"  — title="Create a channel"
 PASS  Reviews: button disappears when the pointer leaves  — count=0
 PASS  Product: click opens the popup with focus in its input  — visible=true activeElement=cat-popup-input
+PASS  Product: Create is disabled while the name is empty  — disabled=true
+PASS  Product: an empty name leaves the popup open  — popupVisible=true
+PASS  Product: Create enables once a name is typed  — disabled=false
 PASS  Product: the popup creates alpha-plan in that category  — popupGone=true rowsInCategory=1 headerHas=true
 PASS  General: click opens the popup with focus in its input  — visible=true activeElement=cat-popup-input
+PASS  General: Create is disabled while the name is empty  — disabled=true
+PASS  General: an empty name leaves the popup open  — popupVisible=true
+PASS  General: Create enables once a name is typed  — disabled=false
 PASS  General: the popup creates beta-plan in that category  — popupGone=true rowsInCategory=1 headerHas=true
 PASS  Reviews: click opens the popup with focus in its input  — visible=true activeElement=cat-popup-input
+PASS  Reviews: Create is disabled while the name is empty  — disabled=true
+PASS  Reviews: an empty name leaves the popup open  — popupVisible=true
+PASS  Reviews: Create enables once a name is typed  — disabled=false
 PASS  Reviews: the popup creates gamma-plan in that category  — popupGone=true rowsInCategory=1 headerHas=true
 PASS  all three channels survive a reload, each in its own category  — checked Product/General/Reviews
 PASS  Reset demo restores the seed  — no created channel left in any category
 
-18/18 PASS, 0 FAIL
+27/27 PASS, 0 FAIL

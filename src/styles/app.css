@@ -722,6 +722,14 @@ button {
   background: #ffffff;
 }
 
+.btn-solid:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-solid:disabled:hover {
+  background: var(--text);
+}
+
 /* ---- simulated streaming --------------------------------------------- */
 
 .msg--simulated .msg-body {

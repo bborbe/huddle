@@ -89,11 +89,21 @@ for (const { space, category, channel } of CATEGORIES) {
   const focused = await page.evaluate(() => document.activeElement?.className ?? '')
   check(`${category}: click opens the popup with focus in its input`, popupVisible && focused.includes('cat-popup-input'), `visible=${popupVisible} activeElement=${focused}`)
 
+  // An empty name must not be a silent cancel: Create is disabled, and forcing a
+  // click on it leaves the popup open rather than dismissing it.
+  const createBtn = page.locator('form.cat-popup button[type="submit"]')
+  check(`${category}: Create is disabled while the name is empty`, await createBtn.isDisabled(), `disabled=${await createBtn.isDisabled()}`)
+  await createBtn.click({ force: true }).catch(() => {})
+  await page.waitForTimeout(150)
+  check(`${category}: an empty name leaves the popup open`, await page.locator('form.cat-popup').isVisible(), `popupVisible=${await page.locator('form.cat-popup').isVisible()}`)
+
   if (category === 'Product') {
     await page.screenshot({ path: 'docs/evidence/walk-sc8-popup-open.png' })
   }
 
   await page.locator('form.cat-popup input').fill(channel)
+  await page.waitForTimeout(100)
+  check(`${category}: Create enables once a name is typed`, !(await createBtn.isDisabled()), `disabled=${await createBtn.isDisabled()}`)
   await page.locator('form.cat-popup input').press('Enter')
   await page.waitForTimeout(250)
 

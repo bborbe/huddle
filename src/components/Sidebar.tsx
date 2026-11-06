@@ -40,7 +40,10 @@ export default function Sidebar({
 
   function submit(categoryId: string) {
     const name = draft.trim().replace(/^#/, '')
-    if (name.length > 0) onCreateChannel(categoryId, name)
+    // An empty name is not a cancel: it leaves the popup open so the operator can
+    // type, rather than silently dismissing it.
+    if (name.length === 0) return
+    onCreateChannel(categoryId, name)
     closePopup()
   }
 
@@ -116,7 +119,7 @@ export default function Sidebar({
                       <button type="button" className="btn-outline" onClick={closePopup}>
                         Cancel
                       </button>
-                      <button type="submit" className="btn-solid">
+                      <button type="submit" className="btn-solid" disabled={draft.trim().length === 0}>
                         Create
                       </button>
                     </div>
