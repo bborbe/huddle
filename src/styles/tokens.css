@@ -2,7 +2,8 @@
 :root {
   /* surfaces */
   --bg-app: #0A0A0B;        /* app background, space rail */
-  --bg-panel: #131315;      /* sidebar, channel, thread panels */
+  --bg-panel: #131315;      /* sidebar */
+  --bg-chat: #1A1A1D;       /* channel + thread: one step lighter than the sidebar */
   --bg-raised: #1B1B1E;     /* composer, voice bars, open thread row */
   --bg-active: #222226;     /* selected row, reactions, open thread card */
   --bg-space: #18181B;      /* inactive space icons */

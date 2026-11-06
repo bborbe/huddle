@@ -133,6 +133,13 @@ button {
   flex: 0 0 var(--sidebar-w);
 }
 
+/* Surface ramp: rail (--bg-app) < sidebar (--bg-panel) < chat (--bg-chat). The
+   chat surface reads as the raised one you work in; the sidebar and rail recede. */
+.channel,
+.thread {
+  background: var(--bg-chat);
+}
+
 .channel {
   flex: 1 1 460px;
 }

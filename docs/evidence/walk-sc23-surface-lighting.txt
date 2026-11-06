@@ -1,0 +1,9 @@
+PASS  the rail surface paints an opaque background  — rgb(10, 10, 11)
+PASS  the sidebar surface paints an opaque background  — rgb(19, 19, 21)
+PASS  the channel surface paints an opaque background  — rgb(26, 26, 29)
+PASS  the thread surface paints an opaque background  — rgb(26, 26, 29)
+PASS  the sidebar is lighter than the rail  — sidebar 0.0066 > rail 0.0031
+PASS  the chat surface is lighter than the sidebar  — channel 0.0105 > sidebar 0.0066
+PASS  the thread surface matches the chat surface  — thread 0.0105 vs channel 0.0105
+
+7/7 PASS, 0 FAIL
