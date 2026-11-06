@@ -63,12 +63,30 @@ Be clear about this — nothing here is connected to anything.
 ```
 src/
   lib/        shared, platform-neutral — types, fixtures, reducer, formatting
-  platform/   the seam: storage, ids, timestamps (web implementation)
+  platform/   the seam: transport (mock), storage (web implementation)
   components/ web-only view layer
   styles/     tokens.css (from the design export) + app.css
 ```
 
 `src/lib` never imports from `src/components` or touches the DOM, so a native shell could reuse the domain model and reducer unchanged.
+
+## The transport seam
+
+`src/platform/transport.ts` is the one file a backend replaces. It exposes four
+methods:
+
+| Method | Today (mock) | Behind a WebSocket or Matrix adapter |
+| --- | --- | --- |
+| `send(action)` | applies the action to the reducer | ships it to the server, then applies it optimistically |
+| `subscribe(listener)` | never fires | reads inbound frames — agent replies, presence |
+| `newId()` | `crypto.randomUUID()` | the server's id, or the same client id echoed back |
+| `now()` | `new Date()` | the server's timestamp |
+
+`App.tsx` builds the transport once and routes every dispatch through
+`transport.send`; the inbound subscription is already wired, so a real transport
+can push an agent reply without touching a component. No component imports the
+transport — `sc1-transport-seam.mjs` enforces that with greps and proves at
+runtime that a dispatch through the seam moves the model.
 
 ## Design source
 

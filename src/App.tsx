@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useReducer, useState } from 'react'
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import { workspace } from './lib/fixtures'
 import { initialState, LOCAL_USER_ID, makeReducer } from './lib/workspace-state'
-import type { AppState } from './lib/workspace-state'
-import { loadState, newId, nowIso, saveState } from './platform/storage'
+import type { Action, AppState } from './lib/workspace-state'
+import { loadState, saveState } from './platform/storage'
+import { createMockTransport } from './platform/transport'
 import SpaceRail from './components/SpaceRail'
 import Sidebar from './components/Sidebar'
 import ChannelPane from './components/ChannelPane'
@@ -13,13 +14,34 @@ const AGENT_ID = 'forge'
 
 export default function App() {
   const reducer = useMemo(() => makeReducer(workspace), [])
-  const [state, dispatch] = useReducer(reducer, workspace, (seed) =>
+  const [state, applyAction] = useReducer(reducer, workspace, (seed) =>
     loadState<AppState>(initialState(seed)),
   )
+
+  // Every user action leaves through the transport seam. The mock applies it to
+  // the reducer directly; a WebSocket transport would also ship it to the server.
+  const transport = useMemo(() => createMockTransport(applyAction), [applyAction])
+  const dispatch = useCallback((action: Action) => transport.send(action), [transport])
 
   useEffect(() => {
     saveState(state)
   }, [state])
+
+  // Inbound: a real transport pushes agent replies and presence here. The mock
+  // never emits, so this stays silent until a backend exists.
+  useEffect(
+    () =>
+      transport.subscribe((event) => {
+        if (event.type === 'agentReply') {
+          applyAction({
+            type: 'appendMessage',
+            channelId: event.channelId,
+            message: event.message,
+          })
+        }
+      }),
+    [transport],
+  )
 
   // Exposed for the Playwright walks: SC3 asserts each control's effect against
   // the model, and SC6 reads the seeded model on the production build.
@@ -81,7 +103,7 @@ export default function App() {
           dispatch({ type: 'selectThread', channelId, threadId })
         }
         onCreateChannel={(categoryId, name) =>
-          dispatch({ type: 'createChannel', categoryId, channelId: newId(), name })
+          dispatch({ type: 'createChannel', categoryId, channelId: transport.newId(), name })
         }
         onRenameChannel={(channelId, name) => dispatch({ type: 'renameChannel', channelId, name })}
         onDeleteChannel={(channelId) => dispatch({ type: 'deleteChannel', channelId })}
@@ -105,7 +127,7 @@ export default function App() {
               type: 'openThreadForMessage',
               channelId: channel.id,
               messageId,
-              threadId: newId(),
+              threadId: transport.newId(),
             })
           }
           onReact={(messageId, emoji) =>
@@ -127,9 +149,9 @@ export default function App() {
             dispatch({
               type: 'sendMessage',
               channelId: channel.id,
-              id: newId(),
+              id: transport.newId(),
               body,
-              sentAt: nowIso(),
+              sentAt: transport.now(),
             })
           }
           onToggleVoice={() =>
@@ -146,9 +168,9 @@ export default function App() {
               channelId: channel.id,
               threadId: null,
               agentId: AGENT_ID,
-              id: newId(),
+              id: transport.newId(),
               body: 'Joining voice now — say the word when you want me to leave.',
-              sentAt: nowIso(),
+              sentAt: transport.now(),
             })
           }
         />
@@ -172,9 +194,9 @@ export default function App() {
               type: 'sendThreadReply',
               channelId: channel.id,
               threadId: thread.id,
-              id: newId(),
+              id: transport.newId(),
               body,
-              sentAt: nowIso(),
+              sentAt: transport.now(),
             })
           }
           onToggleVoice={() =>
@@ -191,9 +213,9 @@ export default function App() {
               channelId: channel.id,
               threadId: thread.id,
               agentId: AGENT_ID,
-              id: newId(),
+              id: transport.newId(),
               body: 'Joining this thread’s voice.',
-              sentAt: nowIso(),
+              sentAt: transport.now(),
             })
           }
         />
