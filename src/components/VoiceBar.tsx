@@ -6,9 +6,17 @@ interface VoiceBarProps {
   label?: string
   speakingName?: string
   elapsed?: string
+  /** leaves this voice channel — the bar's Leave button had no handler */
+  onLeave?: () => void
 }
 
-export default function VoiceBar({ participants, label = 'In voice', speakingName, elapsed }: VoiceBarProps) {
+export default function VoiceBar({
+  participants,
+  label = 'In voice',
+  speakingName,
+  elapsed,
+  onLeave,
+}: VoiceBarProps) {
   if (participants.length === 0) return null
 
   return (
@@ -22,7 +30,7 @@ export default function VoiceBar({ participants, label = 'In voice', speakingNam
       </span>
       {speakingName ? <span className="voice-speaking">{speakingName} speaking</span> : null}
       {elapsed ? <span className="voice-timer">{elapsed}</span> : null}
-      <button type="button" className="voice-leave">
+      <button type="button" className="voice-leave" onClick={onLeave}>
         Leave
       </button>
     </div>

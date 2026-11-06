@@ -4,6 +4,7 @@ import { channelInitials, channelToken } from '../lib/channel-identity'
 import { channelsInCategory, starredChannels } from '../lib/selectors'
 
 interface SidebarProps {
+  spaceName: string
   categories: Category[]
   channels: Channel[]
   members: Member[]
@@ -19,6 +20,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({
+  spaceName,
   categories,
   channels,
   members,
@@ -117,7 +119,7 @@ export default function Sidebar({
   return (
     <aside className="panel sidebar">
       <header className="panel-header">
-        <span>Huddle</span>
+        <span>{spaceName}</span>
         <span className="panel-header-spacer" />
         <button type="button" className="icon-btn" aria-label="Reset demo" onClick={onReset}>
           ⟲

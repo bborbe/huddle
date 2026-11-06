@@ -45,6 +45,9 @@ check(
   `categories=${JSON.stringify(afterCats)}`,
 )
 
+const sidebarTitle = await page.locator('.sidebar .panel-header span').first().innerText()
+check('the sidebar title names the active space', sidebarTitle.trim() === 'Decision App', JSON.stringify(sidebarTitle.trim()))
+
 const afterHeader = await page.locator('.channel .panel-header').innerText()
 check('switch lands on that space’s first channel', afterHeader.includes('rule-reviews'), JSON.stringify(afterHeader))
 
@@ -66,6 +69,8 @@ await page.waitForTimeout(200)
 
 const backCats = await page.locator('[data-category] .cat-label').allTextContents()
 const backHeader = await page.locator('.channel .panel-header').innerText()
+const backTitle = await page.locator('.sidebar .panel-header span').first().innerText()
+check('switching back restores the title', backTitle.trim() === 'Huddle', JSON.stringify(backTitle.trim()))
 check(
   'switching back restores the Huddle space',
   backCats.join(',') === 'Product,General' && backHeader.includes('decision-app'),

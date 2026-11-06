@@ -21,8 +21,12 @@ if (!existsSync(join(root, 'dist', 'index.html'))) {
   process.exit(1)
 }
 
+// The generators produce docs/control-inventory.md and control-union.json; they are
+// not walks and must not be run as part of the suite.
+const GENERATORS = new Set(['enumerate.mjs', 'inventory.mjs'])
+
 const walks = readdirSync(walkDir)
-  .filter((file) => file.endsWith('.mjs'))
+  .filter((file) => file.endsWith('.mjs') && !GENERATORS.has(file))
   .sort()
 
 if (walks.length === 0) {

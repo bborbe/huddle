@@ -1,0 +1,48 @@
+PASS  .channel [aria-label="👍 2"]  [at-rest]  — modelChanged=true nodes 238→244
+PASS  .channel [aria-label="😊 1"]  [at-rest]  — modelChanged=true nodes 238→244
+PASS  .channel [aria-label="🚀 1"]  [at-rest]  — modelChanged=true nodes 238→244
+PASS  .channel [aria-label="React with 👍"]  [message-hovered]  — modelChanged=true nodes 244→244
+PASS  .channel [aria-label="React with 😊"]  [message-hovered]  — modelChanged=true nodes 244→244
+PASS  .channel [aria-label="React with 🚀"]  [message-hovered]  — modelChanged=true nodes 244→244
+PASS  .channel [aria-label="Reply in thread"]  [message-hovered]  — modelChanged=true nodes 244→220
+PASS  .channel [aria-label="Send"]  [at-rest]  — modelChanged=true nodes 238→247
+PASS  .channel [aria-label="Unstar channel"]  [at-rest]  — modelChanged=true nodes 238→231
+PASS  .channel button:has-text("3 replies")  [at-rest]  — modelChanged=false nodes 238→244
+PASS  .channel button:has-text("Ask agent to join")  [at-rest]  — modelChanged=true nodes 238→248
+PASS  .channel button:has-text("Bashkubectl get deploy d")  [at-rest]  — modelChanged=false nodes 238→242
+PASS  .channel button:has-text("Editci/build.yml — repla")  [at-rest]  — modelChanged=false nodes 238→246
+PASS  .channel button:has-text("Join voice")  [at-rest]  — modelChanged=true nodes 238→238
+PASS  .channel button:has-text("ReadDockerfile — rule bu")  [at-rest]  — modelChanged=false nodes 238→246
+PASS  .channel button:has-text("Replay reply")  [at-rest]  — modelChanged=false nodes 238→249
+PASS  .channel textarea.composer-field  [at-rest]  — value="probe"
+PASS  .dialog button:has-text("Cancel")  [settings-dialog-open]  — modelChanged=false nodes 249→244
+PASS  .dialog button:has-text("Delete channel")  [settings-dialog-open]  — modelChanged=false nodes 249→245
+PASS  .dialog button:has-text("Save")  [settings-dialog-open]  — modelChanged=false nodes 249→244
+PASS  .dialog form:has-text("NameCancelSaveDelete cha")  [settings-dialog-open]  — modelChanged=false nodes 249→238
+PASS  .sidebar [aria-label="Reset demo"]  [at-rest]  — modelChanged=true nodes 247→238
+PASS  .thread [aria-label="Close thread"]  [at-rest]  — modelChanged=true nodes 238→178
+PASS  .thread [aria-label="Collapse thread"]  [thread-full]  — modelChanged=true nodes 121→238
+PASS  .thread [aria-label="Expand thread"]  [at-rest]  — modelChanged=true nodes 238→121
+PASS  .thread [aria-label="Send reply"]  [at-rest]  — modelChanged=true nodes 238→247
+PASS  .thread button:has-text("‹ decision-app /")  [thread-full]  — modelChanged=true nodes 121→238
+PASS  .thread button:has-text("Ask agent")  [at-rest]  — modelChanged=true nodes 238→249
+PASS  .thread button:has-text("Join voice")  [at-rest]  — modelChanged=true nodes 238→239
+PASS  .thread button:has-text("Leave")  [at-rest]  — modelChanged=true nodes 238→239
+PASS  .thread textarea.composer-field  [at-rest]  — value="probe"
+PASS  [aria-label="Switch to Decision App"]  [at-rest]  — modelChanged=true nodes 238→73
+PASS  [aria-label="Switch to Huddle"]  [at-rest]  — modelChanged=true nodes 73→238
+PASS  [data-category="General"] button:has-text("GEgeneral")  [at-rest]  — modelChanged=true nodes 238→98
+PASS  [data-category="General"] button:has-text("RArandom")  [at-rest]  — modelChanged=true nodes 238→85
+PASS  [data-category="Product"] [aria-label="Channel settings"]  [channel-gear-hovered]  — modelChanged=false nodes 240→249
+PASS  [data-category="Product"] [aria-label="Create a channel"]  [category-hovered]  — modelChanged=false nodes 239→245
+PASS  [data-category="Product"] button:has-text("APagent-platform")  [at-rest]  — modelChanged=true nodes 238→120
+PASS  [data-category="Product"] button:has-text("Cancel")  [create-popup-open]  — modelChanged=false nodes 245→239
+PASS  [data-category="Product"] button:has-text("Create")  [create-popup-open]  — modelChanged=true nodes 245→79
+PASS  [data-category="Product"] button:has-text("DAdecision-app")  [at-rest]  — modelChanged=true nodes 238→180
+PASS  [data-category="Product"] button:has-text("team-scoped decisions")  [at-rest]  — modelChanged=false nodes 238→239
+PASS  [data-category="Product"] form:has-text("Create a channel in Prod")  [create-popup-open]  — modelChanged=true nodes 245→79
+PASS  [data-section="starred"] button:has-text("DAdecision-app")  [at-rest]  — modelChanged=true nodes 238→178
+PASS  #channel-settings-name  [settings-dialog-open]  — value="probe"
+PASS  #new-channel-cat-product  [create-popup-open]  — value="probe"
+
+46/46 PASS, 0 FAIL across 46 inventory rows

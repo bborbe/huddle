@@ -21,6 +21,15 @@ export default function App() {
     saveState(state)
   }, [state])
 
+  // Exposed for the Playwright walks: SC3 asserts each control's effect against
+  // the model, and SC6 reads the seeded model on the production build.
+  useEffect(() => {
+    ;(window as unknown as { __huddle?: { state: AppState; dispatch: unknown } }).__huddle = {
+      state,
+      dispatch,
+    }
+  }, [state])
+
   // Skip is deliberately NOT persisted: the dialog returns on the next load,
   // because nothing was stored. A demo must never be blocked.
   const [identitySkipped, setIdentitySkipped] = useState(false)
@@ -61,6 +70,7 @@ export default function App() {
       />
 
       <Sidebar
+        spaceName={spaces.find((space) => space.id === state.activeSpaceId)?.name ?? 'Huddle'}
         categories={spaceCategories}
         channels={channels}
         members={members}

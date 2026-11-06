@@ -81,7 +81,7 @@ export default function ThreadPane({
         </button>
       </header>
 
-      <VoiceBar participants={voiceMembers} label="Voice" />
+      <VoiceBar participants={voiceMembers} label="Voice" onLeave={onToggleVoice} />
 
       <div className="panel-body">
         {parent ? <MessageRow message={parent} author={parentAuthor} /> : null}

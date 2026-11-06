@@ -1,0 +1,1398 @@
+{
+  "at-rest": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel [aria-label=\"Unstar channel\"]",
+      "name": "Unstar channel",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel [aria-label=\"👍 2\"]",
+      "name": "👍 2",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel [aria-label=\"😊 1\"]",
+      "name": "😊 1",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel [aria-label=\"🚀 1\"]",
+      "name": "🚀 1",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel button:has-text(\"Bashkubectl get deploy d\")",
+      "name": "Bashkubectl get deploy decision-app -o jsonpath={.spec.templ",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel button:has-text(\"ReadDockerfile — rule bu\")",
+      "name": "ReadDockerfile — rule bundle copy stepsuccess▸",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel button:has-text(\"3 replies\")",
+      "name": "3 replies",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel button:has-text(\"Editci/build.yml — repla\")",
+      "name": "Editci/build.yml — replace sparse filter with full checkout ",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".thread button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".thread button:has-text(\"Ask agent\")",
+      "name": "Ask agent",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".thread [aria-label=\"Expand thread\"]",
+      "name": "Expand thread",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".thread [aria-label=\"Close thread\"]",
+      "name": "Close thread",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".thread button:has-text(\"Leave\")",
+      "name": "Leave",
+      "tag": "button",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".thread textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "at-rest"
+    },
+    {
+      "selector": ".thread [aria-label=\"Send reply\"]",
+      "name": "Send reply",
+      "tag": "button",
+      "state": "at-rest"
+    }
+  ],
+  "category-hovered": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] [aria-label=\"Create a channel\"]",
+      "name": "Create a channel",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"Unstar channel\"]",
+      "name": "Unstar channel",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"👍 2\"]",
+      "name": "👍 2",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"😊 1\"]",
+      "name": "😊 1",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"🚀 1\"]",
+      "name": "🚀 1",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Bashkubectl get deploy d\")",
+      "name": "Bashkubectl get deploy decision-app -o jsonpath={.spec.templ",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"ReadDockerfile — rule bu\")",
+      "name": "ReadDockerfile — rule bundle copy stepsuccess▸",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"3 replies\")",
+      "name": "3 replies",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Editci/build.yml — repla\")",
+      "name": "Editci/build.yml — replace sparse filter with full checkout ",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Ask agent\")",
+      "name": "Ask agent",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Expand thread\"]",
+      "name": "Expand thread",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Close thread\"]",
+      "name": "Close thread",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Leave\")",
+      "name": "Leave",
+      "tag": "button",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".thread textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "category-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Send reply\"]",
+      "name": "Send reply",
+      "tag": "button",
+      "state": "category-hovered"
+    }
+  ],
+  "create-popup-open": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] [aria-label=\"Create a channel\"]",
+      "name": "Create a channel",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] form:has-text(\"Create a channel in Prod\")",
+      "name": "Create a channel in ProductCancelCreate",
+      "tag": "form",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "#new-channel-cat-product",
+      "name": "",
+      "tag": "input",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"Cancel\")",
+      "name": "Cancel",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"Create\")",
+      "name": "Create",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"Unstar channel\"]",
+      "name": "Unstar channel",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"👍 2\"]",
+      "name": "👍 2",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"😊 1\"]",
+      "name": "😊 1",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"🚀 1\"]",
+      "name": "🚀 1",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Bashkubectl get deploy d\")",
+      "name": "Bashkubectl get deploy decision-app -o jsonpath={.spec.templ",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"ReadDockerfile — rule bu\")",
+      "name": "ReadDockerfile — rule bundle copy stepsuccess▸",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"3 replies\")",
+      "name": "3 replies",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Editci/build.yml — repla\")",
+      "name": "Editci/build.yml — replace sparse filter with full checkout ",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".thread button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".thread button:has-text(\"Ask agent\")",
+      "name": "Ask agent",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".thread [aria-label=\"Expand thread\"]",
+      "name": "Expand thread",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".thread [aria-label=\"Close thread\"]",
+      "name": "Close thread",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".thread button:has-text(\"Leave\")",
+      "name": "Leave",
+      "tag": "button",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".thread textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "create-popup-open"
+    },
+    {
+      "selector": ".thread [aria-label=\"Send reply\"]",
+      "name": "Send reply",
+      "tag": "button",
+      "state": "create-popup-open"
+    }
+  ],
+  "channel-gear-hovered": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] [aria-label=\"Create a channel\"]",
+      "name": "Create a channel",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] [aria-label=\"Channel settings\"]",
+      "name": "Channel settings",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"Unstar channel\"]",
+      "name": "Unstar channel",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"👍 2\"]",
+      "name": "👍 2",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"😊 1\"]",
+      "name": "😊 1",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"🚀 1\"]",
+      "name": "🚀 1",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Bashkubectl get deploy d\")",
+      "name": "Bashkubectl get deploy decision-app -o jsonpath={.spec.templ",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"ReadDockerfile — rule bu\")",
+      "name": "ReadDockerfile — rule bundle copy stepsuccess▸",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"3 replies\")",
+      "name": "3 replies",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Editci/build.yml — repla\")",
+      "name": "Editci/build.yml — replace sparse filter with full checkout ",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Ask agent\")",
+      "name": "Ask agent",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Expand thread\"]",
+      "name": "Expand thread",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Close thread\"]",
+      "name": "Close thread",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Leave\")",
+      "name": "Leave",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".thread textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "channel-gear-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Send reply\"]",
+      "name": "Send reply",
+      "tag": "button",
+      "state": "channel-gear-hovered"
+    }
+  ],
+  "settings-dialog-open": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".dialog form:has-text(\"NameCancelSaveDelete cha\")",
+      "name": "NameCancelSaveDelete channel",
+      "tag": "form",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": "#channel-settings-name",
+      "name": "",
+      "tag": "input",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".dialog button:has-text(\"Cancel\")",
+      "name": "Cancel",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".dialog button:has-text(\"Save\")",
+      "name": "Save",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".dialog button:has-text(\"Delete channel\")",
+      "name": "Delete channel",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"Unstar channel\"]",
+      "name": "Unstar channel",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"👍 2\"]",
+      "name": "👍 2",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"😊 1\"]",
+      "name": "😊 1",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"🚀 1\"]",
+      "name": "🚀 1",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Bashkubectl get deploy d\")",
+      "name": "Bashkubectl get deploy decision-app -o jsonpath={.spec.templ",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"ReadDockerfile — rule bu\")",
+      "name": "ReadDockerfile — rule bundle copy stepsuccess▸",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"3 replies\")",
+      "name": "3 replies",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel button:has-text(\"Editci/build.yml — repla\")",
+      "name": "Editci/build.yml — replace sparse filter with full checkout ",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".thread button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".thread button:has-text(\"Ask agent\")",
+      "name": "Ask agent",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".thread [aria-label=\"Expand thread\"]",
+      "name": "Expand thread",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".thread [aria-label=\"Close thread\"]",
+      "name": "Close thread",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".thread button:has-text(\"Leave\")",
+      "name": "Leave",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".thread textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "settings-dialog-open"
+    },
+    {
+      "selector": ".thread [aria-label=\"Send reply\"]",
+      "name": "Send reply",
+      "tag": "button",
+      "state": "settings-dialog-open"
+    }
+  ],
+  "message-hovered": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"Unstar channel\"]",
+      "name": "Unstar channel",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"React with 👍\"]",
+      "name": "React with 👍",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"React with 😊\"]",
+      "name": "React with 😊",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"React with 🚀\"]",
+      "name": "React with 🚀",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"Reply in thread\"]",
+      "name": "Reply in thread",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"👍 2\"]",
+      "name": "👍 2",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"😊 1\"]",
+      "name": "😊 1",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"🚀 1\"]",
+      "name": "🚀 1",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Bashkubectl get deploy d\")",
+      "name": "Bashkubectl get deploy decision-app -o jsonpath={.spec.templ",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"ReadDockerfile — rule bu\")",
+      "name": "ReadDockerfile — rule bundle copy stepsuccess▸",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"3 replies\")",
+      "name": "3 replies",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel button:has-text(\"Editci/build.yml — repla\")",
+      "name": "Editci/build.yml — replace sparse filter with full checkout ",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Ask agent\")",
+      "name": "Ask agent",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Expand thread\"]",
+      "name": "Expand thread",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Close thread\"]",
+      "name": "Close thread",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".thread button:has-text(\"Leave\")",
+      "name": "Leave",
+      "tag": "button",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".thread textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "message-hovered"
+    },
+    {
+      "selector": ".thread [aria-label=\"Send reply\"]",
+      "name": "Send reply",
+      "tag": "button",
+      "state": "message-hovered"
+    }
+  ],
+  "thread-full": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread button:has-text(\"‹ decision-app /\")",
+      "name": "‹ decision-app /",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread button:has-text(\"Ask agent\")",
+      "name": "Ask agent",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread [aria-label=\"Collapse thread\"]",
+      "name": "Collapse thread",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread [aria-label=\"Close thread\"]",
+      "name": "Close thread",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread button:has-text(\"Leave\")",
+      "name": "Leave",
+      "tag": "button",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "thread-full"
+    },
+    {
+      "selector": ".thread [aria-label=\"Send reply\"]",
+      "name": "Send reply",
+      "tag": "button",
+      "state": "thread-full"
+    }
+  ],
+  "thread-closed": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"APagent-platform\")",
+      "name": "APagent-platform",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": "[data-category=\"Product\"] button:has-text(\"team-scoped decisions\")",
+      "name": "team-scoped decisions",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"GEgeneral\")",
+      "name": "GEgeneral",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": "[data-category=\"General\"] button:has-text(\"RArandom\")",
+      "name": "RArandom",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel [aria-label=\"Unstar channel\"]",
+      "name": "Unstar channel",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel [aria-label=\"👍 2\"]",
+      "name": "👍 2",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel [aria-label=\"😊 1\"]",
+      "name": "😊 1",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel [aria-label=\"🚀 1\"]",
+      "name": "🚀 1",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel button:has-text(\"Bashkubectl get deploy d\")",
+      "name": "Bashkubectl get deploy decision-app -o jsonpath={.spec.templ",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel button:has-text(\"ReadDockerfile — rule bu\")",
+      "name": "ReadDockerfile — rule bundle copy stepsuccess▸",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel button:has-text(\"3 replies\")",
+      "name": "3 replies",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel button:has-text(\"Editci/build.yml — repla\")",
+      "name": "Editci/build.yml — replace sparse filter with full checkout ",
+      "tag": "button",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "thread-closed"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "thread-closed"
+    }
+  ]
+}
