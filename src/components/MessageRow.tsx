@@ -53,7 +53,36 @@ export default function MessageRow({
           {author.kind === 'agent' ? <span className="msg-app">app</span> : null}
           <span className="msg-time">{clockTime(message.sentAt)}</span>
         </div>
-        <p className="msg-body">{message.body}</p>
+        <div className="msg-body-row">
+          <p className="msg-body">{message.body}</p>
+
+          {/* Anchored to the message's own text block, not the pane's right edge —
+              the pointer should not have to cross the whole column to reach it. */}
+          {onReact && hovered ? (
+            <div className="msg-toolbar" role="toolbar" aria-label="Message actions">
+              {QUICK_REACTIONS.map((emoji) => (
+                <button
+                  key={emoji}
+                  type="button"
+                  className="msg-toolbar-btn"
+                  aria-label={`React with ${emoji}`}
+                  onClick={() => onReact(emoji)}
+                >
+                  {emoji}
+                </button>
+              ))}
+              <span className="msg-toolbar-sep" aria-hidden="true" />
+              <button
+                type="button"
+                className="msg-toolbar-btn msg-toolbar-reply"
+                aria-label="Reply in thread"
+                onClick={onReply}
+              >
+                ↩
+              </button>
+            </div>
+          ) : null}
+        </div>
 
         {message.toolCalls.length > 0 ? (
           <div className="tool-list">
@@ -88,30 +117,7 @@ export default function MessageRow({
         ) : null}
       </div>
 
-      {onReact && hovered ? (
-        <div className="msg-toolbar" role="toolbar" aria-label="Message actions">
-          {QUICK_REACTIONS.map((emoji) => (
-            <button
-              key={emoji}
-              type="button"
-              className="msg-toolbar-btn"
-              aria-label={`React with ${emoji}`}
-              onClick={() => onReact(emoji)}
-            >
-              {emoji}
-            </button>
-          ))}
-          <span className="msg-toolbar-sep" aria-hidden="true" />
-          <button
-            type="button"
-            className="msg-toolbar-btn msg-toolbar-reply"
-            aria-label="Reply in thread"
-            onClick={onReply}
-          >
-            ↩
-          </button>
-        </div>
-      ) : null}
+      {null}
     </article>
   )
 }

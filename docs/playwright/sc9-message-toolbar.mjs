@@ -125,6 +125,43 @@ check(
 const replyLine = await page.locator('.thread .replies-label').innerText()
 check('a thread started by reply is empty', replyLine.trim() === '0 replies', JSON.stringify(replyLine))
 
+// --- 6. placement: the toolbar sits beside the text, not at the pane edge -----
+// A short, left-aligned message is the case that exposed this: pinned to the
+// pane's right edge, the pointer had to cross the whole column to reach it.
+await page.locator('.cat-channels .chan-row').filter({ hasText: 'random' }).first().click()
+await page.waitForTimeout(200)
+const shortMsg = page.locator('article.msg').filter({ hasText: 'The coffee machine is fixed.' }).first()
+await shortMsg.hover()
+await page.waitForTimeout(150)
+
+const placement = await shortMsg.evaluate((row) => {
+  const bodyRow = row.querySelector('.msg-body-row')
+  const toolbar = row.querySelector('[role="toolbar"][aria-label="Message actions"]')
+  const pane = row.closest('.panel-body')
+  if (!bodyRow || !toolbar || !pane) return null
+  const body = bodyRow.getBoundingClientRect()
+  const bar = toolbar.getBoundingClientRect()
+  const paneRect = pane.getBoundingClientRect()
+  return {
+    gapFromText: Math.round(bar.left - body.right),
+    gapFromPaneEdge: Math.round(paneRect.right - bar.right),
+    textWidth: Math.round(body.width),
+    paneWidth: Math.round(paneRect.width),
+  }
+})
+
+check(
+  'the toolbar sits just past the message text',
+  placement !== null && placement.gapFromText >= 0 && placement.gapFromText <= 24,
+  `gapFromText=${placement?.gapFromText}px textWidth=${placement?.textWidth}px`,
+)
+
+check(
+  'the toolbar is not pinned to the pane’s right edge',
+  placement !== null && placement.gapFromPaneEdge > 80,
+  `gapFromPaneEdge=${placement?.gapFromPaneEdge}px paneWidth=${placement?.paneWidth}px`,
+)
+
 await browser.close()
 
 const failed = results.filter((r) => !r.pass)

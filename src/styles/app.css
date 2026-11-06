@@ -539,10 +539,18 @@ button {
 
 /* ---- message hover toolbar + reactions (SC9) -------------------------- */
 
+/* The message text and its hover toolbar share a block, so the toolbar sits just
+   past the text rather than at the far right of the pane. */
+.msg-body-row {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
 .msg-toolbar {
   position: absolute;
-  top: -12px;
-  right: 8px;
+  top: -14px;
+  left: calc(100% + 8px);
   z-index: 15;
   display: flex;
   align-items: center;

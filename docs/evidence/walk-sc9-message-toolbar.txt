@@ -10,5 +10,7 @@ PASS  the threaded message shows its own reply count  — "3 replies"
 PASS  the reply-count line opens that message’s thread  — header="team-scoped decisions" parentMatches=true
 PASS  the reply action opens the thread bound to that message  — parentMatches=true
 PASS  a thread started by reply is empty  — "0 replies"
+PASS  the toolbar sits just past the message text  — gapFromText=8px textWidth=176px
+PASS  the toolbar is not pinned to the pane’s right edge  — gapFromPaneEdge=577px paneWidth=942px
 
-12/12 PASS, 0 FAIL
+14/14 PASS, 0 FAIL
