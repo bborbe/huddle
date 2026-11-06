@@ -98,6 +98,64 @@ function toggle(list: string[], memberId: string): string[] {
   return list.includes(memberId) ? list.filter((id) => id !== memberId) : [...list, memberId]
 }
 
+/**
+ * A person is in one voice room at a time — a channel room or a thread room,
+ * never two. Joining strips the member from every other room first, so the
+ * model cannot hold the impossible state the UI would otherwise show as "in
+ * voice" in several channels at once.
+ */
+function leaveEveryVoiceRoom(workspace: Workspace, memberId: string): Workspace {
+  return {
+    ...workspace,
+    channels: workspace.channels.map((channel) => ({
+      ...channel,
+      voiceMemberIds: channel.voiceMemberIds.filter((id) => id !== memberId),
+      threads: channel.threads.map((thread) => ({
+        ...thread,
+        voiceMemberIds: thread.voiceMemberIds.filter((id) => id !== memberId),
+      })),
+    })),
+  }
+}
+
+/**
+ * A blob written before the one-room rule can hold the local member in several
+ * voice rooms at once. Keep the first room found and drop the rest, so a reload
+ * repairs the impossible state instead of showing it until the next click.
+ * Channels are walked in order, and each channel's own room is claimed before
+ * its threads' rooms.
+ */
+export function normaliseVoice(state: AppState): AppState {
+  let claimed = false
+  let changed = false
+
+  const keep = (ids: string[]): string[] => {
+    if (!ids.includes(LOCAL_USER_ID)) return ids
+    if (!claimed) {
+      claimed = true
+      return ids
+    }
+    changed = true
+    return ids.filter((id) => id !== LOCAL_USER_ID)
+  }
+
+  const channels = state.workspace.channels.map((channel) => {
+    const voiceMemberIds = keep(channel.voiceMemberIds)
+    const threads = channel.threads.map((thread) => ({
+      ...thread,
+      voiceMemberIds: keep(thread.voiceMemberIds),
+    }))
+    const threadsChanged = threads.some(
+      (thread, index) => thread.voiceMemberIds !== channel.threads[index]?.voiceMemberIds,
+    )
+    if (voiceMemberIds === channel.voiceMemberIds && !threadsChanged) return channel
+    return { ...channel, voiceMemberIds, threads }
+  })
+
+  if (!changed) return state
+  return { ...state, workspace: { ...state.workspace, channels } }
+}
+
 export function makeReducer(seed: Workspace) {
   return function reducer(state: AppState, action: Action): AppState {
     switch (action.type) {
@@ -204,19 +262,31 @@ export function makeReducer(seed: Workspace) {
       }
 
       case 'toggleVoice': {
+        const target = state.workspace.channels.find((c) => c.id === action.channelId)
+        const targetThread = action.threadId
+          ? target?.threads.find((t) => t.id === action.threadId)
+          : undefined
+        const inTarget = action.threadId
+          ? Boolean(targetThread?.voiceMemberIds.includes(action.memberId))
+          : Boolean(target?.voiceMemberIds.includes(action.memberId))
+
+        // Joining: leave every other room first, then add to this one.
+        const base = inTarget
+          ? state.workspace
+          : leaveEveryVoiceRoom(state.workspace, action.memberId)
+        const join = (ids: string[]) =>
+          inTarget ? ids.filter((id) => id !== action.memberId) : [...ids, action.memberId]
+
         return {
           ...state,
-          workspace: updateChannel(state.workspace, action.channelId, (channel) => {
+          workspace: updateChannel(base, action.channelId, (channel) => {
             if (action.threadId) {
               return updateThread(channel, action.threadId, (thread) => ({
                 ...thread,
-                voiceMemberIds: toggle(thread.voiceMemberIds, action.memberId),
+                voiceMemberIds: join(thread.voiceMemberIds),
               }))
             }
-            return {
-              ...channel,
-              voiceMemberIds: toggle(channel.voiceMemberIds, action.memberId),
-            }
+            return { ...channel, voiceMemberIds: join(channel.voiceMemberIds) }
           }),
         }
       }

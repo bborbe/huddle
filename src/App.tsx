@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import { workspace } from './lib/fixtures'
-import { initialState, LOCAL_USER_ID, makeReducer } from './lib/workspace-state'
+import { initialState, LOCAL_USER_ID, makeReducer, normaliseVoice } from './lib/workspace-state'
 import type { Action, AppState } from './lib/workspace-state'
 import { loadState, saveState } from './platform/storage'
 import { createMockTransport } from './platform/transport'
@@ -15,7 +15,7 @@ const AGENT_ID = 'forge'
 export default function App() {
   const reducer = useMemo(() => makeReducer(workspace), [])
   const [state, applyAction] = useReducer(reducer, workspace, (seed) =>
-    loadState<AppState>(initialState(seed)),
+    normaliseVoice(loadState<AppState>(initialState(seed))),
   )
 
   // Every user action leaves through the transport seam. The mock applies it to
@@ -109,6 +109,9 @@ export default function App() {
         onDeleteChannel={(channelId) => dispatch({ type: 'deleteChannel', channelId })}
         onToggleChannelVoice={(channelId) =>
           dispatch({ type: 'toggleVoice', channelId, threadId: null, memberId: LOCAL_USER_ID })
+        }
+        onToggleThreadVoice={(channelId, threadId) =>
+          dispatch({ type: 'toggleVoice', channelId, threadId, memberId: LOCAL_USER_ID })
         }
         onReset={() => dispatch({ type: 'reset' })}
       />

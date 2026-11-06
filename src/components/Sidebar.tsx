@@ -16,6 +16,7 @@ interface SidebarProps {
   onRenameChannel: (channelId: string, name: string) => void
   onDeleteChannel: (channelId: string) => void
   onToggleChannelVoice: (channelId: string) => void
+  onToggleThreadVoice: (channelId: string, threadId: string) => void
   onReset: () => void
 }
 
@@ -32,6 +33,7 @@ export default function Sidebar({
   onRenameChannel,
   onDeleteChannel,
   onToggleChannelVoice,
+  onToggleThreadVoice,
   onReset,
 }: SidebarProps) {
   // Hover is view state, not model state: the create affordance exists only while
@@ -257,6 +259,7 @@ export default function Sidebar({
                           className={`thread-row${thread.id === activeThreadId ? ' thread-row--active' : ''}`}
                           title={thread.name}
                           onClick={() => onSelectThread(channel.id, thread.id)}
+                          onDoubleClick={() => onToggleThreadVoice(channel.id, thread.id)}
                         >
                           <span className="thread-connector" aria-hidden="true" />
                           <span className="thread-row-name">{thread.name}</span>
