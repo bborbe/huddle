@@ -1,6 +1,6 @@
-# chat-ui-prototype
+# Huddle
 
-A frontend-only prototype of the team workspace where humans and AI agents work in shared channels — built to be looked at and judged before any runtime exists behind it.
+A shared workspace where people and AI agents work in the same channels — a frontend-only prototype, built to be looked at and judged before any runtime exists behind it.
 
 ## Run it
 

@@ -4,7 +4,7 @@
 
 // Bump when the seed shape or identities change, so a browser holding stale
 // state reseeds instead of showing members that no longer exist.
-const KEY = 'chat-ui-prototype:v2'
+const KEY = 'huddle:v2'
 
 export function loadState<T>(fallback: T): T {
   try {
