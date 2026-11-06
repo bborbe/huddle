@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Channel, Member, Message } from '../platform'
+import { channelInitials, channelToken } from '../lib/channel-identity'
 import MessageRow from './MessageRow'
 import SimulatedReply from './SimulatedReply'
 
@@ -43,7 +44,9 @@ export default function ChannelPane({
   return (
     <main className="panel channel">
       <header className="panel-header">
-        <span className="chan-hash">#</span>
+        <span className="chan-tile chan-tile--header" data-token={channelToken(channel.id)} aria-hidden="true">
+          {channelInitials(channel.name)}
+        </span>
         <span>{channel.name}</span>
         <span className="muted">{channel.topic}</span>
         <span className="panel-header-spacer" />
@@ -99,7 +102,7 @@ export default function ChannelPane({
       <footer className="composer">
         <textarea
           className="composer-field"
-          placeholder={`Message #${channel.name}`}
+          placeholder={`Message ${channel.name}`}
           rows={1}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}

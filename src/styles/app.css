@@ -297,11 +297,6 @@ button {
   font-weight: 500;
 }
 
-.chan-hash {
-  color: var(--text-faint);
-  font-weight: 400;
-}
-
 .voice-line {
   display: flex;
   align-items: center;
@@ -745,4 +740,12 @@ button {
 }
 .chan-tile[data-token='4'] {
   background: var(--avatar-4);
+}
+
+/* Header variant of the channel tile: sits beside the 15px/600 title. */
+.chan-tile--header {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 9px;
 }

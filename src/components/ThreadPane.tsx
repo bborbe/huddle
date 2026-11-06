@@ -50,7 +50,7 @@ export default function ThreadPane({
       <header className="panel-header">
         {view === 'full' ? (
           <button type="button" className="breadcrumb" onClick={onRestore}>
-            ‹ #{channel.name} /
+            ‹ {channel.name} /
           </button>
         ) : null}
         <span>{thread.name}</span>
