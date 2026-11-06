@@ -13,6 +13,18 @@ Then open <http://localhost:5173>.
 
 That is the whole setup. No backend, no database, no environment variables, no accounts.
 
+## Checks
+
+```bash
+make precommit
+```
+
+Runs, in order and failing fast: `install` (`npm ci`) → `lint` (oxlint over `src`, warnings are errors) → `typecheck` (`tsc --noEmit`) → `build` (`vite build`) → `test`.
+
+`make test` boots `vite preview` on the built output and runs every walk in [`docs/playwright/`](docs/playwright/), each against the real page, then shuts the server down. It exits non-zero if any walk fails, so it needs `make build` first when run on its own.
+
+Each target is also runnable alone: `make lint`, `make typecheck`, `make build`, `make test`.
+
 ## What is real
 
 Everything you do in the page:
