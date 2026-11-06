@@ -79,8 +79,11 @@ for (const row of rows) {
     if (PREPARE[row.selector]) await PREPARE[row.selector](page)
 
     const locator = page.locator(row.selector).first()
-    if ((await locator.count()) === 0) {
-      delta = 'selector resolved to no element'
+    const resolved = await page.locator(row.selector).count()
+    if (resolved !== 1) {
+      // SC2's uniqueness rule: a row's selector must resolve to exactly one element
+      // in each state it names.
+      delta = `selector resolved to ${resolved} elements, expected exactly 1`
     } else {
       const before = await snapshot()
 
