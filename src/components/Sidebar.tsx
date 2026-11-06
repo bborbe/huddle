@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Category, Channel, Member } from '../platform'
+import { channelInitials, channelToken } from '../lib/channel-identity'
 
 interface SidebarProps {
   categories: Category[]
@@ -102,7 +103,13 @@ export default function Sidebar({
                       onClick={() => onSelectChannel(channel.id)}
                       aria-current={channel.id === activeChannelId ? 'true' : undefined}
                     >
-                      <span className="chan-hash">#</span>
+                      <span
+                        className="chan-tile"
+                        data-token={channelToken(channel.id)}
+                        aria-hidden="true"
+                      >
+                        {channelInitials(channel.name)}
+                      </span>
                       {channel.name}
                     </button>
 

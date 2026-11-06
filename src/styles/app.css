@@ -715,3 +715,34 @@ button {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ---- channel identity tile ------------------------------------------- */
+/* Same family as the member avatars: rounded square (like an agent avatar)
+   at sidebar scale, colour keyed to the channel id. Thread rows deliberately
+   carry no tile — they keep the tree connector and indent instead, so a
+   thread never reads as a channel. */
+
+.chan-tile {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--avatar-1);
+  user-select: none;
+}
+
+.chan-tile[data-token='2'] {
+  background: var(--avatar-2);
+}
+.chan-tile[data-token='3'] {
+  background: var(--avatar-3);
+}
+.chan-tile[data-token='4'] {
+  background: var(--avatar-4);
+}
