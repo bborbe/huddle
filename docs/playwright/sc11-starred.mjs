@@ -7,6 +7,7 @@
 // Run:  node docs/playwright/sc11-starred.mjs
 
 import { chromium } from '/Users/bborbe/.npm/_npx/13ab0715f9f30c2e/node_modules/playwright/index.mjs'
+import { dismissIdentity, freshLoad } from './lib/fresh.mjs'
 
 const BASE = process.env.HUDDLE_URL ?? 'http://localhost:5173/'
 const STARRED = '[data-section="starred"]'
@@ -20,9 +21,7 @@ function check(name, pass, delta) {
 const browser = await chromium.launch({ headless: true })
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
 
-await page.goto(BASE, { waitUntil: 'networkidle' })
-await page.evaluate(() => window.localStorage.clear())
-await page.reload({ waitUntil: 'networkidle' })
+await freshLoad(page, BASE)
 
 function categoryRow(category, channel) {
   return page.locator(`[data-category="${category}"] .chan-row`).filter({ hasText: channel })
@@ -90,6 +89,7 @@ await page.screenshot({ path: 'docs/evidence/walk-sc11-starred.png' })
 
 // --- 4. survives a reload ---------------------------------------------------
 await page.reload({ waitUntil: 'networkidle' })
+await dismissIdentity(page)
 await page.waitForTimeout(200)
 const afterReload = await starredRows().evaluateAll((els) => els.map((el) => (el.textContent ?? '').replace(/^[A-Z]{2}/, '').trim()))
 check('the starred set survives a reload', JSON.stringify(afterReload) === JSON.stringify(['agent-platform', 'decision-app', 'general']), JSON.stringify(afterReload))

@@ -956,3 +956,74 @@ button {
   border-radius: 6px;
   font-size: 9px;
 }
+
+/* ---- first-run identity dialog ---------------------------------------- */
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.dialog {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.dialog-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dialog-sub {
+  margin: 0;
+  font-size: var(--fs-meta);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.dialog-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chan-tile--preview {
+  width: 44px;
+  height: 44px;
+  font-size: 15px;
+  border-radius: var(--radius-item-lg);
+}
+
+.dialog-input {
+  height: 34px;
+  padding: 0 10px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-item);
+  color: var(--text);
+  font-family: inherit;
+  font-size: var(--fs-body);
+  outline: none;
+}
+.dialog-input:focus {
+  border-color: var(--accent);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

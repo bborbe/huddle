@@ -29,6 +29,7 @@ Each target is also runnable alone: `make lint`, `make typecheck`, `make build`,
 
 Everything you do in the page:
 
+- **Name yourself on first open** — a dialog asks for a name only; the avatar colour is derived from it (the same helper the channel tiles use) and a shuffle cycles it. Start stores the identity, so your messages and voice lines read as that name; Skip leaves everything as it is and the dialog returns next load.
 - Switch channels and send a message
 - **Star a channel** — the star in the channel header pins it to a `Starred` section above the categories, alphabetically. It stays in its own category too: the section is a second view, not a move. The star is outline when off, filled when on, and the state survives a reload.
 - **Create a channel the way Slack does it** — hover a category row (`Product`, `General`) and a `+` appears on it with a "Create a channel" tooltip; click it, type a name, press Enter, and the channel is created inside that category. The button is not in the page at rest — it only exists while its category row is hovered.

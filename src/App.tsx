@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer } from 'react'
+import { useEffect, useMemo, useReducer, useState } from 'react'
 import { workspace } from './lib/fixtures'
 import { initialState, LOCAL_USER_ID, makeReducer } from './lib/workspace-state'
 import type { AppState } from './lib/workspace-state'
@@ -7,6 +7,7 @@ import SpaceRail from './components/SpaceRail'
 import Sidebar from './components/Sidebar'
 import ChannelPane from './components/ChannelPane'
 import ThreadPane from './components/ThreadPane'
+import IdentityDialog from './components/IdentityDialog'
 
 const AGENT_ID = 'forge'
 
@@ -19,6 +20,10 @@ export default function App() {
   useEffect(() => {
     saveState(state)
   }, [state])
+
+  // Skip is deliberately NOT persisted: the dialog returns on the next load,
+  // because nothing was stored. A demo must never be blocked.
+  const [identitySkipped, setIdentitySkipped] = useState(false)
 
   const { spaces, members, categories, channels } = state.workspace
 
@@ -176,6 +181,12 @@ export default function App() {
               sentAt: nowIso(),
             })
           }
+        />
+      ) : null}
+      {!state.workspace.identity && !identitySkipped ? (
+        <IdentityDialog
+          onStart={(name, avatarToken) => dispatch({ type: 'setIdentity', name, avatarToken })}
+          onSkip={() => setIdentitySkipped(true)}
         />
       ) : null}
     </div>

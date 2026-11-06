@@ -1,0 +1,12 @@
+PASS  fresh storage shows the identity dialog  — dialogs=1
+PASS  the preview is empty before a name is typed  — "??"
+PASS  typing updates the preview initials  — "BE"
+PASS  the shuffle changes the colour token  — 4 → 1
+PASS  Start dismisses the dialog  — dialogs=0
+PASS  a sent message is attributed to the chosen name  — "Ben"
+PASS  the identity survives a reload and the attribution holds  — dialogs=0 author="Ben"
+PASS  the dialog is back after fresh storage  — dialogs=1
+PASS  Skip dismisses and the app renders exactly as today  — dialogs=0 categories=["Product","General"] channels=4
+PASS  Skip is not persisted — the dialog returns on the next load  — dialogs=1
+
+10/10 PASS, 0 FAIL

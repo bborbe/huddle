@@ -74,9 +74,18 @@ export interface Space {
 
 export type ThreadView = 'closed' | 'split' | 'full'
 
+export interface Identity {
+  /** the local user's display name, already disambiguated against seeded members */
+  name: string
+  /** 1..4, chosen or derived — the same slot space the channel tiles use */
+  avatarToken: 1 | 2 | 3 | 4
+}
+
 export interface Workspace {
   spaces: Space[]
   members: Member[]
   categories: Category[]
   channels: Channel[]
+  /** absent until the operator names themselves; a first-run dialog collects it */
+  identity?: Identity
 }

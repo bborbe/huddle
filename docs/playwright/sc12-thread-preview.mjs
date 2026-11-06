@@ -6,6 +6,7 @@
 // Run:  node docs/playwright/sc12-thread-preview.mjs
 
 import { chromium } from '/Users/bborbe/.npm/_npx/13ab0715f9f30c2e/node_modules/playwright/index.mjs'
+import { freshLoad } from './lib/fresh.mjs'
 
 const BASE = process.env.HUDDLE_URL ?? 'http://localhost:5173/'
 const LONG_MESSAGE = 'Checking. The deployed image is'
@@ -19,9 +20,7 @@ function check(name, pass, delta) {
 const browser = await chromium.launch({ headless: true })
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
 
-await page.goto(BASE, { waitUntil: 'networkidle' })
-await page.evaluate(() => window.localStorage.clear())
-await page.reload({ waitUntil: 'networkidle' })
+await freshLoad(page, BASE)
 
 // decision-app seeds one short thread row; replying to a long message adds a long one.
 const shortRow = page.locator('.thread-row').filter({ hasText: 'team-scoped decisions' })

@@ -42,6 +42,7 @@ export type Action =
   | { type: 'toggleReaction'; channelId: string; messageId: string; emoji: string; memberId: string }
   | { type: 'openThreadForMessage'; channelId: string; messageId: string; threadId: string }
   | { type: 'toggleStar'; channelId: string }
+  | { type: 'setIdentity'; name: string; avatarToken: 1 | 2 | 3 | 4 }
   | { type: 'reset' }
 
 export function initialState(seed: Workspace): AppState {
@@ -323,6 +324,30 @@ export function makeReducer(seed: Workspace) {
             starred: !channel.starred,
           })),
         }
+
+      case 'setIdentity': {
+        // A name that collides with a seeded member is disambiguated, never
+        // blocked — the demo must always be startable.
+        const clash = state.workspace.members.some(
+          (member) =>
+            member.id !== LOCAL_USER_ID && member.name.toLowerCase() === action.name.toLowerCase(),
+        )
+        const name = clash ? `${action.name} (you)` : action.name
+        const initials = name.slice(0, 2).toUpperCase()
+
+        return {
+          ...state,
+          workspace: {
+            ...state.workspace,
+            identity: { name, avatarToken: action.avatarToken },
+            members: state.workspace.members.map((member) =>
+              member.id === LOCAL_USER_ID
+                ? { ...member, name, initials, avatarToken: action.avatarToken }
+                : member,
+            ),
+          },
+        }
+      }
 
       case 'reset':
         return initialState(seed)

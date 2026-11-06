@@ -7,6 +7,7 @@
 // Run:  node docs/playwright/sc9-message-toolbar.mjs
 
 import { chromium } from '/Users/bborbe/.npm/_npx/13ab0715f9f30c2e/node_modules/playwright/index.mjs'
+import { dismissIdentity, freshLoad } from './lib/fresh.mjs'
 
 const BASE = process.env.HUDDLE_URL ?? 'http://localhost:5173/'
 const TOOLBAR = '[role="toolbar"][aria-label="Message actions"]'
@@ -24,9 +25,7 @@ function check(name, pass, delta) {
 const browser = await chromium.launch({ headless: true })
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
 
-await page.goto(BASE, { waitUntil: 'networkidle' })
-await page.evaluate(() => window.localStorage.clear())
-await page.reload({ waitUntil: 'networkidle' })
+await freshLoad(page, BASE)
 
 function msgRow(text) {
   return page.locator('article.msg').filter({ hasText: text }).first()
@@ -81,6 +80,7 @@ await page.screenshot({ path: 'docs/evidence/walk-sc9-toolbar.png' })
 
 // --- survives a reload -------------------------------------------------------
 await page.reload({ waitUntil: 'networkidle' })
+await dismissIdentity(page)
 const afterReload = await msgRow(PLAIN).locator('.reaction').count()
 check('the reaction survives a reload', afterReload === 1, `chips on chosen=${afterReload}`)
 
