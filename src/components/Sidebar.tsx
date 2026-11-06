@@ -40,7 +40,7 @@ export default function Sidebar({
   return (
     <aside className="panel sidebar">
       <header className="panel-header">
-        <span>Collaborative AI</span>
+        <span>Huddle</span>
         <span className="panel-header-spacer" />
         <button
           type="button"

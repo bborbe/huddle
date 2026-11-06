@@ -9,7 +9,7 @@ import ChannelPane from './components/ChannelPane'
 import ThreadPane from './components/ThreadPane'
 
 const SPACES = [
-  { id: 'collab', initials: 'CA' },
+  { id: 'huddle', initials: 'H' },
   { id: 'decisions', initials: 'DA' },
 ]
 
@@ -46,7 +46,7 @@ export default function App() {
 
   return (
     <div className={`shell${state.threadView === 'full' ? ' shell--thread-full' : ''}`}>
-      <SpaceRail spaces={SPACES} activeId="collab" />
+      <SpaceRail spaces={SPACES} activeId="huddle" />
 
       <Sidebar
         categories={categories}
