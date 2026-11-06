@@ -10,6 +10,20 @@ export const STATES = {
     await page.waitForTimeout(150)
   },
 
+  // The sidebar renders only the active space's categories, so the second space is
+  // a separate population — enumerating one space silently omits the other.
+  'at-rest-decision-app': async (page) => {
+    await page.locator('nav.rail button[aria-label="Switch to Decision App"]').click()
+    await page.waitForTimeout(250)
+  },
+
+  'category-hovered-decision-app': async (page) => {
+    await page.locator('nav.rail button[aria-label="Switch to Decision App"]').click()
+    await page.waitForTimeout(250)
+    await page.locator('[data-category] .cat-row').first().hover()
+    await page.waitForTimeout(150)
+  },
+
   'create-popup-open': async (page) => {
     await page.locator('[data-category] .cat-row').first().hover()
     await page.waitForTimeout(150)

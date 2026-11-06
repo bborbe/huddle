@@ -357,6 +357,160 @@
       "state": "category-hovered"
     }
   ],
+  "at-rest-decision-app": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": "[data-category=\"Reviews\"] button:has-text(\"RRrule-reviews\")",
+      "name": "RRrule-reviews",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": "[data-category=\"Reviews\"] button:has-text(\"TMtenant-migration\")",
+      "name": "TMtenant-migration",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": ".channel [aria-label=\"Star\"]",
+      "name": "Star",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "at-rest-decision-app"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "at-rest-decision-app"
+    }
+  ],
+  "category-hovered-decision-app": [
+    {
+      "selector": "[aria-label=\"Switch to Huddle\"]",
+      "name": "Switch to Huddle",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": "[aria-label=\"Switch to Decision App\"]",
+      "name": "Switch to Decision App",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": ".sidebar [aria-label=\"Reset demo\"]",
+      "name": "Reset demo",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": "[data-section=\"starred\"] button:has-text(\"DAdecision-app\")",
+      "name": "DAdecision-app",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": "[data-category=\"Reviews\"] [aria-label=\"Create a channel\"]",
+      "name": "Create a channel",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": "[data-category=\"Reviews\"] button:has-text(\"RRrule-reviews\")",
+      "name": "RRrule-reviews",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": "[data-category=\"Reviews\"] button:has-text(\"TMtenant-migration\")",
+      "name": "TMtenant-migration",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": ".channel [aria-label=\"Star\"]",
+      "name": "Star",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": ".channel button:has-text(\"Replay reply\")",
+      "name": "Replay reply",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": ".channel button:has-text(\"Ask agent to join\")",
+      "name": "Ask agent to join",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": ".channel button:has-text(\"Join voice\")",
+      "name": "Join voice",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": ".channel textarea.composer-field",
+      "name": "",
+      "tag": "textarea",
+      "state": "category-hovered-decision-app"
+    },
+    {
+      "selector": ".channel [aria-label=\"Send\"]",
+      "name": "Send",
+      "tag": "button",
+      "state": "category-hovered-decision-app"
+    }
+  ],
   "create-popup-open": [
     {
       "selector": "[aria-label=\"Switch to Huddle\"]",

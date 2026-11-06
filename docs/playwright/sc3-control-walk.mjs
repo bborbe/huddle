@@ -8,7 +8,7 @@
 //
 // Run:  node docs/playwright/sc3-control-walk.mjs
 
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { chromium } from '/Users/bborbe/.npm/_npx/13ab0715f9f30c2e/node_modules/playwright/index.mjs'
 import { freshLoad } from './lib/fresh.mjs'
 import { STATES } from './lib/states.mjs'
@@ -30,9 +30,22 @@ const page = await browser.newPage({ viewport: { width: 1280, height: 900 } })
 
 async function snapshot() {
   return page.evaluate(() => ({
-    model: JSON.stringify(window.__huddle?.state ?? null),
+    state: window.__huddle?.state ?? null,
     nodes: document.querySelectorAll('*').length,
   }))
+}
+
+/** Which parts of the model moved — named, so the inventory can record the effect. */
+function modelDiff(before, after) {
+  if (!before || !after) return []
+  const changed = []
+  for (const key of ['activeSpaceId', 'activeChannelId', 'activeThreadId', 'threadView']) {
+    if (before[key] !== after[key]) changed.push(`${key} ${JSON.stringify(before[key])} → ${JSON.stringify(after[key])}`)
+  }
+  if (JSON.stringify(before.workspace) !== JSON.stringify(after.workspace)) {
+    changed.push('workspace')
+  }
+  return changed
 }
 
 // Some controls are inert by design until a precondition holds — a composer has
@@ -66,6 +79,7 @@ const PREPARE = {
 }
 
 const results = []
+const effects = {}
 let failures = 0
 
 for (const row of rows) {
@@ -92,6 +106,7 @@ for (const row of rows) {
         const value = await locator.inputValue()
         verdict = value === 'probe' ? 'PASS' : 'FAIL'
         delta = `value=${JSON.stringify(value)}`
+        effects[row.selector] = 'receives focus and accepts typed text (value reflected in the DOM)'
       } else if (row.tag === 'form') {
         const field = locator.locator('input').first()
         if ((await field.count()) === 0) {
@@ -100,18 +115,25 @@ for (const row of rows) {
           await field.press('Enter')
           await page.waitForTimeout(200)
           const after = await snapshot()
-          const changed = after.model !== before.model || after.nodes !== before.nodes
+          const fields = modelDiff(before.state, after.state)
+          const changed = fields.length > 0 || after.nodes !== before.nodes
           verdict = changed ? 'PASS' : 'FAIL'
-          delta = `modelChanged=${after.model !== before.model} nodes ${before.nodes}→${after.nodes}`
+          delta = `model=${fields.join('; ') || 'unchanged'} nodes ${before.nodes}→${after.nodes}`
+          effects[row.selector] = fields.length > 0
+            ? `submitting changes the model: ${fields.join('; ')}`
+            : `submitting inserts/removes DOM: ${before.nodes}→${after.nodes} elements`
         }
       } else {
         await locator.click({ timeout: 4000 })
         await page.waitForTimeout(250)
         const after = await snapshot()
-        const modelChanged = after.model !== before.model
+        const fields = modelDiff(before.state, after.state)
         const nodesChanged = after.nodes !== before.nodes
-        verdict = modelChanged || nodesChanged ? 'PASS' : 'FAIL'
-        delta = `modelChanged=${modelChanged} nodes ${before.nodes}→${after.nodes}`
+        verdict = fields.length > 0 || nodesChanged ? 'PASS' : 'FAIL'
+        delta = `model=${fields.join('; ') || 'unchanged'} nodes ${before.nodes}→${after.nodes}`
+        effects[row.selector] = fields.length > 0
+          ? `changes the model: ${fields.join('; ')}`
+          : `inserts or removes DOM: ${before.nodes}→${after.nodes} elements`
       }
     }
   } catch (error) {
@@ -124,6 +146,8 @@ for (const row of rows) {
 }
 
 await browser.close()
+
+writeFileSync('docs/evidence/control-effects.json', `${JSON.stringify(effects, null, 2)}\n`)
 
 console.log(`\n${rows.length - failures}/${rows.length} PASS, ${failures} FAIL across ${rows.length} inventory rows`)
 process.exit(failures === 0 ? 0 : 1)
