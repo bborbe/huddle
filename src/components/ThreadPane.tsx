@@ -16,6 +16,9 @@ interface ThreadPaneProps {
   onSendReply: (body: string) => void
   onToggleVoice: () => void
   onAskAgentVoice: () => void
+  /** reactions on the parent message and on every reply (SC26) */
+  onReact: (messageId: string, emoji: string) => void
+  localUserId: string
 }
 
 export default function ThreadPane({
@@ -30,6 +33,8 @@ export default function ThreadPane({
   onSendReply,
   onToggleVoice,
   onAskAgentVoice,
+  onReact,
+  localUserId,
 }: ThreadPaneProps) {
   const [draft, setDraft] = useState('')
   const draftRef = useRef<HTMLTextAreaElement>(null)
@@ -84,7 +89,14 @@ export default function ThreadPane({
       <VoiceBar participants={voiceMembers} label="Voice" onLeave={onToggleVoice} />
 
       <div className="panel-body">
-        {parent ? <MessageRow message={parent} author={parentAuthor} /> : null}
+        {parent ? (
+          <MessageRow
+            message={parent}
+            author={parentAuthor}
+            onReact={(emoji) => onReact(parent.id, emoji)}
+            localUserId={localUserId}
+          />
+        ) : null}
         <div className="replies-label">
           {thread.replies.length} {thread.replies.length === 1 ? 'reply' : 'replies'}
         </div>
@@ -93,6 +105,8 @@ export default function ThreadPane({
             key={reply.id}
             message={reply}
             author={members.find((m) => m.id === reply.authorId)}
+            onReact={(emoji) => onReact(reply.id, emoji)}
+            localUserId={localUserId}
           />
         ))}
       </div>

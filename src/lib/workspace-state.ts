@@ -39,7 +39,15 @@ export type Action =
       sentAt: string
     }
   | { type: 'appendMessage'; channelId: string; message: Message }
-  | { type: 'toggleReaction'; channelId: string; messageId: string; emoji: string; memberId: string }
+  | {
+      type: 'toggleReaction'
+      channelId: string
+      /** set when the message lives inside a thread; the reply list is updated */
+      threadId?: string | null
+      messageId: string
+      emoji: string
+      memberId: string
+    }
   | { type: 'openThreadForMessage'; channelId: string; messageId: string; threadId: string }
   | { type: 'toggleStar'; channelId: string }
   | { type: 'renameChannel'; channelId: string; name: string }
@@ -332,22 +340,30 @@ export function makeReducer(seed: Workspace) {
         }
 
       case 'toggleReaction': {
+        const react = (message: Message): Message => {
+          if (message.id !== action.messageId) return message
+          const current = message.reactions?.[action.emoji] ?? []
+          const next = toggle(current, action.memberId)
+          const reactions = { ...message.reactions }
+          // Drop the emoji entirely once nobody is left on it, so an empty
+          // chip never renders and the persisted shape stays clean.
+          if (next.length === 0) delete reactions[action.emoji]
+          else reactions[action.emoji] = next
+          return { ...message, reactions }
+        }
+
         return {
           ...state,
-          workspace: updateChannel(state.workspace, action.channelId, (channel) => ({
-            ...channel,
-            messages: channel.messages.map((message) => {
-              if (message.id !== action.messageId) return message
-              const current = message.reactions?.[action.emoji] ?? []
-              const next = toggle(current, action.memberId)
-              const reactions = { ...message.reactions }
-              // Drop the emoji entirely once nobody is left on it, so an empty
-              // chip never renders and the persisted shape stays clean.
-              if (next.length === 0) delete reactions[action.emoji]
-              else reactions[action.emoji] = next
-              return { ...message, reactions }
-            }),
-          })),
+          workspace: updateChannel(state.workspace, action.channelId, (channel) => {
+            // A reply lives inside its thread; the channel list holds the rest.
+            if (action.threadId) {
+              return updateThread(channel, action.threadId, (thread) => ({
+                ...thread,
+                replies: thread.replies.map(react),
+              }))
+            }
+            return { ...channel, messages: channel.messages.map(react) }
+          }),
         }
       }
 

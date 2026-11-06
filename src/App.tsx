@@ -188,6 +188,17 @@ export default function App() {
           inVoice={threadVoice}
           onExpand={() => dispatch({ type: 'setThreadView', view: 'full' })}
           onRestore={() => dispatch({ type: 'setThreadView', view: 'split' })}
+          localUserId={LOCAL_USER_ID}
+          onReact={(messageId, emoji) =>
+            dispatch({
+              type: 'toggleReaction',
+              channelId: channel.id,
+              threadId: thread.id,
+              messageId,
+              emoji,
+              memberId: LOCAL_USER_ID,
+            })
+          }
           onClose={() => {
             dispatch({ type: 'setThreadView', view: 'closed' })
             dispatch({ type: 'selectChannel', channelId: channel.id })

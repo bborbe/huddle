@@ -16,8 +16,8 @@ interface MessageRowProps {
   /** opens the existing thread — drives the `N replies` line */
   onOpenThread?: (() => void) | undefined
   /**
-   * Provided only in the channel list. Its presence is what turns the hover
-   * toolbar on; the thread pane renders the same row without one.
+   * Its presence is what turns the hover toolbar on. Provided in the channel
+   * list and in the thread pane — a reply is a message like any other.
    */
   onReact?: ((emoji: string) => void) | undefined
   /** opens (or starts) this message's thread — drives the toolbar's reply button */
@@ -74,15 +74,21 @@ export default function MessageRow({
                   {emoji}
                 </button>
               ))}
-              <span className="msg-toolbar-sep" aria-hidden="true" />
-              <button
-                type="button"
-                className="msg-toolbar-btn msg-toolbar-reply"
-                aria-label="Reply in thread"
-                onClick={onReply}
-              >
-                ↩
-              </button>
+              {/* No reply action inside a thread: a reply to a reply would be a
+                  nested thread, which is a separate product question (SC26). */}
+              {onReply ? (
+                <>
+                  <span className="msg-toolbar-sep" aria-hidden="true" />
+                  <button
+                    type="button"
+                    className="msg-toolbar-btn msg-toolbar-reply"
+                    aria-label="Reply in thread"
+                    onClick={onReply}
+                  >
+                    ↩
+                  </button>
+                </>
+              ) : null}
             </div>
           ) : null}
         </div>
