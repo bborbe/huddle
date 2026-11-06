@@ -1,7 +1,7 @@
 // Pure state logic. No DOM, no browser APIs — a native shell can reuse this reducer as-is.
 // Side effects (ids, timestamps, storage) are supplied by the caller.
 
-import type { Channel, Thread, ThreadView, Workspace } from './types'
+import type { Channel, Message, Thread, ThreadView, Workspace } from './types'
 
 export const LOCAL_USER_ID = 'you'
 
@@ -36,6 +36,7 @@ export type Action =
       body: string
       sentAt: string
     }
+  | { type: 'appendMessage'; channelId: string; message: Message }
   | { type: 'reset' }
 
 export function initialState(seed: Workspace): AppState {
@@ -212,6 +213,15 @@ export function makeReducer(seed: Workspace) {
           }),
         }
       }
+
+      case 'appendMessage':
+        return {
+          ...state,
+          workspace: updateChannel(state.workspace, action.channelId, (channel) => ({
+            ...channel,
+            messages: [...channel.messages, action.message],
+          })),
+        }
 
       case 'reset':
         return initialState(seed)

@@ -66,7 +66,11 @@ export default function App() {
         <ChannelPane
           channel={channel}
           members={members}
+          agent={members.find((m) => m.id === AGENT_ID)}
           inVoice={channelVoice}
+          onAppendMessage={(message) =>
+            dispatch({ type: 'appendMessage', channelId: channel.id, message })
+          }
           onOpenThread={(threadId) =>
             dispatch({ type: 'selectThread', channelId: channel.id, threadId })
           }

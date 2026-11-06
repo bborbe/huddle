@@ -1,27 +1,33 @@
 import { useState } from 'react'
-import type { Channel, Member } from '../platform'
+import type { Channel, Member, Message } from '../platform'
 import MessageRow from './MessageRow'
+import SimulatedReply from './SimulatedReply'
 
 interface ChannelPaneProps {
   channel: Channel
   members: Member[]
+  agent: Member | undefined
   inVoice: boolean
   onOpenThread: (threadId: string) => void
   onSendMessage: (body: string) => void
   onToggleVoice: () => void
   onAskAgentVoice: () => void
+  onAppendMessage: (message: Message) => void
 }
 
 export default function ChannelPane({
   channel,
   members,
+  agent,
   inVoice,
   onOpenThread,
   onSendMessage,
   onToggleVoice,
   onAskAgentVoice,
+  onAppendMessage,
 }: ChannelPaneProps) {
   const [draft, setDraft] = useState('')
+  const [runId, setRunId] = useState(0)
 
   const voiceMembers = channel.voiceMemberIds
     .map((id) => members.find((m) => m.id === id))
@@ -41,6 +47,14 @@ export default function ChannelPane({
         <span>{channel.name}</span>
         <span className="muted">{channel.topic}</span>
         <span className="panel-header-spacer" />
+        <button
+          type="button"
+          className="btn-outline"
+          onClick={() => setRunId((n) => n + 1)}
+          disabled={!agent}
+        >
+          Replay reply
+        </button>
         <button type="button" className="btn-outline" onClick={onAskAgentVoice}>
           Ask agent to join
         </button>
@@ -76,6 +90,10 @@ export default function ChannelPane({
             />
           )
         })}
+
+        {runId > 0 && agent ? (
+          <SimulatedReply key={runId} agent={agent} runId={runId} onCommit={onAppendMessage} />
+        ) : null}
       </div>
 
       <footer className="composer">
