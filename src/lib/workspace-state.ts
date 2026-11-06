@@ -44,6 +44,7 @@ export type Action =
   | { type: 'toggleStar'; channelId: string }
   | { type: 'renameChannel'; channelId: string; name: string }
   | { type: 'deleteChannel'; channelId: string }
+  | { type: 'moveChannel'; categoryId: string; channelId: string; toIndex: number }
   | { type: 'setIdentity'; name: string; avatarToken: 1 | 2 | 3 | 4 }
   | { type: 'reset' }
 
@@ -391,6 +392,23 @@ export function makeReducer(seed: Workspace) {
           threadView: 'closed',
         }
       }
+
+      case 'moveChannel':
+        return {
+          ...state,
+          workspace: {
+            ...state.workspace,
+            categories: state.workspace.categories.map((cat) => {
+              if (cat.id !== action.categoryId) return cat
+              const without = cat.channelIds.filter((id) => id !== action.channelId)
+              const index = Math.max(0, Math.min(action.toIndex, without.length))
+              return {
+                ...cat,
+                channelIds: [...without.slice(0, index), action.channelId, ...without.slice(index)],
+              }
+            }),
+          },
+        }
 
       case 'reset':
         return initialState(seed)

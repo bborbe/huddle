@@ -1,0 +1,7 @@
+PASS  the seed renders in its stored order  — ["agent-platform","decision-app"]
+PASS  dragging a channel onto the last row lands it at the bottom  — ["decision-app","agent-platform"]
+PASS  dragging inside one category leaves the others untouched  — ["general","random"] → ["general","random"]
+PASS  the arrangement survives a reload  — ["decision-app","agent-platform"]
+PASS  a newly created channel lands at the bottom, not alphabetically  — ["decision-app","agent-platform","aaa-new"]
+
+5/5 PASS, 0 FAIL

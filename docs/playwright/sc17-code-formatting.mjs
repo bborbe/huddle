@@ -68,7 +68,7 @@ check(
 
 // The raw CommonMark is what is stored, so a channel adapter can re-map it.
 const stored = await page.evaluate(() => {
-  const raw = window.localStorage.getItem('huddle:v4')
+  const raw = window.localStorage.getItem('huddle:v5')
   if (!raw) return null
   const state = JSON.parse(raw)
   const channel = state.workspace.channels.find((c) => c.id === 'decision-app')

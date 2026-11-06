@@ -9,7 +9,9 @@
 //            has no `spaces`, so the space filter crashed on `.map` of undefined
 //   v3 → v4  seed gained a starred channel, seeded reactions and a formatted
 //            message — a v3 blob would keep the old seed and never show them
-const KEY = 'huddle:v4'
+//   v4 → v5  the seed order is now the rendered order (drag-and-drop replaced the
+//            alphabetical sort), so a v4 blob holds a different arrangement
+const KEY = 'huddle:v5'
 
 /**
  * A persisted blob is only usable if it still has the shape the current build

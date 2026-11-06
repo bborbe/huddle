@@ -88,6 +88,9 @@ export default function App() {
         onToggleChannelVoice={(channelId) =>
           dispatch({ type: 'toggleVoice', channelId, threadId: null, memberId: LOCAL_USER_ID })
         }
+        onMoveChannel={(categoryId, channelId, toIndex) =>
+          dispatch({ type: 'moveChannel', categoryId, channelId, toIndex })
+        }
         onReset={() => dispatch({ type: 'reset' })}
       />
 

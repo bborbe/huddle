@@ -8,8 +8,8 @@
 import { chromium } from '/Users/bborbe/.npm/_npx/13ab0715f9f30c2e/node_modules/playwright/index.mjs'
 
 const BASE = process.env.HUDDLE_URL ?? 'http://localhost:5173/'
-const KEY = 'huddle:v4'
-const LEGACY_KEY = 'huddle:v3'
+const KEY = 'huddle:v5'
+const LEGACY_KEY = 'huddle:v4'
 
 const results = []
 function check(name, pass, delta) {
