@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import type { Category, Channel, Member } from '../platform'
 import { channelInitials, channelToken } from '../lib/channel-identity'
 import { channelsInCategory, starredChannels } from '../lib/selectors'
@@ -29,7 +29,7 @@ interface SidebarProps {
   onReset: () => void
 }
 
-export default function Sidebar({
+function Sidebar({
   spaceName,
   categories,
   channels,
@@ -378,3 +378,22 @@ export default function Sidebar({
     </aside>
   )
 }
+
+/**
+ * Memoised on the data it renders, handler identity ignored. The voice flags are
+ * in the comparison on purpose: the panel lives here and must repaint when mute
+ * or deafen changes — but a channel or message change that leaves them alone
+ * must not drag the whole sidebar tree through a re-render.
+ */
+export default memo(Sidebar, (prev, next) =>
+  prev.spaceName === next.spaceName &&
+  prev.categories === next.categories &&
+  prev.channels === next.channels &&
+  prev.members === next.members &&
+  prev.activeChannelId === next.activeChannelId &&
+  prev.activeThreadId === next.activeThreadId &&
+  prev.voiceRoomName === next.voiceRoomName &&
+  prev.localUser === next.localUser &&
+  prev.muted === next.muted &&
+  prev.deafened === next.deafened,
+)

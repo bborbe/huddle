@@ -201,6 +201,16 @@ export const channels: Channel[] = [
         sentAt: minutesAgo(41),
         toolCalls: [],
       },
+      {
+        // A message long enough to wrap to the full column width. It exists so
+        // the hover toolbar's placement is exercised on the case that broke it:
+        // a row that fills the pane cannot put the toolbar past its text.
+        id: 'm-da-7',
+        authorId: 'tobias',
+        body: 'One thing worth writing down before we forget it: the review surface only ever reads the bundle that the build produced for the current commit, so a stale rule set can survive a rebuild if the sparse filter skipped `rules/`. That is what made the threshold table look wrong for two days while every layer hash looked correct. The fix keeps the filter honest, and the review page now stamps the bundle with the commit it came from, so the next time this happens the stamp tells us immediately instead of after a long afternoon of guessing.',
+        sentAt: minutesAgo(37),
+        toolCalls: [],
+      },
     ],
   },
   {

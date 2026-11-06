@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useLayoutEffect, useRef, useState } from 'react'
 import type { Member, Message } from '../platform'
 import { clockTime } from '../lib/format'
 import Avatar from './Avatar'
@@ -25,7 +25,7 @@ interface MessageRowProps {
   localUserId?: string | undefined
 }
 
-export default function MessageRow({
+function MessageRow({
   message,
   author,
   threadReplies,
@@ -34,7 +34,51 @@ export default function MessageRow({
   onReply,
   localUserId,
 }: MessageRowProps) {
+  // Opt-in render counter for the walks (SC27): a voice toggle must not drag
+  // the message list through a re-render. Inert unless a walk turns it on.
+  if (typeof window !== 'undefined' && (window as unknown as { __probeRenders?: boolean }).__probeRenders) {
+    const probe = window as unknown as { __msgRenders?: number }
+    probe.__msgRenders = (probe.__msgRenders ?? 0) + 1
+  }
+
   const [hovered, setHovered] = useState(false)
+  const rowRef = useRef<HTMLDivElement>(null)
+  const toolbarRef = useRef<HTMLDivElement>(null)
+  /**
+   * Where the toolbar starts, measured on hover. `null` means "not measured
+   * yet" and the stylesheet's default applies.
+   *
+   * The row shrink-wraps a short message, so `100% + 8px` puts the toolbar just
+   * past the text — but a message that wraps to the pane's full width makes
+   * `100%` the pane, and `100% + 8px` starts past its edge, clipping the
+   * toolbar. So: sit past the text when it fits, otherwise clamp to the pane's
+   * right edge. Both cases stay next to the message they belong to.
+   */
+  const [toolbarLeft, setToolbarLeft] = useState<number | null>(null)
+
+  useLayoutEffect(() => {
+    if (!hovered) {
+      setToolbarLeft(null)
+      return
+    }
+    const row = rowRef.current
+    const toolbar = toolbarRef.current
+    if (!row || !toolbar) return
+
+    const gap = 8
+    const rowRect = row.getBoundingClientRect()
+    const toolbarRect = toolbar.getBoundingClientRect()
+    const pane = row.closest('.channel, .thread')?.getBoundingClientRect() ?? rowRect
+
+    const pastText = rowRect.width + gap
+    const fitsPastText = rowRect.left + pastText + toolbarRect.width <= pane.right - gap
+
+    const next = fitsPastText
+      ? pastText
+      : Math.max(gap, pane.right - gap - toolbarRect.width - rowRect.left)
+    setToolbarLeft(next)
+  }, [hovered])
+
   if (!author) return null
 
   const reactionEntries = Object.entries(message.reactions ?? {}).filter(
@@ -54,7 +98,7 @@ export default function MessageRow({
           {author.kind === 'agent' ? <span className="msg-app">app</span> : null}
           <span className="msg-time">{clockTime(message.sentAt)}</span>
         </div>
-        <div className="msg-body-row">
+        <div className="msg-body-row" ref={rowRef}>
           <div className="msg-body">
             <MessageBody body={message.body} />
           </div>
@@ -62,7 +106,13 @@ export default function MessageRow({
           {/* Anchored to the message's own text block, not the pane's right edge —
               the pointer should not have to cross the whole column to reach it. */}
           {onReact && hovered ? (
-            <div className="msg-toolbar" role="toolbar" aria-label="Message actions">
+            <div
+              className="msg-toolbar"
+              role="toolbar"
+              aria-label="Message actions"
+              ref={toolbarRef}
+              style={toolbarLeft === null ? undefined : { left: toolbarLeft }}
+            >
               {QUICK_REACTIONS.map((emoji) => (
                 <button
                   key={emoji}
@@ -130,3 +180,21 @@ export default function MessageRow({
     </article>
   )
 }
+
+/**
+ * Memoised on the data it renders, deliberately ignoring function identity:
+ * the parent builds its callbacks inline, so a shallow compare would re-render
+ * every row on any state change — including a voice-preference toggle, which
+ * touches nothing a message row displays. The handlers close over the message's
+ * own id, which is stable for the lifetime of the row, so a new closure with the
+ * same behaviour changes nothing a reader can see.
+ */
+export default memo(MessageRow, (prev, next) =>
+  prev.message === next.message &&
+  prev.author === next.author &&
+  prev.threadReplies === next.threadReplies &&
+  prev.localUserId === next.localUserId &&
+  Boolean(prev.onReact) === Boolean(next.onReact) &&
+  Boolean(prev.onReply) === Boolean(next.onReply) &&
+  Boolean(prev.onOpenThread) === Boolean(next.onOpenThread),
+)

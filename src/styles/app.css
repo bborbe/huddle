@@ -1192,13 +1192,23 @@ button {
   color: var(--text);
 }
 
-.vp-ic--mute {
+/* Emoji glyphs carry their own colour and ignore `color`, so an active state
+   painted with `color` alone is invisible — deafen had exactly that bug. Both
+   toggles change the BACKGROUND instead, which an emoji cannot override.
+
+   Two classes, not one: `.vp-ic:hover` is (0,2,0) and would otherwise win over
+   a single-class state while the pointer is still on the button — which is
+   exactly when the user looks at it. */
+.vp-ic.vp-ic--mute,
+.vp-ic.vp-ic--deaf {
   background: var(--danger);
   color: var(--bg-app);
 }
 
-.vp-ic--deaf {
-  color: var(--danger);
+.vp-ic.vp-ic--mute:hover,
+.vp-ic.vp-ic--deaf:hover {
+  background: var(--danger);
+  filter: brightness(1.15);
 }
 
 .vp-ic--hang {

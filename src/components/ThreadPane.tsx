@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { memo, useRef, useState } from 'react'
 import type { Channel, Member, Thread, ThreadView } from '../platform'
 import MessageRow from './MessageRow'
 import VoiceBar from './VoiceBar'
@@ -19,7 +19,7 @@ interface ThreadPaneProps {
   localUserId: string
 }
 
-export default function ThreadPane({
+function ThreadPane({
   channel,
   thread,
   members,
@@ -122,3 +122,11 @@ export default function ThreadPane({
     </section>
   )
 }
+
+export default memo(ThreadPane, (prev, next) =>
+  prev.channel === next.channel &&
+  prev.thread === next.thread &&
+  prev.members === next.members &&
+  prev.view === next.view &&
+  prev.localUserId === next.localUserId,
+)

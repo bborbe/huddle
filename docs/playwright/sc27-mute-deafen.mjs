@@ -70,6 +70,9 @@ await page.waitForTimeout(200)
 const muted = await voice()
 const micPressed = await page.locator('.voice-panel [aria-label="Unmute myself"]').getAttribute('aria-pressed')
 const micClass = await page.locator('.voice-panel [aria-label="Unmute myself"]').getAttribute('class')
+const micBg = await page
+  .locator('.voice-panel [aria-label="Unmute myself"]')
+  .evaluate((el) => getComputedStyle(el).backgroundColor)
 check(
   'the mic button sets muted and leaves deafen alone',
   muted.muted && !muted.deafened,
@@ -77,18 +80,36 @@ check(
 )
 check(
   'the muted button reads as pressed and carries the mute styling',
-  micPressed === 'true' && (micClass ?? '').includes('vp-ic--mute'),
-  `aria-pressed=${micPressed} class=${JSON.stringify(micClass)}`,
+  micPressed === 'true' &&
+    (micClass ?? '').includes('vp-ic--mute') &&
+    micBg !== 'rgba(0, 0, 0, 0)',
+  `aria-pressed=${micPressed} class=${JSON.stringify(micClass)} background=${micBg}`,
 )
 
-// --- 4. deafen ---------------------------------------------------------------
+// --- 4. deafen, with VISIBLE feedback --------------------------------------
+// A 🎧 emoji carries its own colour and ignores `color`, so an active state
+// painted with colour alone is invisible — deafen had exactly that bug. The
+// check reads the computed background, which an emoji cannot override.
+const deafBgIdle = await page
+  .locator('.voice-panel [aria-label="Deafen"]')
+  .evaluate((el) => getComputedStyle(el).backgroundColor)
+
 await deafenButton.first().click()
 await page.waitForTimeout(200)
 const both = await voice()
+const deafBgActive = await page
+  .locator('.voice-panel [aria-label="Undeafen"]')
+  .evaluate((el) => getComputedStyle(el).backgroundColor)
+
 check(
   'the headphones button sets deafened and keeps mute',
   both.muted && both.deafened,
   JSON.stringify(both),
+)
+check(
+  'deafen changes the button’s background — a visible state, not a no-op colour',
+  deafBgActive !== deafBgIdle && deafBgActive !== 'rgba(0, 0, 0, 0)',
+  `idle=${deafBgIdle} active=${deafBgActive}`,
 )
 
 // --- 5. both survive a reload ------------------------------------------------
@@ -111,7 +132,42 @@ check(
   `getUserMedia calls=${mediaRequests} audio/video elements=${audioElements}`,
 )
 
-// --- 7. hanging up hides the panel -----------------------------------------
+// --- 7. toggling mute does not re-render the message list ------------------
+// The panel's flags live in the same store as the messages, so an unmemoised
+// tree repaints the whole list on a click that touches nothing it displays.
+// A mutation counter over the message pane is the direct test of that.
+await page.evaluate(() => {
+  window.__probeRenders = true
+  window.__msgRenders = 0
+})
+
+const startedAt = Date.now()
+await page.locator('.voice-panel [aria-label$="myself"]').first().click()
+await page.waitForFunction(
+  () => document.querySelector('.voice-panel [aria-label="Unmute myself"], .voice-panel [aria-label="Mute myself"]') !== null,
+  undefined,
+  { timeout: 2000 },
+)
+const latency = Date.now() - startedAt
+await page.waitForTimeout(200)
+
+const renders = await page.evaluate(() => {
+  window.__probeRenders = false
+  return window.__msgRenders
+})
+
+check(
+  'toggling mute re-renders none of the message rows',
+  renders === 0,
+  `messageRowsRendered=${renders}`,
+)
+check(
+  'the mute toggle lands promptly',
+  latency < 300,
+  `clickToState=${latency}ms`,
+)
+
+// --- 8. hanging up hides the panel -----------------------------------------
 await page.locator('.voice-panel [aria-label="Disconnect from voice"]').click()
 await page.waitForTimeout(250)
 check('hanging up hides the panel', (await panel.count()) === 0, `panels=${await panel.count()}`)

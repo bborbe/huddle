@@ -165,6 +165,81 @@ check(
   `gapFromPaneEdge=${placement?.gapFromPaneEdge}px paneWidth=${placement?.paneWidth}px`,
 )
 
+// --- the long message: the toolbar must stay inside the pane ---------------
+// A message that wraps to the pane's full width makes `100%` the pane, so the
+// old `left: calc(100% + 8px)` started past its edge and the toolbar was cut
+// off. Pick the widest rendered message — the seed ships one that fills the
+// column — hover it, and measure.
+await page.mouse.move(4, 4)
+await page.waitForTimeout(120)
+
+// The long message ships in decision-app (`m-da-7`), so measure there.
+await page.locator('.cat-channels .chan-row').filter({ hasText: 'decision-app' }).first().click()
+await page.waitForTimeout(250)
+
+const widest = await page.evaluate(() => {
+  const pane = document.querySelector('.channel .panel-body')
+  const rows = [...document.querySelectorAll('.channel article.msg')]
+  if (!pane) return null
+  const paneWidth = pane.getBoundingClientRect().width
+  let best = { index: -1, width: 0 }
+  rows.forEach((row, index) => {
+    const body = row.querySelector('.msg-body-row')
+    if (!body) return
+    const width = body.getBoundingClientRect().width
+    if (width > best.width) best = { index, width }
+  })
+  return { ...best, rows: rows.length, paneWidth }
+})
+
+check(
+  'the seed renders a message that fills the column',
+  widest !== null && widest.width >= widest.paneWidth * 0.8,
+  `widest=${Math.round(widest?.width ?? 0)}px pane=${Math.round(widest?.paneWidth ?? 0)}px`,
+)
+
+await page.locator('.channel article.msg').nth(widest.index).hover()
+await page.waitForTimeout(200)
+
+const longPlacement = await page
+  .locator('.channel article.msg')
+  .nth(widest.index)
+  .evaluate((row) => {
+    const bodyRow = row.querySelector('.msg-body-row')
+    const toolbar = row.querySelector('[role="toolbar"][aria-label="Message actions"]')
+    const pane = row.closest('.panel-body')
+    if (!bodyRow || !toolbar || !pane) return null
+    const body = bodyRow.getBoundingClientRect()
+    const bar = toolbar.getBoundingClientRect()
+    const paneRect = pane.getBoundingClientRect()
+    return {
+      overflowRight: Math.round(bar.right - paneRect.right),
+      overflowLeft: Math.round(paneRect.left - bar.left),
+      gapFromTextEdge: Math.round(bar.left - body.right),
+      barWidth: Math.round(bar.width),
+    }
+  })
+
+check(
+  'a full-width message keeps the whole toolbar inside the pane',
+  longPlacement !== null && longPlacement.overflowRight <= 0 && longPlacement.overflowLeft <= 0,
+  `overflowRight=${longPlacement?.overflowRight}px overflowLeft=${longPlacement?.overflowLeft}px`,
+)
+
+check(
+  'the clamped toolbar still sits close to its message',
+  longPlacement !== null && Math.abs(longPlacement.gapFromTextEdge) <= longPlacement.barWidth + 24,
+  `gapFromTextEdge=${longPlacement?.gapFromTextEdge}px barWidth=${longPlacement?.barWidth}px`,
+)
+
+// The contrast: a short message must still place it PAST the text, so the fix
+// cannot be "pin everything to the pane's right edge".
+check(
+  'a short message still puts the toolbar past its text',
+  placement !== null && placement.gapFromText >= 0 && placement.textWidth < placement.paneWidth * 0.8,
+  `gapFromText=${placement?.gapFromText}px textWidth=${placement?.textWidth}px pane=${placement?.paneWidth}px`,
+)
+
 await browser.close()
 
 const failed = results.filter((r) => !r.pass)

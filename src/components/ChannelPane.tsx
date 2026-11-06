@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { memo, useRef, useState } from 'react'
 import type { Channel, Member, Message } from '../platform'
 import { channelInitials, channelToken } from '../lib/channel-identity'
 import MessageRow from './MessageRow'
@@ -20,7 +20,7 @@ interface ChannelPaneProps {
   onAppendMessage: (message: Message) => void
 }
 
-export default function ChannelPane({
+function ChannelPane({
   channel,
   members,
   agent,
@@ -136,3 +136,12 @@ export default function ChannelPane({
     </main>
   )
 }
+
+/** Same reasoning as MessageRow: ignore handler identity, compare the data. */
+export default memo(ChannelPane, (prev, next) =>
+  prev.channel === next.channel &&
+  prev.members === next.members &&
+  prev.agent === next.agent &&
+  prev.starred === next.starred &&
+  prev.localUserId === next.localUserId,
+)
