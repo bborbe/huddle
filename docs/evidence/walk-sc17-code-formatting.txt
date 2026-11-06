@@ -1,0 +1,7 @@
+PASS  an inline span renders a <code> element  — count=1 text="npm run build"
+PASS  a fenced block renders <pre><code> with newlines preserved  — count=1 text="npm ci\nnpm run build"
+PASS  **bold** renders as the literal characters  — "and **bold** stays literal, as does - item and # heading"
+PASS  other markdown stays literal too (- item, # heading)  — hasListItem=true hasHeading=true
+PASS  the stored body is the raw CommonMark, not rendered HTML  — storedMatches=true
+
+5/5 PASS, 0 FAIL

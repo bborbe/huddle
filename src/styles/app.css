@@ -1029,3 +1029,28 @@ button {
   justify-content: flex-end;
   gap: 8px;
 }
+
+/* ---- message formatting (SC17) ---------------------------------------- */
+/* Only two constructs render; everything else is literal by design. */
+
+.md-code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--bg-active);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+.md-code-block {
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  background: var(--bg-app);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-item);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--text-body);
+  white-space: pre;
+}

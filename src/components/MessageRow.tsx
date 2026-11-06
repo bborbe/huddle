@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Member, Message } from '../platform'
 import { clockTime } from '../lib/format'
 import Avatar from './Avatar'
+import MessageBody from './MessageBody'
 import ToolCallCard from './ToolCallCard'
 
 /** The quick-reaction set. Changing it is the whole rollback for SC9. */
@@ -54,7 +55,9 @@ export default function MessageRow({
           <span className="msg-time">{clockTime(message.sentAt)}</span>
         </div>
         <div className="msg-body-row">
-          <p className="msg-body">{message.body}</p>
+          <div className="msg-body">
+            <MessageBody body={message.body} />
+          </div>
 
           {/* Anchored to the message's own text block, not the pane's right edge —
               the pointer should not have to cross the whole column to reach it. */}
