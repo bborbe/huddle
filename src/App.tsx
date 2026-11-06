@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useReducer } from 'react'
 import { workspace } from './lib/fixtures'
-import type { ThreadView } from './platform'
+import { initialState, LOCAL_USER_ID, makeReducer } from './lib/workspace-state'
+import type { AppState } from './lib/workspace-state'
+import { loadState, newId, nowIso, saveState } from './platform/storage'
 import SpaceRail from './components/SpaceRail'
 import Sidebar from './components/Sidebar'
 import ChannelPane from './components/ChannelPane'
@@ -11,41 +13,39 @@ const SPACES = [
   { id: 'decisions', initials: 'DA' },
 ]
 
-export default function App() {
-  const { members, categories, channels } = workspace
+const AGENT_ID = 'forge'
 
-  const [activeChannelId, setActiveChannelId] = useState('decision-app')
-  const [activeThreadId, setActiveThreadId] = useState<string | null>('thr-thresholds')
-  const [threadView, setThreadView] = useState<ThreadView>('split')
+export default function App() {
+  const reducer = useMemo(() => makeReducer(workspace), [])
+  const [state, dispatch] = useReducer(reducer, workspace, (seed) =>
+    loadState<AppState>(initialState(seed)),
+  )
+
+  useEffect(() => {
+    saveState(state)
+  }, [state])
+
+  const { members, categories, channels } = state.workspace
 
   const channel = useMemo(
-    () => channels.find((c) => c.id === activeChannelId) ?? channels[0],
-    [channels, activeChannelId],
+    () => channels.find((c) => c.id === state.activeChannelId) ?? channels[0],
+    [channels, state.activeChannelId],
   )
 
   const thread = useMemo(() => {
-    if (!channel || !activeThreadId) return undefined
-    return channel.threads.find((t) => t.id === activeThreadId)
-  }, [channel, activeThreadId])
-
-  function selectChannel(channelId: string) {
-    setActiveChannelId(channelId)
-    setActiveThreadId(null)
-    setThreadView('closed')
-  }
-
-  function selectThread(channelId: string, threadId: string) {
-    setActiveChannelId(channelId)
-    setActiveThreadId(threadId)
-    setThreadView('split')
-  }
+    if (!channel || !state.activeThreadId) return undefined
+    return channel.threads.find((t) => t.id === state.activeThreadId)
+  }, [channel, state.activeThreadId])
 
   if (!channel) return null
 
-  const showThread = Boolean(thread) && threadView !== 'closed'
+  const showThread = Boolean(thread) && state.threadView !== 'closed'
+
+  const channelVoice = channel.voiceMemberIds.includes(LOCAL_USER_ID)
+  const threadVoice = thread ? thread.voiceMemberIds.includes(LOCAL_USER_ID) : false
 
   return (
-    <div className={`shell${threadView === 'full' ? ' shell--thread-full' : ''}`}>
+    <div className={`shell${state.threadView === 'full' ? ' shell--thread-full' : ''}`}>
       <SpaceRail spaces={SPACES} activeId="collab" />
 
       <Sidebar
@@ -53,16 +53,51 @@ export default function App() {
         channels={channels}
         members={members}
         activeChannelId={channel.id}
-        activeThreadId={showThread ? activeThreadId : null}
-        onSelectChannel={selectChannel}
-        onSelectThread={selectThread}
+        activeThreadId={showThread ? state.activeThreadId : null}
+        onSelectChannel={(channelId) => dispatch({ type: 'selectChannel', channelId })}
+        onSelectThread={(channelId, threadId) =>
+          dispatch({ type: 'selectThread', channelId, threadId })
+        }
+        onCreateChannel={(name) => dispatch({ type: 'createChannel', channelId: newId(), name })}
+        onReset={() => dispatch({ type: 'reset' })}
       />
 
-      {threadView === 'full' ? null : (
+      {state.threadView === 'full' ? null : (
         <ChannelPane
           channel={channel}
           members={members}
-          onOpenThread={(threadId) => selectThread(channel.id, threadId)}
+          inVoice={channelVoice}
+          onOpenThread={(threadId) =>
+            dispatch({ type: 'selectThread', channelId: channel.id, threadId })
+          }
+          onSendMessage={(body) =>
+            dispatch({
+              type: 'sendMessage',
+              channelId: channel.id,
+              id: newId(),
+              body,
+              sentAt: nowIso(),
+            })
+          }
+          onToggleVoice={() =>
+            dispatch({
+              type: 'toggleVoice',
+              channelId: channel.id,
+              threadId: null,
+              memberId: LOCAL_USER_ID,
+            })
+          }
+          onAskAgentVoice={() =>
+            dispatch({
+              type: 'askAgentVoice',
+              channelId: channel.id,
+              threadId: null,
+              agentId: AGENT_ID,
+              id: newId(),
+              body: 'Joining voice now — say the word when you want me to leave.',
+              sentAt: nowIso(),
+            })
+          }
         />
       )}
 
@@ -71,13 +106,43 @@ export default function App() {
           channel={channel}
           thread={thread}
           members={members}
-          view={threadView}
-          onExpand={() => setThreadView('full')}
-          onRestore={() => setThreadView('split')}
+          view={state.threadView}
+          inVoice={threadVoice}
+          onExpand={() => dispatch({ type: 'setThreadView', view: 'full' })}
+          onRestore={() => dispatch({ type: 'setThreadView', view: 'split' })}
           onClose={() => {
-            setThreadView('closed')
-            setActiveThreadId(null)
+            dispatch({ type: 'setThreadView', view: 'closed' })
+            dispatch({ type: 'selectChannel', channelId: channel.id })
           }}
+          onSendReply={(body) =>
+            dispatch({
+              type: 'sendThreadReply',
+              channelId: channel.id,
+              threadId: thread.id,
+              id: newId(),
+              body,
+              sentAt: nowIso(),
+            })
+          }
+          onToggleVoice={() =>
+            dispatch({
+              type: 'toggleVoice',
+              channelId: channel.id,
+              threadId: thread.id,
+              memberId: LOCAL_USER_ID,
+            })
+          }
+          onAskAgentVoice={() =>
+            dispatch({
+              type: 'askAgentVoice',
+              channelId: channel.id,
+              threadId: thread.id,
+              agentId: AGENT_ID,
+              id: newId(),
+              body: 'Joining this thread’s voice.',
+              sentAt: nowIso(),
+            })
+          }
         />
       ) : null}
     </div>

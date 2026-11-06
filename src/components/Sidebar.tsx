@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { Category, Channel, Member } from '../platform'
 
 interface SidebarProps {
@@ -8,6 +9,8 @@ interface SidebarProps {
   activeThreadId: string | null
   onSelectChannel: (channelId: string) => void
   onSelectThread: (channelId: string, threadId: string) => void
+  onCreateChannel: (name: string) => void
+  onReset: () => void
 }
 
 export default function Sidebar({
@@ -18,23 +21,64 @@ export default function Sidebar({
   activeThreadId,
   onSelectChannel,
   onSelectThread,
+  onCreateChannel,
+  onReset,
 }: SidebarProps) {
+  const [creating, setCreating] = useState(false)
+  const [draft, setDraft] = useState('')
+
   const channelById = new Map(channels.map((c) => [c.id, c]))
+
+  function submit() {
+    const name = draft.trim().replace(/^#/, '')
+    if (name.length > 0) onCreateChannel(name)
+    setDraft('')
+    setCreating(false)
+  }
 
   return (
     <aside className="panel sidebar">
       <header className="panel-header">
         <span>Collaborative AI</span>
         <span className="panel-header-spacer" />
-        <button type="button" className="icon-btn" aria-label="Search">
-          ⌕
+        <button
+          type="button"
+          className="icon-btn"
+          aria-label="New channel"
+          onClick={() => setCreating((v) => !v)}
+        >
+          +
         </button>
-        <button type="button" className="icon-btn" aria-label="Compose">
-          ✎
+        <button type="button" className="icon-btn" aria-label="Reset demo" onClick={onReset}>
+          ⟲
         </button>
       </header>
 
       <div className="panel-body sidebar-body">
+        {creating ? (
+          <form
+            className="new-channel"
+            onSubmit={(e) => {
+              e.preventDefault()
+              submit()
+            }}
+          >
+            <input
+              className="new-channel-input"
+              autoFocus
+              value={draft}
+              placeholder="new-channel"
+              onChange={(e) => setDraft(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setDraft('')
+                  setCreating(false)
+                }
+              }}
+            />
+          </form>
+        ) : null}
+
         {categories.map((category) => (
           <section key={category.id} className="cat">
             {/* Category label: groups channels, never selectable, no composer. */}

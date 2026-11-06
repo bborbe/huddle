@@ -606,3 +606,47 @@ button {
   display: grid;
   place-items: center;
 }
+
+/* ---- interaction affordances ----------------------------------------- */
+
+.btn-outline--danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.voice-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 16px 0;
+  padding: 6px 10px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  font-size: var(--fs-meta);
+  color: var(--text-muted);
+}
+
+.voice-names {
+  color: var(--text-secondary);
+}
+
+.new-channel {
+  padding: 0 8px 8px;
+}
+
+.new-channel-input {
+  width: 100%;
+  height: var(--row-h);
+  padding: 0 8px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-item);
+  color: var(--text);
+  font-family: inherit;
+  font-size: var(--fs-sidebar);
+  outline: none;
+}
+.new-channel-input::placeholder {
+  color: var(--text-muted);
+}

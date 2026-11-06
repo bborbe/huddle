@@ -11,6 +11,15 @@ function minutesAgo(minutes: number): string {
 
 export const members: Member[] = [
   {
+    id: 'you',
+    name: 'You',
+    kind: 'human',
+    role: 'local user',
+    initials: 'YO',
+    avatarToken: 2,
+    presence: 'online',
+  },
+  {
     id: 'bob',
     name: 'Bob',
     kind: 'human',
