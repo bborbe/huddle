@@ -110,10 +110,10 @@ check(
 check(
   'the parent channel row does not claim the member is in the channel',
   (await page
-    .locator('[data-category="Product"] .voice-avatars:not([data-voice-thread]) [data-member="you"]')
+    .locator('[data-category="Product"] .voice-avatar-row:not([data-voice-thread]) [data-member="you"]')
     .count()) === 0,
   `channelAvatarsClaimingYou=${await page
-    .locator('[data-category="Product"] .voice-avatars:not([data-voice-thread]) [data-member="you"]')
+    .locator('[data-category="Product"] .voice-avatar-row:not([data-voice-thread]) [data-member="you"]')
     .count()}`,
 )
 

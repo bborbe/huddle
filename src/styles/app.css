@@ -362,6 +362,10 @@ button {
 .voice-count {
   flex: none;
   margin-left: auto;
+  /* The hover gear is absolutely positioned at the row's right edge, exactly
+     where the count sits — shift the count clear of it rather than let the
+     action cover the number. */
+  transition: margin-right 80ms ease;
   padding: 1px 7px;
   border-radius: 9px;
   background: var(--bg-raised);
@@ -378,13 +382,19 @@ button {
   text-overflow: ellipsis;
 }
 
-.voice-avatars {
+/* Named apart from VoiceBar's `.voice-avatars` (the in-room strip) — sharing the
+   name made this rule leak its padding onto that strip. */
+.chan-wrap:hover .voice-count {
+  margin-right: 24px;
+}
+
+.voice-avatar-row {
   display: flex;
   align-items: center;
   padding: 2px 8px 6px 36px;
 }
 
-.voice-avatars--thread {
+.voice-avatar-row--thread {
   padding-left: 48px;
 }
 

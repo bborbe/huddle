@@ -157,7 +157,7 @@ function Sidebar({
     if (list.length === 0) return null
     return (
       <div
-        className={`voice-avatars${threadId ? ' voice-avatars--thread' : ''}`}
+        className={`voice-avatar-row${threadId ? ' voice-avatar-row--thread' : ''}`}
         data-voice-thread={threadId}
         aria-label={`In voice: ${list.map((m) => m.name).join(', ')}`}
       >
